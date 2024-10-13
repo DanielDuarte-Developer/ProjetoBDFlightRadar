@@ -1,0 +1,73 @@
+/* Estilos gerais para centralizar o conteúdo e aplicar o fundo com degradê */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: -webkit-radial-gradient(#222222, #000000);
+    background: radial-gradient(#222222, #000000);
+    /*background: -webkit-linear-gradient(right, #232526, #414345);
+   background: linear-gradient(to left, #232526, #414345);*/
+    background-size: cover; /* Preenche completamente a tela */
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+}
+
+/* Container principal que centraliza o texto e o botão */
+.container {
+    text-align: center;
+    color: white;
+    background: transparent; /* Remove qualquer fundo ao redor do container */
+}
+
+/* Estilo do texto de boas-vindas */
+.welcome-text h1 {
+    font-size: 3rem;
+    margin: 0;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra sutil no texto */
+}
+
+.welcome-text p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #e0e0e0; /* Um cinza claro para o texto adicional */
+}
+
+/* Estilo do botão */
+button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.2); /* Botão com fundo translúcido */
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Bordas brancas suaves */
+    border-radius: 30px; /* Bordas arredondadas para um visual moderno */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px); /* Aplicando um leve desfoque para modernidade */
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.4); /* Mais visível ao passar o mouse */
+    transform: translateY(-3px); /* Eleva o botão um pouco */
+    border-color: rgba(255, 255, 255, 0.8); /* Aumenta o brilho da borda */
+}
+
+/* Animação para fazer o texto e o botão subirem */
+.animate-up {
+    animation: slideUp 1s forwards;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}

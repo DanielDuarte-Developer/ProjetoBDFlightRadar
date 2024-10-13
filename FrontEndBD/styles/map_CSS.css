@@ -1,0 +1,12 @@
+ /* Estilo para garantir que o mapa preencha a tela toda */
+ body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
