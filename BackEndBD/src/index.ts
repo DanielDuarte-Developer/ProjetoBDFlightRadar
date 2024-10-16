@@ -1,4 +1,4 @@
-import {connectDatabase} from "./src/persistence/database";
+import {connectDatabase} from "./persistence/database";
 import express from "express";
 //import { PersonRepository } from "./repository/person.repository.js";
 //import { PersonController } from "./controller/person.controller.js";

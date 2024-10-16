@@ -266,20 +266,24 @@
             iconAnchor: [12, 12], // Ponto de ancoragem do ícone (centro embaixo)
         });
 
+        const latlngA = L.latLng(38.736946, -9.142685);
+        const latlngB = L.latLng(-29.3140, 27.4892);;
+        const curvedPoints = getCurvedPoints(latlngA, latlngB, 100);
+
         //1º Plane
         // Criar um marcador com o ícone personalizado (posição inicial)
         const airplaneMarker = L.marker(newyork, { icon: customIcon}).addTo(map);
         
          // Desenhar a linha do trajeto entre Lisboa e Paris
         const latLngs = [newyork, lisbon];
-        const polyline = L.polyline(latLngs, { color: 'blue' });
+        const polyline = L.polyline(curvedPoints, { color: 'blue' }).addTo(map  );
 
         movePlane(newyork, lisbon, airplaneMarker);
 
         airplaneMarker.on('click', name => {
             document.getElementById('modal').style.display = 'block'; // Mostrar modal
             document.getElementById('overlay').style.display = 'block'; // Mostrar fundo escurecido
-            map.addLayer(polyline);
+            //map.addLayer(polyline);
         })
 
         // Fechar a janela modal
@@ -287,7 +291,7 @@
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
             console.log("Closed 1")
-            map.removeLayer(polyline);
+            //map.removeLayer(polyline);
         };
 
         
@@ -295,7 +299,7 @@
         document.getElementById('overlay').onclick = function() {
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
-            map.removeLayer(polyline);
+            //map.removeLayer(polyline);
         };
 
         //2º Plane
@@ -350,6 +354,39 @@
                     clearInterval(moveInterval); // Para o movimento
                 }
             }, 1500); // Move a cada 1500 milissegundos (1 segundo e meio)
+        }
+        //Function
+        function getCurvedPoints(latlngA, latlngB, segments) {
+            const points = [];
+            const distance = haversine(latlngA.lat, latlngA.lng, latlngB.lat, latlngB.lng); // Distance Between the 2 points
+            const dLat = (latlngB.lat - latlngA.lat) / segments;
+            const dLng = (latlngB.lng - latlngA.lng) / segments;
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments; // Proporção ao longo da linha
+                const lat = latlngA.lat + dLat * i; // Latitude intermediária
+                const lng = latlngA.lng + dLng * i + Math.sin(Math.PI * t) * (distance * 0.002); // Ajuste para simular a curvatura
+                points.push([lat, lng]);
+            }
+            return points;
+        }
+         // Função para calcular a distância usando Haversine
+        function haversine(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Raio da Terra em km
+            const toRadians = (degrees) => degrees * (Math.PI / 180);
+
+            const φ1 = toRadians(lat1);
+            const φ2 = toRadians(lat2);
+            const Δφ = toRadians(lat2 - lat1);
+            const Δλ = toRadians(lon2 - lon1);
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                        Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            const distance = R * c; // Distância em km
+
+            return distance;
         }
     // Iniciar o movimento da bola
     
