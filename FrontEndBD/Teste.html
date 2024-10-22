@@ -255,9 +255,9 @@
         }).addTo(map);
 
         // Definindo as coordenadas de Lisboa e de um ponto na França (ex: Paris)
-        const newyork = [40.730610, -73.935242]
-        const lisbon = [38.736946, -9.142685];
-        const paris = [48.8566, 2.3522];
+        const newyork = L.latLng(40.730610, -73.935242);
+        const lisbon = L.latLng(38.736946, -9.142685);
+        const paris = L.latLng(48.8566, 2.3522);
 
         // Criando um ícone personalizado
         const customIcon = L.icon({
@@ -265,25 +265,21 @@
             iconSize: [24, 24], // Tamanho do ícone
             iconAnchor: [12, 12], // Ponto de ancoragem do ícone (centro embaixo)
         });
-
-        const latlngA = L.latLng(38.736946, -9.142685);
-        const latlngB = L.latLng(-29.3140, 27.4892);;
-        const curvedPoints = getCurvedPoints(latlngA, latlngB, 100);
-
+        
         //1º Plane
         // Criar um marcador com o ícone personalizado (posição inicial)
         const airplaneMarker = L.marker(newyork, { icon: customIcon}).addTo(map);
         
+        const curvedPoints = getCurvedPoints(newyork, lisbon, 100);
          // Desenhar a linha do trajeto entre Lisboa e Paris
-        const latLngs = [newyork, lisbon];
-        const polyline = L.polyline(curvedPoints, { color: 'blue' }).addTo(map  );
+        const polyline = L.polyline(curvedPoints, { color: 'blue' });
 
         movePlane(newyork, lisbon, airplaneMarker);
 
         airplaneMarker.on('click', name => {
             document.getElementById('modal').style.display = 'block'; // Mostrar modal
             document.getElementById('overlay').style.display = 'block'; // Mostrar fundo escurecido
-            //map.addLayer(polyline);
+            map.addLayer(polyline);
         })
 
         // Fechar a janela modal
@@ -291,7 +287,7 @@
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
             console.log("Closed 1")
-            //map.removeLayer(polyline);
+            map.removeLayer(polyline);
         };
 
         
@@ -299,14 +295,14 @@
         document.getElementById('overlay').onclick = function() {
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
-            //map.removeLayer(polyline);
+            map.removeLayer(polyline);
         };
 
         //2º Plane
         const airplaneMarker2 = L.marker(lisbon, { icon: customIcon}).addTo(map);
         // Desenhar a linha do trajeto entre Lisboa e Paris
-        const latLngs2 = [lisbon, paris];
-        const polyline2 = L.polyline(latLngs2, { color: 'blue' });
+        const curvedPoints2 = getCurvedPoints(lisbon, paris, 100);
+        const polyline2 = L.polyline(curvedPoints2, { color: 'blue' });
         movePlane(lisbon, paris, airplaneMarker2);
 
         airplaneMarker2.on('click', name => {
@@ -333,12 +329,12 @@
         
         // Função para mover a bola
         function movePlane(departure, destiny,airplane) {
-            let currentLat = departure[0];
-            let currentLng = departure[1];
+            let currentLat = departure.lat;
+            let currentLng = departure.lng;
 
             const totalSteps = 100; // Total de passos a serem realizados
-            const stepLat = (destiny[0] - currentLat) / totalSteps; // Diferença latitude
-            const stepLng = (destiny[1] - currentLng) / totalSteps; // Diferença longitude
+            const stepLat = (destiny.lat - currentLat) / totalSteps; // Diferença latitude
+            const stepLng = (destiny.lng - currentLng) / totalSteps; // Diferença longitude
             
             let count = 0;
 
