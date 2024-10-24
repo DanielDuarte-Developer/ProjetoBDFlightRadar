@@ -5,12 +5,13 @@
 
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteFlight(
+CREATE PROCEDURE spInsertUpdateDeleteAirportFlight(
     -- DB atributes
     INOUT p_Id CHAR(36), 
-    IN p_FlightCode VARCHAR(10),
-    IN p_Passengers INT,
-    IN p_State VARCHAR(40),
+    IN p_IdAirport CHAR(36),
+    IN p_IdFlight CHAR(36),
+    IN p_Departure DateTime,
+    IN p_Arrival DateTime,
     -- Control atributes
     IN p_Status NVARCHAR(255), 
     IN p_UserId CHAR(36),
@@ -19,18 +20,19 @@ CREATE PROCEDURE spInsertUpdateDeleteFlight(
 BEGIN
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
-            UPDATE flight
+            UPDATE airport_flight
             SET 
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
             WHERE Id = p_Id;
         ELSE
-            UPDATE flight
+            UPDATE airport_flight
             SET 
-                code = p_FlightCode,
-                state = p_State,
-                passengers = p_Passengers,
+                id_airport = p_IdAirport,
+                id_flight = p_IdFlight,
+                departure = p_Departure,
+                arrival = p_Arrival,
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
@@ -38,12 +40,13 @@ BEGIN
         END IF;
     ELSE
         SET p_Id = UUID();
-        INSERT INTO flight
+        INSERT INTO airport_flight
         (
-            id_flight
-            code,
-            state,
-            passengers,
+            id_airport_flight,
+            id_airport,
+            id_flight,
+            departure,
+            arrival,
             sys_status,
             sys_create_date,
             sys_create_user_id,
@@ -53,9 +56,10 @@ BEGIN
         VALUES
         (
             p_Id,
-            p_FlightCode,
-            p_State, 
-            p_Passengers,
+            p_IdAirport,
+            p_IdFlight,
+            p_Departure,
+            p_Arrival,
             p_Status,
             UTC_TIMESTAMP(),
             p_UserId,

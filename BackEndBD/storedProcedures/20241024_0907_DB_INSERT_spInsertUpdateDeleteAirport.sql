@@ -5,12 +5,11 @@
 
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteFlight(
+CREATE PROCEDURE spInsertUpdateDeleteAirport(
     -- DB atributes
-    INOUT p_Id CHAR(36), 
-    IN p_FlightCode VARCHAR(10),
-    IN p_Passengers INT,
-    IN p_State VARCHAR(40),
+    INOUT p_Id CHAR(36),
+    IN p_IdBrand CHAR(36),
+    IN p_IdFlightCompany CHAR(36),
     -- Control atributes
     IN p_Status NVARCHAR(255), 
     IN p_UserId CHAR(36),
@@ -19,18 +18,17 @@ CREATE PROCEDURE spInsertUpdateDeleteFlight(
 BEGIN
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
-            UPDATE flight
+            UPDATE airport
             SET 
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
             WHERE Id = p_Id;
         ELSE
-            UPDATE flight
+            UPDATE airport
             SET 
-                code = p_FlightCode,
-                state = p_State,
-                passengers = p_Passengers,
+                id_brand = p_IdBrand,
+                id_flight_company = p_IdFlightCompany,
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
@@ -38,12 +36,11 @@ BEGIN
         END IF;
     ELSE
         SET p_Id = UUID();
-        INSERT INTO flight
+        INSERT INTO airport
         (
-            id_flight
-            code,
-            state,
-            passengers,
+            id_plane,
+            id_brand,
+            id_flight_company,
             sys_status,
             sys_create_date,
             sys_create_user_id,
@@ -53,9 +50,8 @@ BEGIN
         VALUES
         (
             p_Id,
-            p_FlightCode,
-            p_State, 
-            p_Passengers,
+            p_IdBrand,
+            p_IdFlightCompany,
             p_Status,
             UTC_TIMESTAMP(),
             p_UserId,
