@@ -4,16 +4,15 @@
 -- =============================================
 DELIMITER $$
 
-CREATE PROCEDURE spGetFlights(
+CREATE PROCEDURE spGetAirplanes(
     -- DB atributes
     IN p_Id CHAR(36) DEFAULT NULL,
-    IN p_FlightCode VARCHAR(10) DEFAULT NULL,
-    IN p_Passengers INT DEFAULT NULL,
-    IN p_State VARCHAR(40) DEFAULT NULL,
+    IN p_IdBrand CHAR(36) DEFAULT NULL,
+    IN p_IdFlightCompany CHAR(36) DEFAULT NULL,
     -- Control atributes
     IN p_UserId VARCHAR(255) DEFAULT NULL,
     IN p_Status VARCHAR(255) DEFAULT NULL,
-    IN p_SortField VARCHAR(50) DEFAULT 'id_flight',
+    IN p_SortField VARCHAR(50) DEFAULT 'Id',
     IN p_SortOrder VARCHAR(4) DEFAULT 'ASC',
     IN p_Skip INT DEFAULT 0,
     IN p_Take INT DEFAULT 1000000
@@ -22,27 +21,24 @@ BEGIN
     -- Query principal
     SELECT
         *
-    FROM flight
-    WHERE (p_Id IS NULL OR id_flight = p_Id)
-        AND (p_FlightCode IS NULL OR code = p_FlightCode)
-        AND (p_State IS NULL OR state = p_State)
-        AND (p_Passengers IS NULL OR passengers = p_Passengers) 
+    FROM airplane
+    WHERE (p_Id IS NULL OR id_plane = p_Id)
+        AND (p_IdBrand IS NULL OR id_brand = p_IdBrand)
+        AND (p_IdFlightCompany IS NULL OR id_flight_company = p_IdFlightCompany)
         AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
         AND (p_Status IS NULL OR sys_status = p_Status)
         AND (sys_status != 'X')
     -- Ordenação com CASE
     ORDER BY 
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_flight' THEN id_flight END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_flight' THEN id_flight END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'code' THEN code END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'code' THEN code END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'state' THEN state END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'state' THEN state END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'passengers' THEN Passengers END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'passengers' THEN Passengers END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_plane' THEN id_plane END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_plane' THEN id_plane END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_brand' THEN id_brand END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_brand' THEN id_brand END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_flight_company' THEN id_flight_company END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_flight_company' THEN id_flight_company END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_dateEND ASC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_date' THEN sys_create_date END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END DESC,
