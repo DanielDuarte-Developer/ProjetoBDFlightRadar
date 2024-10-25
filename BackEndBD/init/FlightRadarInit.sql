@@ -1,8 +1,8 @@
 -- Flight Control Data Base Initializer
 
-drop database if exists FlightRadar;
+drop database if exists flight_radar;
 
-create database if not exists FlightRadar;
+create database if not exists flight_radar;
 use FlightRadar;
 
 create table city (
@@ -26,11 +26,11 @@ passengers int
 );
 
 create table airport_flight (
-id_airport_flight int auto_increment primary key,
 id_airport int,
 id_flight int,
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
+primary key (id_airport, id_flight),
 departure timestamp,
 arrival timestamp
 );
@@ -77,11 +77,11 @@ foreign key (id_airline) references airline(id_airline)
 );
 
 create table airplane_flight (
-id_airplane_flight int auto_increment primary key,
 id_airport int,
 id_flight int,
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
+primary key(id_airport, id_flight),
 departure timestamp,
 arrival timestamp
 );
