@@ -26,8 +26,9 @@ passengers int
 );
 
 create table airport_flight (
-id_airport int primary key,
-id_flight int primary key,
+id_airport_flight int auto_increment primary key,
+id_airport int,
+id_flight int,
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
 departure timestamp,
@@ -76,8 +77,9 @@ foreign key (id_airline) references airline(id_airline)
 );
 
 create table airplane_flight (
-id_airport int primary key,
-id_flight int primary key,
+id_airplane_flight int auto_increment primary key,
+id_airport int,
+id_flight int,
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
 departure timestamp,
