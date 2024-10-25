@@ -9,10 +9,12 @@ import express from "express";
 import cors from 'cors';
 
 console.log("💾 Connecting to database");
+
 (async () => {
     try {
         const db = await connectDatabase();
         console.log("Conexão bem-sucedida ao MySQL!");
+        
         await db.end(); // Close the connection when finished
     } catch (error) {
         console.error("Erro ao conectar ao MySQL:", error);
