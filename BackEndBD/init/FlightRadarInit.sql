@@ -3,7 +3,7 @@
 drop database if exists flight_radar;
 
 create database if not exists flight_radar;
-use FlightRadar;
+use flight_radar;
 
 create table city (
 id_city int auto_increment primary key,
