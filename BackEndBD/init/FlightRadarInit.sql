@@ -10,19 +10,14 @@ id_country int auto_increment primary key,
 country_name varchar(100)
 );
 
-create table city (
-id_city int auto_increment primary key,
-id_country int,
-foreign key (id_country) references country(id_country),
-city_name varchar(100) not null
-);
-
 create table airport (
 id_airport int auto_increment primary key,
-id_city int,
-foreign key (id_city) references city(id_city),
+id_country int,
+foreign key (id_country) references country(id_country),
 airport_name varchar(100),
-airport_code char(3)
+airport_code char(3),
+location_name varchar(50),
+location_coords varchar(100)
 );
 
 create table flight (
@@ -32,22 +27,19 @@ state varchar(100),
 passengers int
 );
 
-create table airport_flight (
-id_airport int,
-id_flight int,
-foreign key (id_airport) references airport(id_airport),
-foreign key (id_flight) references flight(id_flight),
-primary key (id_airport, id_flight),
-departure timestamp,
-arrival timestamp
-);
-
 create table airline (
 id_airline int auto_increment primary key,
 id_country int,
 foreign key (id_country) references country(id_country),
 airline_name varchar(100),
 airline_code char(2)
+);
+
+create table brand (
+id_brand int auto_increment primary key,
+id_country int,
+foreign key (id_country) references country(id_country),
+brand_name varchar(100)
 );
 
 create table model (
@@ -63,13 +55,6 @@ fuel_quantity int,
 model_year int
 );
 
-create table brand (
-id_brand int auto_increment primary key,
-id_country int,
-foreign key (id_country) references country(id_country),
-brand_name varchar(100)
-);
-
 create table airplane (
 id_plane int auto_increment primary key,
 id_model int,
@@ -78,12 +63,14 @@ foreign key (id_airline) references airline(id_airline),
 foreign key (id_model) references model(id_model)
 );
 
-create table airplane_flight (
+create table airport_airplane_flight (
 id_airport int,
 id_flight int,
+id_plane int,
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
-primary key(id_airport, id_flight),
+foreign key (id_plane) references airplane(id_flight),
+primary key (id_airport, id_flight, id_plane),
 departure timestamp,
 arrival timestamp
 );
