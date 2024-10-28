@@ -17,7 +17,8 @@ foreign key (id_country) references country(id_country),
 airport_name varchar(100),
 airport_code char(3),
 location_name varchar(50),
-location_coords varchar(100)
+location_latitude int,
+location_longitude int
 );
 
 create table flight (

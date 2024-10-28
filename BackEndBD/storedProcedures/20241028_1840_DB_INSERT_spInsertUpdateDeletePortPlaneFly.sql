@@ -1,15 +1,17 @@
 -- =============================================
 -- Author:		<Daniel Duarte>
--- Create date: <2024-10-12>
+-- Create date: <2024-10-28>
 -- =============================================
 
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteAirport(
+CREATE PROCEDURE spInsertUpdateDeleteAirportAirplaneFlight(
     -- DB atributes
-    INOUT p_Id CHAR(36),
-    IN p_IdBrand CHAR(36),
-    IN p_IdFlightCompany CHAR(36),
+    IN p_IdAirport CHAR(36),
+    IN p_IdFlight CHAR(36),
+    IN p_IdAirplane CHAR(36),
+    IN p_Departure DateTime,
+    IN p_Arrival DateTime,
     -- Control atributes
     IN p_Status NVARCHAR(255), 
     IN p_UserId CHAR(36),
@@ -18,29 +20,33 @@ CREATE PROCEDURE spInsertUpdateDeleteAirport(
 BEGIN
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
-            UPDATE airport
+            UPDATE airport_airplane_flight
             SET 
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
             WHERE Id = p_Id;
         ELSE
-            UPDATE airport
+            UPDATE airport_airplane_flight
             SET 
-                id_brand = p_IdBrand,
-                id_flight_company = p_IdFlightCompany,
+                id_airport = p_IdAirport,
+                id_flight = p_IdFlight,
+                id_airplane = p_IdAirplane,
+                departure = p_Departure,
+                arrival = p_Arrival,
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
             WHERE Id = p_Id AND row_version = p_RowVersion;
         END IF;
     ELSE
-        SET p_Id = UUID();
-        INSERT INTO airport
+        INSERT INTO airport_airplane_flight
         (
-            id_plane,
-            id_brand,
-            id_flight_company,
+            id_airport,
+            id_flight,
+            id_airplane,
+            departure,
+            arrival,
             sys_status,
             sys_create_date,
             sys_create_user_id,
@@ -49,9 +55,11 @@ BEGIN
         )
         VALUES
         (
-            p_Id,
-            p_IdBrand,
-            p_IdFlightCompany,
+            p_IdAirport,
+            p_IdFlight,
+            p_IdAirplane,
+            p_Departure,
+            p_Arrival,
             p_Status,
             UTC_TIMESTAMP(),
             p_UserId,
