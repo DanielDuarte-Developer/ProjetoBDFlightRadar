@@ -25,7 +25,7 @@ BEGIN
     FROM flight
     WHERE (p_Id IS NULL OR id_flight = p_Id)
         AND (p_FlightCode IS NULL OR code = p_FlightCode)
-        AND (p_State IS NULL OR state = p_State)
+        AND (p_State IS NULL OR flight_state = p_State)
         AND (p_Passengers IS NULL OR passengers = p_Passengers) 
         AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
         AND (p_Status IS NULL OR sys_status = p_Status)
@@ -36,8 +36,8 @@ BEGIN
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_flight' THEN id_flight END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'code' THEN code END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'code' THEN code END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'state' THEN state END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'state' THEN state END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'flight_state' THEN flight_state END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'flight_state' THEN flight_state END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'passengers' THEN Passengers END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'passengers' THEN Passengers END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,

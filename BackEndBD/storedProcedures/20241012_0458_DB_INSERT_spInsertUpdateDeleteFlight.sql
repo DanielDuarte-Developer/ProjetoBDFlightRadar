@@ -29,7 +29,7 @@ BEGIN
             UPDATE flight
             SET 
                 code = p_FlightCode,
-                state = p_State,
+                flight_state = p_State,
                 passengers = p_Passengers,
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
@@ -42,7 +42,7 @@ BEGIN
         (
             id_flight
             code,
-            state,
+            flight_state,
             passengers,
             sys_status,
             sys_create_date,
