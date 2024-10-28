@@ -14,8 +14,8 @@ create table airport (
 id_airport int auto_increment primary key,
 id_country int,
 foreign key (id_country) references country(id_country),
-airport_name varchar(100),
-airport_code char(3),
+airport_name varchar(100) unique,
+airport_code char(3) unique,
 location_name varchar(50),
 location_latitude int,
 location_longitude int
@@ -23,8 +23,8 @@ location_longitude int
 
 create table flight (
 id_flight int auto_increment primary key,
-flight_code char(7),
-state varchar(100),
+flight_code char(7) unique,
+flight_state varchar(100),
 passengers int
 );
 
@@ -32,15 +32,15 @@ create table airline (
 id_airline int auto_increment primary key,
 id_country int,
 foreign key (id_country) references country(id_country),
-airline_name varchar(100),
-airline_code char(2)
+airline_name varchar(100) unique,
+airline_code char(2) unique
 );
 
 create table brand (
 id_brand int auto_increment primary key,
 id_country int,
 foreign key (id_country) references country(id_country),
-brand_name varchar(100)
+brand_name varchar(100) unique
 );
 
 create table model (
