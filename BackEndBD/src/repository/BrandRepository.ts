@@ -1,7 +1,7 @@
 import { Airport } from "../model/airport.model";
 import { DatabaseService } from "../services/DatabaseService";
 
-export class AirportRepository {
+export class BrandRepository {
     private dbService: DatabaseService;
 
     constructor(dbService: DatabaseService) {
@@ -13,7 +13,4 @@ export class AirportRepository {
         return this.dbService.callProcedure<Airport[]>('spGetAiports', params);
     }
 
-    async insertUpdateOrDeleteAirport(params:Airport[]): Promise<void> {
-        await this.dbService.callProcedure('spInsertUpdateDeleteAirport', params);
-    }
 }

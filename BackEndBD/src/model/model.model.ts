@@ -1,4 +1,6 @@
-export interface Model {
+import { RowDataPacket } from "mysql2"
+
+export interface Model extends RowDataPacket{
     id_model?: string
     id_brand : string
     sits_number: string

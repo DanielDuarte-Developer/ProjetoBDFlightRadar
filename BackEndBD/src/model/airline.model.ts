@@ -1,4 +1,6 @@
-export interface Airline {
+import { RowDataPacket } from "mysql2"
+
+export interface Airline extends RowDataPacket{
     id_airline?: string
     id_country: string
     airline_name: string

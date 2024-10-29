@@ -13,6 +13,8 @@ console.log("💾 Connecting to database");
 (async () => {
     try {
         const db = await connectDatabase();
+        const [rows] = await db.execute('SELECT * FROM airport');
+        console.log(rows); // Mostra os dados no console
         console.log("Conexão bem-sucedida ao MySQL!");
         
         await db.end(); // Close the connection when finished

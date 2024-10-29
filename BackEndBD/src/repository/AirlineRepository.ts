@@ -1,7 +1,7 @@
 import { Airport } from "../model/airport.model";
 import { DatabaseService } from "../services/DatabaseService";
 
-export class AirportRepository {
+export class AirlineRepository {
     private dbService: DatabaseService;
 
     constructor(dbService: DatabaseService) {
