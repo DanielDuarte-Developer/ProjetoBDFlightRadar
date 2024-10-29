@@ -1,16 +1,15 @@
 -- =============================================
 -- Author:		<Daniel Duarte>
--- Create date: <2024-10-12>
+-- Create date: <2024-10-28>
 -- =============================================
 
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteFlight(
+CREATE PROCEDURE spInsertUpdateDeleteAirplane(
     -- DB atributes
-    INOUT p_Id CHAR(36), 
-    IN p_FlightCode VARCHAR(10),
-    IN p_Passengers INT,
-    IN p_State VARCHAR(40),
+    INOUT p_Id CHAR(36),
+    IN p_IdBrand CHAR(36),
+    IN p_IdAirline CHAR(36),
     -- Control atributes
     IN p_Status NVARCHAR(255), 
     IN p_UserId CHAR(36),
@@ -19,18 +18,17 @@ CREATE PROCEDURE spInsertUpdateDeleteFlight(
 BEGIN
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
-            UPDATE flight
+            UPDATE airplane
             SET 
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
             WHERE Id = p_Id;
         ELSE
-            UPDATE flight
+            UPDATE airplane
             SET 
-                code = p_FlightCode,
-                flight_state = p_State,
-                passengers = p_Passengers,
+                id_brand = p_IdBrand,
+                id_airline = p_IdAirline,
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
@@ -38,12 +36,11 @@ BEGIN
         END IF;
     ELSE
         SET p_Id = UUID();
-        INSERT INTO flight
+        INSERT INTO airplane
         (
-            id_flight
-            code,
-            flight_state,
-            passengers,
+            id_plane,
+            id_brand,
+            id_airline,
             sys_status,
             sys_create_date,
             sys_create_user_id,
@@ -53,9 +50,8 @@ BEGIN
         VALUES
         (
             p_Id,
-            p_FlightCode,
-            p_State, 
-            p_Passengers,
+            p_IdBrand,
+            p_IdAirline,
             p_Status,
             UTC_TIMESTAMP(),
             p_UserId,

@@ -1,12 +1,15 @@
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+// Give the correpondente path for the config to the env file
+dotenv.config({path: 'credentials.env'});
 
-// Função para conectar ao banco de dados MySQL
+// Function to connect to the MySQL database.
 export async function connectDatabase() {
     const connection = await mysql.createConnection({
-        host: 'localhost',  // O host do seu banco de dados
-        user: 'seu_usuario', // Seu usuário do banco de dados
-        password: 'sua_senha', // Sua senha do banco de dados
-        database: 'seu_banco_de_dados' // Nome do seu banco de dados
+        host: process.env.DB_HOST,  // The host of your database
+        user: process.env.DB_USER, // Your database user
+        password: process.env.DB_PASSWORD, // Your database password
+        database: process.env.DB_NAME // Your database name
     });
 
     return connection;

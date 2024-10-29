@@ -255,9 +255,9 @@
         }).addTo(map);
 
         // Definindo as coordenadas de Lisboa e de um ponto na França (ex: Paris)
-        const newyork = [40.730610, -73.935242]
-        const lisbon = [38.736946, -9.142685];
-        const paris = [48.8566, 2.3522];
+        const newyork = L.latLng(40.730610, -73.935242);
+        const lisbon = L.latLng(38.736946, -9.142685);
+        const paris = L.latLng(48.8566, 2.3522);
 
         // Criando um ícone personalizado
         const customIcon = L.icon({
@@ -265,14 +265,14 @@
             iconSize: [24, 24], // Tamanho do ícone
             iconAnchor: [12, 12], // Ponto de ancoragem do ícone (centro embaixo)
         });
-
+        
         //1º Plane
         // Criar um marcador com o ícone personalizado (posição inicial)
         const airplaneMarker = L.marker(newyork, { icon: customIcon}).addTo(map);
         
+        const curvedPoints = getCurvedPoints(newyork, lisbon, 100);
          // Desenhar a linha do trajeto entre Lisboa e Paris
-        const latLngs = [newyork, lisbon];
-        const polyline = L.polyline(latLngs, { color: 'blue' });
+        const polyline = L.polyline(curvedPoints, { color: 'blue' });
 
         movePlane(newyork, lisbon, airplaneMarker);
 
@@ -301,8 +301,8 @@
         //2º Plane
         const airplaneMarker2 = L.marker(lisbon, { icon: customIcon}).addTo(map);
         // Desenhar a linha do trajeto entre Lisboa e Paris
-        const latLngs2 = [lisbon, paris];
-        const polyline2 = L.polyline(latLngs2, { color: 'blue' });
+        const curvedPoints2 = getCurvedPoints(lisbon, paris, 100);
+        const polyline2 = L.polyline(curvedPoints2, { color: 'blue' });
         movePlane(lisbon, paris, airplaneMarker2);
 
         airplaneMarker2.on('click', name => {
@@ -329,12 +329,12 @@
         
         // Função para mover a bola
         function movePlane(departure, destiny,airplane) {
-            let currentLat = departure[0];
-            let currentLng = departure[1];
+            let currentLat = departure.lat;
+            let currentLng = departure.lng;
 
             const totalSteps = 100; // Total de passos a serem realizados
-            const stepLat = (destiny[0] - currentLat) / totalSteps; // Diferença latitude
-            const stepLng = (destiny[1] - currentLng) / totalSteps; // Diferença longitude
+            const stepLat = (destiny.lat - currentLat) / totalSteps; // Diferença latitude
+            const stepLng = (destiny.lng - currentLng) / totalSteps; // Diferença longitude
             
             let count = 0;
 
@@ -350,6 +350,39 @@
                     clearInterval(moveInterval); // Para o movimento
                 }
             }, 1500); // Move a cada 1500 milissegundos (1 segundo e meio)
+        }
+        //Function
+        function getCurvedPoints(latlngA, latlngB, segments) {
+            const points = [];
+            const distance = haversine(latlngA.lat, latlngA.lng, latlngB.lat, latlngB.lng); // Distance Between the 2 points
+            const dLat = (latlngB.lat - latlngA.lat) / segments;
+            const dLng = (latlngB.lng - latlngA.lng) / segments;
+            for (let i = 0; i <= segments; i++) {
+                const t = i / segments; // Proporção ao longo da linha
+                const lat = latlngA.lat + dLat * i; // Latitude intermediária
+                const lng = latlngA.lng + dLng * i + Math.sin(Math.PI * t) * (distance * 0.002); // Ajuste para simular a curvatura
+                points.push([lat, lng]);
+            }
+            return points;
+        }
+         // Função para calcular a distância usando Haversine
+        function haversine(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Raio da Terra em km
+            const toRadians = (degrees) => degrees * (Math.PI / 180);
+
+            const φ1 = toRadians(lat1);
+            const φ2 = toRadians(lat2);
+            const Δφ = toRadians(lat2 - lat1);
+            const Δλ = toRadians(lon2 - lon1);
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                        Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            const distance = R * c; // Distância em km
+
+            return distance;
         }
     // Iniciar o movimento da bola
     
