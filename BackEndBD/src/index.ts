@@ -1,20 +1,21 @@
 import {connectDatabase} from "./persistence/database";
 import express from "express";
-//import { PersonRepository } from "./repository/person.repository.js";
-//import { PersonController } from "./controller/person.controller.js";
-//import { TarefaRepository } from "./repository/tarefa.repository.js";
-//import { TarefaController } from "./controller/tarefa.controller.js";
-//import { StatusRepository } from "./repository/status.repository.js";
-//import { StatusController } from "./controller/status.controller.js";
 import cors from 'cors';
+import { DatabaseService } from "./services/DatabaseService";
+import { AirportRepository } from "./repository/AirportRepository";
+import { AirlineRepository } from "./repository/AirlineRepository";
+import { AirplaneRepository } from "./repository/AirplaneRepository";
+import { BrandRepository } from "./repository/BrandRepository";
+import { CountryRepository } from "./repository/CountryRepository";
+import { FlightRepository } from "./repository/FlightRepository";
+import { ModelRepository } from "./repository/ModelRepository";
+import { AirportAirplaneFlightRepository } from "./repository/AirportAirplaneFlightRepository";
 
 console.log("💾 Connecting to database");
-
+var db;
 (async () => {
     try {
-        const db = await connectDatabase();
-        const [rows] = await db.execute('SELECT * FROM airport');
-        console.log(rows); // Mostra os dados no console
+        db = await connectDatabase();
         console.log("Conexão bem-sucedida ao MySQL!");
         
         await db.end(); // Close the connection when finished
@@ -23,14 +24,18 @@ console.log("💾 Connecting to database");
     }
 })();
 
-//Por Analisar
-//console.log("🏃 Executing migrations");
-//await database.migrate(db)
+console.log("🌐 Initializing DB service")
+const dbService = new DatabaseService(db);
 
 console.log("📚 Initializing repositories")
-//const personRepository = new PersonRepository(db)
-//const tarefaRepository = new TarefaRepository(db)
-//const statusRepository = new StatusRepository(db)
+const airlineRepository = new AirlineRepository(dbService)
+const airplaneRepository = new AirplaneRepository(dbService)
+const airportRepository = new AirportRepository(dbService)
+const brandRepository = new BrandRepository(dbService)
+const countryRepository = new CountryRepository(dbService)
+const flightRepository = new FlightRepository(dbService)
+const modelRepository = new ModelRepository(dbService)
+const airportAirplaneFlightRepository = new AirportAirplaneFlightRepository(dbService)
 
 console.log("🚪 Initializing controllers")
 /*const personController = new PersonController(

@@ -1,4 +1,4 @@
-import { Airport } from "../model/airport.model";
+import { Airline } from "../model/airline.model";
 import { DatabaseService } from "../services/DatabaseService";
 
 export class AirlineRepository {
@@ -8,12 +8,14 @@ export class AirlineRepository {
         this.dbService = dbService;
     }
 
-    async getAirports(params:Airport[]): Promise<Airport[]> {
+    async getAirlines(params:Airline[]): Promise<Airline[]> {
         //Give the procedure name and the parameters if necessary
-        return this.dbService.callProcedure<Airport[]>('spGetAiports', params);
+        return this.dbService.callProcedure<Airline[]>('spGetAirlines', params);
     }
 
-    async insertUpdateOrDeleteAirport(params:Airport[]): Promise<void> {
-        await this.dbService.callProcedure('spInsertUpdateDeleteAirport', params);
+    async insertUpdateOrDeleteAirline(params:Airline[]): Promise<string> {
+        const result = await this.dbService.callProcedure('spInsertUpdateDeleteAirline', params)
+        // Returns the id if result as anything if not will send null
+        return result.length > 0 ? result[0].p_Id : null;
     }
 }

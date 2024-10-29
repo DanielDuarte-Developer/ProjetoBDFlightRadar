@@ -14,6 +14,8 @@ export class AirportRepository {
     }
 
     async insertUpdateOrDeleteAirport(params:Airport[]): Promise<void> {
-        await this.dbService.callProcedure('spInsertUpdateDeleteAirport', params);
+        const result = await this.dbService.callProcedure('spInsertUpdateDeleteAirport', params);
+        // Returns the id if result as anything if not will send null
+        return result.length > 0 ? result[0].p_Id : null;
     }
 }

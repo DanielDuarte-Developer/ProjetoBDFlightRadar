@@ -1,4 +1,4 @@
-import { Airport } from "../model/airport.model";
+import { Model } from "../model/model.model";
 import { DatabaseService } from "../services/DatabaseService";
 
 export class ModelRepository {
@@ -8,9 +8,9 @@ export class ModelRepository {
         this.dbService = dbService;
     }
 
-    async getAirports(params:Airport[]): Promise<Airport[]> {
+    async getAirports(params:Model[]): Promise<Model[]> {
         //Give the procedure name and the parameters if necessary
-        return this.dbService.callProcedure<Airport[]>('spGetAiports', params);
+        return this.dbService.callProcedure<Model[]>('spGetModels', params);
     }
 
 }

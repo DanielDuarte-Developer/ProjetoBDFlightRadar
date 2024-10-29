@@ -4,7 +4,7 @@
 -- =============================================
 DELIMITER $$
 
-CREATE PROCEDURE spGetAirline(
+CREATE PROCEDURE spGetAirlines(
     -- DB atributes
     IN p_Id CHAR(36) DEFAULT NULL,
     IN p_IdCountry CHAR(36) DEFAULT NULL,

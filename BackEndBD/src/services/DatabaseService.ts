@@ -7,16 +7,13 @@ export class DatabaseService {
         this.db = db;
     }
 
-    async callProcedure<T extends RowDataPacket[]>(procedureName: string, params: any[] = []): Promise<T> {
-        const placeholders = params.map(() => '?').join(', ');
+    async callProcedure<T extends RowDataPacket[]>(procedureName: string, params: T): Promise<T> {
+        const paramValues = Object.values(params);
+        const placeholders = paramValues.map(() => '?').join(', ');
         const sql = `CALL ${procedureName}(${placeholders})`;
 
         const [result] = await this.db.execute<T>(sql, params);
 
         return result;
-    }
-
-    async getModelParams<T>(model: T){
-        //TODO Transform Model o params
     }
 }

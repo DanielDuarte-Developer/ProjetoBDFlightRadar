@@ -5,7 +5,7 @@
 
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteAirplane(
+CREATE PROCEDURE spInsertUpdateDeleteAirline(
     -- DB atributes
     INOUT p_Id CHAR(36),
     IN p_IdCountry CHAR(36),
