@@ -7,7 +7,7 @@ export class DatabaseService {
         this.db = db;
     }
 
-    async callProcedure<T extends RowDataPacket[]>(procedureName: string, params: T): Promise<T> {
+    async callProcedure<T extends RowDataPacket[]>(procedureName: string, params: object): Promise<T> {
         const paramValues = Object.values(params);
         const placeholders = paramValues.map(() => '?').join(', ');
         const sql = `CALL ${procedureName}(${placeholders})`;

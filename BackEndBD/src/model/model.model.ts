@@ -1,6 +1,7 @@
 import { RowDataPacket } from "mysql2"
+import { BaseSqlModel } from "./base/base.sql.model"
 
-export interface Model extends RowDataPacket{
+export interface Model extends RowDataPacket, BaseSqlModel{
     id_model?: string
     id_brand : string
     sits_number: string

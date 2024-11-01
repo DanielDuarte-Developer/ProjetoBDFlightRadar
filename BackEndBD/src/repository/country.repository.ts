@@ -8,9 +8,6 @@ export class CountryRepository {
         this.dbService = dbService;
     }
 
-    async getAirports(params: Country[]): Promise<Country[]> {
-        //Give the procedure name and the parameters if necessary
-        return this.dbService.callProcedure<Country[]>('spGetCountries', params);
-    }
+    //TODO Base Ariline Repository
 
 }

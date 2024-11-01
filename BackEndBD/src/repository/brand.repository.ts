@@ -8,9 +8,6 @@ export class BrandRepository {
         this.dbService = dbService;
     }
 
-    async getAirports(params:Brand[]): Promise<Brand[]> {
-        //Give the procedure name and the parameters if necessary
-        return this.dbService.callProcedure<Brand[]>('spGetBrands', params);
-    }
+    //TODO Base Ariline Repository
 
 }

@@ -8,9 +8,6 @@ export class ModelRepository {
         this.dbService = dbService;
     }
 
-    async getAirports(params:Model[]): Promise<Model[]> {
-        //Give the procedure name and the parameters if necessary
-        return this.dbService.callProcedure<Model[]>('spGetModels', params);
-    }
+    //TODO Base Ariline Repository
 
 }
