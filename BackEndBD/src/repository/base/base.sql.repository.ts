@@ -1,4 +1,4 @@
-import { DatabaseService } from "../../services/DatabaseService";
+import { DatabaseService } from "../../services/DataBase/DatabaseService";
 import { IBaseSqlRepository } from "../interfaces/sql/ibase.sql.repository";
 
 export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{

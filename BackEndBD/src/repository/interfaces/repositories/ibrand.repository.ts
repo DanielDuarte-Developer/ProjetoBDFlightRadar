@@ -2,7 +2,7 @@ import { Brand } from "../../../model/brand.model";
 
 export interface IBrandRepository {
     /**
-     * List the Arlines records
+     * List the Brands records
      * 
      * @param idBrand The identifier
      * @param idCountry Country identifier

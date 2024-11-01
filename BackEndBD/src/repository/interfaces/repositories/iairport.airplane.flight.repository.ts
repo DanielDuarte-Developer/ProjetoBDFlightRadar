@@ -1,4 +1,4 @@
-export interface IModelRepository{
+export interface IAirportAirplaneFlightRepository{
     /**
      * List the AirportAirplaneFlight records
      * 

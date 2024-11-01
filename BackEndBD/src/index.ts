@@ -1,7 +1,7 @@
 import {connectDatabase} from "./persistence/database";
 import express from "express";
 import cors from 'cors';
-import { DatabaseService } from "./services/DatabaseService";
+import { DatabaseService } from "./services/DataBase/DatabaseService";
 import { AirportRepository } from "./repository/airport.repository";
 import { AirlineRepository } from "./repository/airline.repository";
 import { AirplaneRepository } from "./repository/airplane.repository";

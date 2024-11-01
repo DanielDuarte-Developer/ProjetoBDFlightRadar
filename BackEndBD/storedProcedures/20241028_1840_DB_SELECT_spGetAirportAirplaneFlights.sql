@@ -9,6 +9,8 @@ CREATE PROCEDURE spGetAirportAirplaneFlights(
     IN p_IdAirport CHAR(36) DEFAULT NULL,
     IN p_IdFlight CHAR(36) DEFAULT NULL,
     IN p_IdAirplane CHAR(36) DEFAULT NULL,
+    IN p_Departure DateTime,
+    IN p_Arrival DateTime,
     -- Control atributes
     IN p_UserId VARCHAR(255) DEFAULT NULL,
     IN p_Status VARCHAR(255) DEFAULT NULL,

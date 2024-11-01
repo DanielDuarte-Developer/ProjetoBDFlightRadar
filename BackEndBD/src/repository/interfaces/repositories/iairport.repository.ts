@@ -21,8 +21,6 @@ export interface IAirportRepository  {
         airportName: string,
         airportCode: string,
         airportLocationName: string,
-        locationLatitude: number,
-        locationLongitude: number,
         status: string,
         sortField: string,
         sortAscending: boolean): Promise<Airport[]>

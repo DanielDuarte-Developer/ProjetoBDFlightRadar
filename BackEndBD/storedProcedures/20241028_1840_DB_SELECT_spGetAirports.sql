@@ -9,6 +9,8 @@ CREATE PROCEDURE spGetAiports(
     IN p_Id CHAR(36) DEFAULT NULL,
     IN p_IdCity CHAR(36) DEFAULT NULL,
     IN p_AirportName VARCHAR(30) DEFAULT NULL,
+    IN p_AirportCode VARCHAR(30) DEFAULT NULL,
+    IN p_LocationName VARCHAR(30) DEFAULT NULL
     -- Control atributes
     IN p_UserId VARCHAR(255) DEFAULT NULL,
     IN p_Status VARCHAR(255) DEFAULT NULL,
