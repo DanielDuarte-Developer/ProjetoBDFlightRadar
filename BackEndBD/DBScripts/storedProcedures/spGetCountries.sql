@@ -4,40 +4,44 @@
 -- =============================================
 DELIMITER $$
 
-CREATE PROCEDURE spGetAiports(
+CREATE PROCEDURE spGetCountries(
     -- DB atributes
-    IN p_Id CHAR(36) DEFAULT NULL,
-    IN p_IdCity CHAR(36) DEFAULT NULL,
-    IN p_AirportName VARCHAR(30) DEFAULT NULL,
-    IN p_AirportCode VARCHAR(30) DEFAULT NULL,
-    IN p_LocationName VARCHAR(30) DEFAULT NULL
+    IN p_Id CHAR(36),
+    IN p_CountryName NVARCHAR(36),
     -- Control atributes
-    IN p_UserId VARCHAR(255) DEFAULT NULL,
-    IN p_Status VARCHAR(255) DEFAULT NULL,
-    IN p_SortField VARCHAR(50) DEFAULT 'id_airport',
-    IN p_SortOrder VARCHAR(4) DEFAULT 'ASC',
-    IN p_Skip INT DEFAULT 0,
-    IN p_Take INT DEFAULT 1000000
+    IN p_UserId VARCHAR(255),
+    IN p_Status VARCHAR(255),
+    IN p_SortField VARCHAR(50),
+    IN p_SortOrder VARCHAR(4),
+    IN p_Skip INT,
+    IN p_Take INT
 )
 BEGIN
+    -- Setting default values
+    SET p_Id = IFNULL(p_Id, NULL);
+    SET p_IdCountryName= IFNULL(p_IdCountryName, NULL);
+    SET p_UserId = IFNULL(p_UserId, NULL);
+    SET p_Status = IFNULL(p_Status, NULL);
+    SET p_SortField = IFNULL(p_SortField, 'id_country');
+    SET p_SortOrder = IFNULL(p_SortOrder, 'ASC');
+    SET p_Skip = IFNULL(p_Skip, 0);
+    SET p_Take = IFNULL(p_Take, 1000000);
+
     -- Query principal
     SELECT
         *
-    FROM airport
-    WHERE (p_Id IS NULL OR id_airport = p_Id)
-        AND (p_IdCity IS NULL OR id_city = p_IdCity)
-        AND (p_AirportName IS NULL OR airport_name = p_AirportName)
+    FROM country
+    WHERE (p_Id IS NULL OR id_country = p_Id)
+        AND (p_CountryName IS NULL OR country_name = p_CountryName)
         AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
         AND (p_Status IS NULL OR sys_status = p_Status)
         AND (sys_status != 'X')
     -- Ordenação com CASE
     ORDER BY 
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_airport' THEN id_airport END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_airport' THEN id_airport END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_city' THEN id_city END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_city' THEN id_city END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'airport_name' THEN airport_name END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'airport_name' THEN airport_name END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_country' THEN id_country END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_country' THEN id_country END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'country_name' THEN country_name END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'country_name' THEN country_name END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,

@@ -6,28 +6,45 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetModels(
     -- DB atributes
-    IN p_Id CHAR(36) DEFAULT NULL,
-    IN p_IdBrand CHAR(36) DEFAULT NULL,
-    IN p_SitsNumber INT DEFAULT NULL,
-    IN p_Tare INT DEFAULT NULL,
-    IN p_GrossWeight INT DEFAULT NULL,
-    IN p_Payload INT DEFAULT NULL,
-    IN p_FlightCrewNumber INT DEFAULT NULL,
-    IN p_FuelQuantity INT DEFAULT NULL,
-    IN p_ModelYear INT DEFAULT NULL,
+    IN p_Id CHAR(36),
+    IN p_IdBrand CHAR(36),
+    IN p_SitsNumber INT,
+    IN p_Tare INT,
+    IN p_GrossWeight INT,
+    IN p_Payload INT,
+    IN p_FlightCrewNumber INT,
+    IN p_FuelQuantity INT,
+    IN p_ModelYear INT,
     -- Control atributes
-    IN p_UserId VARCHAR(255) DEFAULT NULL,
-    IN p_Status VARCHAR(255) DEFAULT NULL,
-    IN p_SortField VARCHAR(50) DEFAULT 'id_model',
-    IN p_SortOrder VARCHAR(4) DEFAULT 'ASC',
-    IN p_Skip INT DEFAULT 0,
-    IN p_Take INT DEFAULT 1000000
+    IN p_UserId VARCHAR(255),
+    IN p_Status VARCHAR(255),
+    IN p_SortField VARCHAR(50),
+    IN p_SortOrder VARCHAR(4),
+    IN p_Skip INT,
+    IN p_Take INT
 )
 BEGIN
+    -- Setting default values
+    SET p_Id = IFNULL(p_Id, NULL);
+    SET p_IdBrand = IFNULL(p_IdBrand, NULL);
+    SET p_SitsNumber = IFNULL(p_SitsNumber, NULL);
+    SET p_Tare = IFNULL(p_Tare, NULL);
+    SET p_GrossWeight = IFNULL(p_GrossWeight, NULL);
+    SET p_Payload = IFNULL(p_Payload, NULL);
+    SET p_FlightCrewNumber = IFNULL(p_FlightCrewNumber, NULL);
+    SET p_FuelQuantity = IFNULL(p_FuelQuantity, NULL);
+    SET p_ModelYear = IFNULL(p_ModelYear, NULL);
+    SET p_UserId = IFNULL(p_UserId, NULL);
+    SET p_Status = IFNULL(p_Status, NULL);
+    SET p_SortField = IFNULL(p_SortField, 'id_model');
+    SET p_SortOrder = IFNULL(p_SortOrder, 'ASC');
+    SET p_Skip = IFNULL(p_Skip, 0);
+    SET p_Take = IFNULL(p_Take, 1000000);
+
     -- Query principal
     SELECT
         *
-    FROM airport_flight
+    FROM model
     WHERE (p_Id IS NULL OR id_model = p_Id)
         AND (p_IdBrand IS NULL OR id_brand = p_IdBrand)
         AND (p_SitsNumber IS NULL OR sits_number = p_SitsNumber)

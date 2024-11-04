@@ -6,20 +6,33 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetAirportAirplaneFlights(
     -- DB atributes
-    IN p_IdAirport CHAR(36) DEFAULT NULL,
-    IN p_IdFlight CHAR(36) DEFAULT NULL,
-    IN p_IdAirplane CHAR(36) DEFAULT NULL,
+    IN p_IdAirport CHAR(36),
+    IN p_IdFlight CHAR(36),
+    IN p_IdAirplane CHAR(36),
     IN p_Departure DateTime,
     IN p_Arrival DateTime,
     -- Control atributes
-    IN p_UserId VARCHAR(255) DEFAULT NULL,
-    IN p_Status VARCHAR(255) DEFAULT NULL,
-    IN p_SortField VARCHAR(50) DEFAULT 'id_airplane_flight',
-    IN p_SortOrder VARCHAR(4) DEFAULT 'ASC',
-    IN p_Skip INT DEFAULT 0,
-    IN p_Take INT DEFAULT 1000000
+    IN p_UserId VARCHAR(255),
+    IN p_Status VARCHAR(255),
+    IN p_SortField VARCHAR(50),
+    IN p_SortOrder VARCHAR(4),
+    IN p_Skip INT,
+    IN p_Take INT
 )
 BEGIN
+    -- Setting default values
+    SET p_IdAirport = IFNULL(p_IdAirport, NULL);
+    SET p_IdFlight = IFNULL(p_IdFlight, NULL);
+    SET p_IdAirplane = IFNULL(p_IdAirplane, NULL);
+    SET p_Departure = IFNULL(p_Departure, NULL);
+    SET p_Arrival = IFNULL(p_Arrival, NULL);
+    SET p_UserId = IFNULL(p_UserId, NULL);
+    SET p_Status = IFNULL(p_Status, NULL);
+    SET p_SortField = IFNULL(p_SortField, 'id_airplane_flight');
+    SET p_SortOrder = IFNULL(p_SortOrder, 'ASC');
+    SET p_Skip = IFNULL(p_Skip, 0);
+    SET p_Take = IFNULL(p_Take, 1000000);
+    
     -- Query principal
     SELECT
         *
