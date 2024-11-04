@@ -2,7 +2,7 @@
 -- Author:		<Daniel Duarte>
 -- Create date: <2024-10-12>
 -- =============================================
-
+use flight_radar;
 DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteFlight(
@@ -14,7 +14,7 @@ CREATE PROCEDURE spInsertUpdateDeleteFlight(
     -- Control atributes
     IN p_Status NVARCHAR(255), 
     IN p_UserId CHAR(36),
-    IN p_RowVersion CHAR(36),
+    IN p_RowVersion CHAR(36)
 )
 BEGIN
     IF p_Id IS NOT NULL THEN
@@ -28,7 +28,7 @@ BEGIN
         ELSE
             UPDATE flight
             SET 
-                code = p_FlightCode,
+                flight_code = p_FlightCode,
                 flight_state = p_State,
                 passengers = p_Passengers,
                 sys_status = p_Status,
@@ -40,8 +40,8 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO flight
         (
-            id_flight
-            code,
+            id_flight,
+            flight_code,
             flight_state,
             passengers,
             sys_status,

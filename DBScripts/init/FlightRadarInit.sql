@@ -12,7 +12,7 @@ country_name varchar(100)
 
 create table airport (
 id_airport char(36) primary key,
-id_country intchar(36),
+id_country char(36),
 foreign key (id_country) references country(id_country),
 airport_name varchar(100) unique,
 airport_code char(3) unique,
@@ -70,7 +70,7 @@ id_flight char(36),
 id_plane char(36),
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
-foreign key (id_plane) references airplane(id_flight),
+foreign key (id_plane) references airplane(id_plane),
 primary key (id_airport, id_flight, id_plane),
 departure timestamp,
 arrival timestamp
