@@ -1,13 +1,16 @@
 import { Airport } from "../model/airport.model";
 import { AirportAirplaneFlight } from "../model/airportairplaneflight.model";
 import { AirportRepository } from "../repository/airport.repository";
+import { DatabaseService } from "./DataBase/DatabaseService";
 import { IAirportService } from "./interfaces/iairport.service";
 
 export class AirportService implements IAirportService{
     protected airportRepository : AirportRepository
-    
-    constructor(airportRepository: AirportRepository){
+    protected dbService: DatabaseService
+
+    constructor(airportRepository: AirportRepository, dbService: DatabaseService){
         this.airportRepository = airportRepository;
+        this.dbService = dbService;
     }
 
     AddAsync(airport: Airport, userId: string): Promise<Airport> {

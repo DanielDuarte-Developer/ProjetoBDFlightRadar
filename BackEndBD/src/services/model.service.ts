@@ -1,12 +1,15 @@
 import { Model } from "../model/model.model";
 import { ModelRepository } from "../repository/model.repository";
+import { DatabaseService } from "./DataBase/DatabaseService";
 import { IModelService } from "./interfaces/imodel.service";
 
 export class ModelService implements IModelService{
     protected modelRepository : ModelRepository
-    
-    constructor(modelRepository: ModelRepository){
+    protected dbService: DatabaseService
+
+    constructor(modelRepository: ModelRepository, dbService: DatabaseService){
         this.modelRepository = modelRepository;
+        this.dbService = dbService;
     }
 
     AddAsync(model: Model, userId: string): Promise<Model> {

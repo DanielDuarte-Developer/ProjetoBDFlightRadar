@@ -1,12 +1,15 @@
 import { Brand } from "../model/brand.model";
 import { BrandRepository } from "../repository/brand.repository";
+import { DatabaseService } from "./DataBase/DatabaseService";
 import { IBrandService } from "./interfaces/ibrand.service";
 
 export class BrandService implements IBrandService{
     protected brandRepository : BrandRepository
-    
-    constructor(brandRepository: BrandRepository){
+    protected dbService: DatabaseService
+
+    constructor(brandRepository: BrandRepository, dbService: DatabaseService){
         this.brandRepository  = brandRepository ;
+        this.dbService = dbService;
     }
 
     AddAsync(brand: Brand, userId: string): Promise<Brand> {

@@ -1,12 +1,15 @@
 import { AirportAirplaneFlight } from "../model/airportairplaneflight.model";
 import { AirportAirplaneFlightRepository } from "../repository/airport.airplane.flight.repository";
+import { DatabaseService } from "./DataBase/DatabaseService";
 import { IAirportAirplaneFlightService } from "./interfaces/iairport.airplane.flight.service";
 
 export class AirportAirplaneFlightService implements IAirportAirplaneFlightService{
     protected airportAirplaneFlightRepository : AirportAirplaneFlightRepository
-    
-    constructor(airportAirplaneFlightRepository: AirportAirplaneFlightRepository){
+    protected dbService: DatabaseService
+
+    constructor(airportAirplaneFlightRepository: AirportAirplaneFlightRepository, dbService: DatabaseService){
         this.airportAirplaneFlightRepository = airportAirplaneFlightRepository;
+        this.dbService = dbService;
     }
 
     AddAsync(airportAirplaneFlight: AirportAirplaneFlight, userId: string): Promise<AirportAirplaneFlight> {

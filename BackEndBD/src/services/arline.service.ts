@@ -1,12 +1,15 @@
 import { Airline } from "../model/airline.model";
 import { AirlineRepository } from "../repository/airline.repository";
+import { DatabaseService } from "./DataBase/DatabaseService";
 import { IArlineService } from "./interfaces/Iairline.service";
 
 export class ArlineService implements IArlineService{
     protected airlineRepository : AirlineRepository
-    
-    constructor(airlineRepository: AirlineRepository){
+    protected dbService: DatabaseService
+
+    constructor(airlineRepository: AirlineRepository, dbService: DatabaseService){
         this.airlineRepository  = airlineRepository ;
+        this.dbService = dbService;
     }
 
     AddAsync(airline: Airline, userId: string): Promise<Airline> {

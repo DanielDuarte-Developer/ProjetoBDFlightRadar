@@ -1,12 +1,15 @@
 import { Country } from "../model/country.model";
 import { CountryRepository } from "../repository/country.repository";
+import { DatabaseService } from "./DataBase/DatabaseService";
 import { ICountryService } from "./interfaces/icountry.service";
 
 export class CountryService implements ICountryService{
     protected countryRepository : CountryRepository
-    
-    constructor(brandRepository: CountryRepository){
+    protected dbService: DatabaseService
+
+    constructor(brandRepository: CountryRepository, dbService: DatabaseService){
         this.countryRepository  = brandRepository ;
+        this.dbService = dbService;
     }
 
     AddAsync(country: Country, userId: string): Promise<Country> {
