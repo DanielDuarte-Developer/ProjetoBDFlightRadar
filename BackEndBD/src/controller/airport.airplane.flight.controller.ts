@@ -1,8 +1,10 @@
-export class AirportAirplaneFlightController {
-    private airplaneRepository: AirplaneRepository;
+import { AirportAirplaneFlightRepository } from "../repository/airport.airplane.flight.repository";
 
-    constructor(airplaneRepository: AirplaneRepository) {
-        this.airplaneRepository = airplaneRepository;
+export class AirportAirplaneFlightController {
+    private airportAirplaneFlightRepository: AirportAirplaneFlightRepository;
+
+    constructor(airportAirplaneFlightRepository: AirportAirplaneFlightRepository) {
+        this.airportAirplaneFlightRepository = airportAirplaneFlightRepository;
     }
    
 }
