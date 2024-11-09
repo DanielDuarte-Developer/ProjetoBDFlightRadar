@@ -91,6 +91,8 @@ BEGIN
         END IF;
     END IF;
 
+    COMMIT;
+    
     -- Verifica if the line was modified
     IF ROW_COUNT() > 0 THEN
         SELECT p_Id;

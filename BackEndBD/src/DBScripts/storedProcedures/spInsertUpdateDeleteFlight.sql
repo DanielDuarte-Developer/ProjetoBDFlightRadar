@@ -24,6 +24,8 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during flight Stored Procedure execution';
     END;
 
+    START TRANSACTION;
+    
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
             UPDATE flight
@@ -89,6 +91,8 @@ BEGIN
         END IF;
     END IF;
 
+    COMMIT;
+    
     -- Verifica se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
         SELECT p_Id;
