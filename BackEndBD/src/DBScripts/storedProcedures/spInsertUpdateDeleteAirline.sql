@@ -28,6 +28,13 @@ BEGIN
 
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
+            IF containsForeignValue('airline', p_Id) THEN
+                SET @airplaneCount = SELECT Count(id_airplane) From airplane Where id_airline = p_Id;
+                WHILE x <= @airplaneCount DO
+                    
+                END WHILE;
+                --Call spInsertUpdateDeleteAirplane(id,null,null,p_Status,p_UserId,null)
+            END IF;
             UPDATE airline
             SET 
                 sys_status = p_Status,
