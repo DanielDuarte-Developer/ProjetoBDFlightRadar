@@ -47,8 +47,6 @@ BEGIN
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_country' THEN id_country END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'brand_name' THEN brand_name END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'brand_name' THEN brand_name END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'airline_code' THEN airline_code END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'airline_code' THEN airline_code END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,

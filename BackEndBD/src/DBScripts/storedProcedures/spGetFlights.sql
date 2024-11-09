@@ -8,8 +8,8 @@ CREATE PROCEDURE spGetFlights(
     -- DB atributes
     IN p_Id CHAR(36),
     IN p_FlightCode VARCHAR(10),
-    IN p_Passengers INT,
     IN p_State VARCHAR(40),
+    IN p_Passengers INT,
     -- Control atributes
     IN p_UserId VARCHAR(255),
     IN p_Status VARCHAR(255),
@@ -36,9 +36,9 @@ BEGIN
         *
     FROM flight
     WHERE (p_Id IS NULL OR id_flight = p_Id)
-        AND (p_FlightCode IS NULL OR code = p_FlightCode)
-        AND (p_State IS NULL OR flight_state = p_State)
+        AND (p_FlightCode IS NULL OR flight_code = p_FlightCode)
         AND (p_Passengers IS NULL OR passengers = p_Passengers) 
+        AND (p_State IS NULL OR flight_state = p_State)
         AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
         AND (p_Status IS NULL OR sys_status = p_Status)
         AND (sys_status != 'X')
@@ -46,12 +46,12 @@ BEGIN
     ORDER BY 
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_flight' THEN id_flight END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_flight' THEN id_flight END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'code' THEN code END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'code' THEN code END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'flight_state' THEN flight_state END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'flight_state' THEN flight_state END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'flight_code' THEN flight_code END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'flight_code' THEN flight_code END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'passengers' THEN Passengers END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'passengers' THEN Passengers END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'flight_state' THEN flight_state END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'flight_state' THEN flight_state END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_dateEND ASC,

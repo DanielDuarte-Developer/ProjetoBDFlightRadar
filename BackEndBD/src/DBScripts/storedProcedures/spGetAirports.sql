@@ -42,8 +42,12 @@ BEGIN
         *
     FROM airport
     WHERE (p_Id IS NULL OR id_airport = p_Id)
-        AND (p_IdCity IS NULL OR id_city = p_IdCity)
+        AND (p_IdCountry IS NULL OR id_country = p_IdCountry)
         AND (p_AirportName IS NULL OR airport_name = p_AirportName)
+        AND (p_AirportCode IS NULL OR airport_code = p_AirportCode)
+        AND (p_LocationName IS NULL OR location_name = p_LocationName)
+        AND (p_LocationLatitude IS NULL OR location_latitude = p_LocationLatitude)
+        AND (p_LocationLongitude IS NULL OR location_longitude = p_LocationLongitude)
         AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
         AND (p_Status IS NULL OR sys_status = p_Status)
         AND (sys_status != 'X')
@@ -51,10 +55,18 @@ BEGIN
     ORDER BY 
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_airport' THEN id_airport END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_airport' THEN id_airport END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_city' THEN id_city END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_city' THEN id_city END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_country' THEN id_country END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_country' THEN id_country END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'airport_name' THEN airport_name END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'airport_name' THEN airport_name END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'airport_code' THEN airport_code END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'airport_code' THEN airport_code END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'location_name' THEN location_name END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'location_name' THEN location_name END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'location_latitude' THEN location_latitude END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'location_latitude' THEN location_latitude END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'location_longitude' THEN location_longitude END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'location_longitude' THEN location_longitude END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
         CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
         CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,

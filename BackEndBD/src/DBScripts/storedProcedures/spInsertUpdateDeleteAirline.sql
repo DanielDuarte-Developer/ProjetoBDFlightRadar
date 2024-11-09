@@ -17,6 +17,15 @@ CREATE PROCEDURE spInsertUpdateDeleteAirline(
     IN p_RowVersion CHAR(36)
 )
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_Id = NULL;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during arline Stored Procedure execution';
+    END;
+    
+    START TRANSACTION;
+
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
             UPDATE airline
@@ -25,6 +34,12 @@ BEGIN
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
             WHERE Id = p_Id;
+
+            -- Verify if the "delete" was successed (updated status)
+            IF ROW_COUNT() = 0 THEN
+                ROLLBACK;
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error deleting airline: No lines were modified or were already inactive.';
+            END IF;
         ELSE
             UPDATE airline
             SET 
@@ -34,7 +49,13 @@ BEGIN
                 sys_status = p_Status,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = p_UserId
-            WHERE Id = p_Id AND row_version = p_RowVersion;
+            WHERE Id = p_Id;
+
+            -- Verify if the line was modified 
+            IF ROW_COUNT() = 0 THEN
+            ROLLBACK;
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Update error: No lines were modified on the airline.';
+            END IF;
         END IF;
     ELSE
         SET p_Id = UUID();
@@ -62,9 +83,15 @@ BEGIN
             UTC_TIMESTAMP(),
             p_UserId
         );
+
+        -- Verify if was inserted with success
+        IF ROW_COUNT() = 0 THEN
+            ROLLBACK;
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insertion error: Error inserting into the airline table.';
+        END IF;
     END IF;
 
-    -- Verifica se a linha foi modificada
+    -- Verifica if the line was modified
     IF ROW_COUNT() > 0 THEN
         SELECT p_Id;
     ELSE
