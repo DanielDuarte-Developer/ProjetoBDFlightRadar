@@ -17,23 +17,29 @@ CREATE PROCEDURE spInsertUpdateDeleteAirline(
     IN p_RowVersion CHAR(36)
 )
 BEGIN
+	DECLARE planeId char(32);
+    
+	DECLARE deleteAirlineAirplanes CURSOR FOR
+	SELECT id_airplane From airplane Where id_airline = p_Id;
+    
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
         SET p_Id = NULL;
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during arline Stored Procedure execution';
     END;
-    
     START TRANSACTION;
 
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
             IF containsForeignValue('airline', p_Id) THEN
-                SET @airplaneCount = SELECT Count(id_airplane) From airplane Where id_airline = p_Id;
-                WHILE x <= @airplaneCount DO
-                    
-                END WHILE;
-                --Call spInsertUpdateDeleteAirplane(id,null,null,p_Status,p_UserId,null)
+                OPEN deleteAirlineAirplanes;
+                    WHILE 1 = 1 DO
+                        FETCH deleteAirlineAirplanes INTO planeId;
+                        Call spInsertUpdateDeleteAirplane(@planeId,null,null,X, 69,'o dani so me da trabalho com estes parametros porque é que não se fez comportamentos separados');
+                    END WHILE;
+                CLOSE deleteAirlineAirplanes;
+                -- Call spInsertUpdateDeleteAirplane(id,null,null,p_Status,p_UserId,null)
             END IF;
             UPDATE airline
             SET 
