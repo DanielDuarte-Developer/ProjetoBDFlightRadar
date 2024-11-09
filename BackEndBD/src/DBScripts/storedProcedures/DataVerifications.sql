@@ -42,3 +42,5 @@ returns bool
 begin
 return exists (select attributeCode from tableName where attributeCode = attributeCodeValue);
 end $$
+
+DELIMITER ;
