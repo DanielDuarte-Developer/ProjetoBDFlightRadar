@@ -13,12 +13,12 @@ CREATE PROCEDURE spInsertUpdateDeleteAirline(
     IN p_AirlineCode CHAR(10),
     -- Control atributes
     IN p_Status NVARCHAR(255), 
-    IN p_UserId CHAR(36),
-    IN p_RowVersion CHAR(36)
+    IN p_UserId CHAR(36)
 )
 BEGIN
-	DECLARE planeId char(32);
-    
+	SET @planeId = '';
+    SET @numAirplanes = 0;
+
 	DECLARE deleteAirlineAirplanes CURSOR FOR
 	SELECT id_airplane From airplane Where id_airline = p_Id;
     
@@ -32,11 +32,12 @@ BEGIN
 
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
+        @numAirplanes = SELECT id_airplane From airplane Where id_airline = p_Id;
             IF containsForeignValue('airline', p_Id) THEN
                 OPEN deleteAirlineAirplanes;
                     WHILE 1 = 1 DO
-                        FETCH deleteAirlineAirplanes INTO planeId;
-                        Call spInsertUpdateDeleteAirplane(@planeId,null,null,X, 69,'o dani so me da trabalho com estes parametros porque é que não se fez comportamentos separados');
+                        FETCH deleteAirlineAirplanes INTO @planeId;
+                        Call spInsertUpdateDeleteAirplane(@planeId,null,null,X, p_UserId);
                     END WHILE;
                 CLOSE deleteAirlineAirplanes;
                 -- Call spInsertUpdateDeleteAirplane(id,null,null,p_Status,p_UserId,null)

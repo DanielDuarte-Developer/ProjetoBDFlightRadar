@@ -12,8 +12,7 @@ CREATE PROCEDURE spInsertUpdateDeleteAirplane(
     IN p_IdAirline CHAR(36),
     -- Control atributes
     IN p_Status NVARCHAR(255), 
-    IN p_UserId CHAR(36),
-    IN p_RowVersion CHAR(36)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION

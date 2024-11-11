@@ -16,8 +16,7 @@ CREATE PROCEDURE spInsertUpdateDeleteAirport(
     IN p_LocationLongitude INT,
     -- Control atributes
     IN p_Status NVARCHAR(255), 
-    IN p_UserId CHAR(36),
-    IN p_RowVersion CHAR(36)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
