@@ -16,13 +16,14 @@ CREATE PROCEDURE spInsertUpdateDeleteAirline(
     IN p_UserId CHAR(36)
 )
 BEGIN
-	SET @planeId = '';
-    SET @numAirplanes = 0;
+	DECLARE v_planeId CHAR(36);
+    DECLARE v_numAirplanes INT;
+    
 
 	DECLARE deleteAirlineAirplanes CURSOR FOR
 	SELECT id_airplane From airplane Where id_airline = p_Id;
     
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION	
     BEGIN
         ROLLBACK;
         SET p_Id = NULL;
@@ -32,15 +33,23 @@ BEGIN
 
     IF p_Id IS NOT NULL THEN
         IF p_Status = 'X' THEN
-        @numAirplanes = SELECT id_airplane From airplane Where id_airline = p_Id;
+       
+        SELECT Count(id_airplane) INTO v_numAirplanes From airplane Where id_airline = p_Id;
             IF containsForeignValue('airline', p_Id) THEN
-                OPEN deleteAirlineAirplanes;
-                    WHILE 1 = 1 DO
-                        FETCH deleteAirlineAirplanes INTO @planeId;
-                        Call spInsertUpdateDeleteAirplane(@planeId,null,null,X, p_UserId);
-                    END WHILE;
-                CLOSE deleteAirlineAirplanes;
-                -- Call spInsertUpdateDeleteAirplane(id,null,null,p_Status,p_UserId,null)
+				IF v_numAirplanes > 0 Then
+					OPEN deleteAirlineAirplanes;
+                        SET v_countAirplanes = 0;
+						delete_loop: LOOP
+							FETCH deleteAirlineAirplanes INTO v_planeId;
+							SET v_countAirplanes = v_countAirplanes + 1;
+                            IF v_countAirplanes > v_numAirplanes THEN
+								Leave delete_loop;
+                            End IF;
+							Call spInsertUpdateDeleteAirplane(v_planeId,null,null,X, p_UserId);
+						END LOOP;
+					CLOSE deleteAirlineAirplanes;
+					-- Call spInsertUpdateDeleteAirplane(id,null,null,p_Status,p_UserId,null)
+				END IF;
             END IF;
             UPDATE airline
             SET 
