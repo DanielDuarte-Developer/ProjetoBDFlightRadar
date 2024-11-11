@@ -23,10 +23,16 @@ location_longitude int
 
 create table flight (
 id_flight char(36) primary key,
+id_observation char(36),
+foreign key (id_observation) references observation(id_flight),
 flight_code char(7) unique,
-flight_state varchar(100),
 passengers int
 );
+
+create table observation (
+id_observation char(36) primary key,
+observation_text varchar(255)
+)
 
 create table airline (
 id_airline char(36) primary key,
@@ -72,7 +78,6 @@ foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
 foreign key (id_plane) references airplane(id_plane),
 primary key (id_airport, id_flight, id_plane),
-departure timestamp,
-arrival timestamp
+timeMarker timestamp
 );
 
