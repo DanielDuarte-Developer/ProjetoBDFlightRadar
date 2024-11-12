@@ -16,16 +16,4 @@ export class DatabaseService {
 
         return result;
     }
-    
-    async beginTransaction(): Promise<void> {
-        await this.db.beginTransaction();
-    }
-
-    async commit(): Promise<void> {
-        await this.db.commit();
-    }
-
-    async rollback(): Promise<void> {
-        await this.db.rollback();
-    }
 }

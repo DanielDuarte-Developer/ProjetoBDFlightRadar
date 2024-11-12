@@ -12,30 +12,28 @@ export class ModelRepository extends BaseSqlRepository<Model> implements IModelR
     }
 
     ListModels(
-        idModel: string, 
-        idBrand: string, 
-        sitsNumber: string, 
-        tare: string, 
-        grossWeight: string, 
-        payload: number,
-        flightCrewMembers: number, 
-        fuelQuantity: number, 
-        modelYear: number, 
-        status: string, 
-        sortField: string, 
-        sortAscending: boolean): Promise<Model[]> {
+        idModel: string = '', 
+        idBrand: string = '', 
+        sitsNumber: string = '', 
+        tare: string = '', 
+        grossWeight: string = '', 
+        payload: number = 0,
+        flightCrewMembers: number = 0, 
+        fuelQuantity: number = 0, 
+        modelYear: number = 0, 
+        sortField: string = '', 
+        sortAscending: boolean = false): Promise<Model[]> {
         const filters = {
-            p_Id : idModel,
-            p_IdBrand : idBrand,
-            p_SitsNumber :sitsNumber,
-            p_Tare : tare,
-            p_GrossWeight : grossWeight,
-            p_Payload :payload,
-            p_FlightCrewNumber : flightCrewMembers,
-            p_FuelQuantity : fuelQuantity,
-            p_ModelYear : modelYear,
-            p_Status: status,
-            p_sortField: sortField,
+            p_Id : idModel || null,
+            p_IdBrand : idBrand || null,
+            p_SitsNumber :sitsNumber || null,
+            p_Tare : tare || null,
+            p_GrossWeight : grossWeight || null,
+            p_Payload :payload || null,
+            p_FlightCrewNumber : flightCrewMembers || null,
+            p_FuelQuantity : fuelQuantity || null,
+            p_ModelYear : modelYear || null,
+            p_sortField: sortField || null,
             p_sortAscending: sortAscending
         }
         //Give the procedure name and the parameters

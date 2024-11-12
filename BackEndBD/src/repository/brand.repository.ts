@@ -12,18 +12,16 @@ export class BrandRepository extends BaseSqlRepository<Brand> implements IBrandR
     }
 
     ListBrands(
-        idBrand: string,
-        idCountry: string,
-        brandName: string,
-        status: string,
-        sortField: string,
-        sortAscending: boolean): Promise<Brand[]> {
+        idBrand: string = '',
+        idCountry: string = '',
+        brandName: string = '',
+        sortField: string = '',
+        sortAscending: boolean = false): Promise<Brand[]> {
         const filters = {
-            p_Id: idBrand,
-            p_IdCountry: idCountry,
-            p_BrandName: brandName,
-            p_Status: status,
-            p_sortField: sortField,
+            p_Id: idBrand || null,
+            p_IdCountry: idCountry || null,
+            p_BrandName: brandName || null,
+            p_sortField: sortField || null,
             p_sortAscending: sortAscending
         }
         //Give the procedure name and the parameters

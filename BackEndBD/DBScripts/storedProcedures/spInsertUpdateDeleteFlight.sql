@@ -7,32 +7,33 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteFlight(
     -- DB atributes
-    INOUT p_Id CHAR(36), 
-    IN p_FlightCode VARCHAR(10),
-    IN p_Passengers INT,
-    IN p_State VARCHAR(40),
+    INOUT Id CHAR(32), 
+    IN IdObservation CHAR(32),
+    IN IdAirplane CHAR(32),
+    IN FlightCode VARCHAR(10),
+    IN Passengers INT,
     -- Control atributes
-    IN p_Status NVARCHAR(255), 
-    IN p_UserId CHAR(36)
+    IN SysStatus NVARCHAR(255), 
+    IN UserId CHAR(36)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
-        SET p_Id = NULL;
+        SET Id = NULL;
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during flight Stored Procedure execution';
     END;
 
     START TRANSACTION;
     
-    IF p_Id IS NOT NULL THEN
-        IF p_Status = 'X' THEN
+    IF Id IS NOT NULL THEN
+        IF SysStatus = 'X' THEN
             UPDATE flight
             SET 
-                sys_status = p_Status,
+                sys_status = SysStatus,
                 sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = p_UserId
-            WHERE Id = p_Id;
+                sys_modify_user_id = UserId
+            WHERE Id = Id;
 
             -- Verify if the "delete" was successed (updated status)
             IF ROW_COUNT() = 0 THEN
@@ -42,13 +43,14 @@ BEGIN
         ELSE
             UPDATE flight
             SET 
-                flight_code = p_FlightCode,
-                flight_state = p_State,
-                passengers = p_Passengers,
-                sys_status = p_Status,
+                id_observation = IdObservation,
+                id_airplane = IdAirplane,
+                flight_code = FlightCode,
+                passengers = Passengers,
+                sys_status = SysStatus,
                 sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = p_UserId
-            WHERE Id = p_Id;
+                sys_modify_user_id = UserId
+            WHERE Id = Id;
 
             -- Verify if the line was modified 
             IF ROW_COUNT() = 0 THEN
@@ -57,12 +59,13 @@ BEGIN
             END IF;
         END IF;
     ELSE
-        SET p_Id = UUID();
+        SET Id = UUID();
         INSERT INTO flight
         (
             id_flight,
+            id_observation,
+            id_airplane,
             flight_code,
-            flight_state,
             passengers,
             sys_status,
             sys_create_date,
@@ -72,15 +75,16 @@ BEGIN
         )
         VALUES
         (
-            p_Id,
-            p_FlightCode,
-            p_State, 
-            p_Passengers,
-            p_Status,
+            Id,
+            IdObservation,
+            IdAirplane,
+            FlightCode,
+            Passengers,
+            SysStatus,
             UTC_TIMESTAMP(),
-            p_UserId,
+            UserId,
             UTC_TIMESTAMP(),
-            p_UserId
+            UserId
         );
 
         -- Verify if was inserted with success
@@ -94,10 +98,10 @@ BEGIN
     
     -- Verifica se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
-        SELECT p_Id;
+        SELECT Id;
     ELSE
-        SET p_Id = NULL;
-        SELECT p_Id;
+        SET Id = NULL;
+        SELECT Id;
     END IF;
 END $$
 

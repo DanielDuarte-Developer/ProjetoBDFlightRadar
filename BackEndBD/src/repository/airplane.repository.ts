@@ -12,18 +12,16 @@ export class AirplaneRepository  extends BaseSqlRepository<Airplane> implements 
     }
 
     ListAirplanes(
-        idAirplane: string, 
-        idModel: string, 
-        idArline: string, 
-        status: string, 
-        sortField: string, 
-        sortAscending: boolean): Promise<Airplane[]> {
+        idAirplane: string = '', 
+        idModel: string = '', 
+        idArline: string = '', 
+        sortField: string = 'id_airplane', 
+        sortAscending: boolean = false): Promise<Airplane[]> {
         const filters = {
-            p_Id : idAirplane ,
-            p_IdModel : idModel,
-            p_IdAirline : idArline,
-            p_Status : status,
-            p_sortField : sortField,
+            p_Id : idAirplane || null,
+            p_IdModel : idModel || null,
+            p_IdAirline : idArline || null,
+            p_sortField : sortField || null,
             p_sortAscending: sortAscending
         } 
         //Give the procedure name and the parameters

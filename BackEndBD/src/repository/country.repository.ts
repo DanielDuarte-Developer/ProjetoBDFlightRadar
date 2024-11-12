@@ -12,16 +12,14 @@ export class CountryRepository extends BaseSqlRepository<Country> implements ICo
     }
 
     ListCountries(
-        idCountry: string,
-        countryName: string,
-        status: string,
-        sortField: string,
-        sortAscending: boolean): Promise<Country[]> {
+        idCountry: string = '',
+        countryName: string = '',
+        sortField: string = '',
+        sortAscending: boolean = false): Promise<Country[]> {
         const filters = {
-            p_Id: idCountry,
-            p_CountryName: countryName,
-            p_Status: status,
-            p_sortField: sortField,
+            p_Id: idCountry || null,
+            p_CountryName: countryName || null,
+            p_sortField: sortField || null,
             p_sortAscending: sortAscending
         }
         //Give the procedure name and the parameters

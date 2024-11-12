@@ -7,7 +7,6 @@ export interface IBrandRepository {
      * @param idBrand The identifier
      * @param idCountry Country identifier
      * @param brandName Brand name
-     * @param status Registry Status
      * @param sortField Organize the data by sortField
      * @param sortAscending Organize ASC or DESC
      */
@@ -15,7 +14,6 @@ export interface IBrandRepository {
         idBrand: string,
         idCountry: string,
         brandName: string,
-        status: string,
         sortField: string,
         sortAscending: boolean): Promise<Brand[]>
 }

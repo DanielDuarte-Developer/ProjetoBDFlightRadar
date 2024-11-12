@@ -12,20 +12,18 @@ export class AirlineRepository extends BaseSqlRepository<Airline> implements IAr
     }
 
     async ListArlines(
-        idAirline: string, 
-        idCountry: string, 
-        arlineName: string,
-        arlineCode: string,
-        status: string,
-        sortField: string,
-        sortAscending: boolean): Promise<Airline[]> {
+        idAirline: string = '', 
+        idCountry: string = '', 
+        arlineName: string = '',
+        arlineCode: string = '',
+        sortField: string = 'id_airline',
+        sortAscending: boolean = false): Promise<Airline[]> {
         const filters = {
-            p_Id :idAirline,
-            p_IdCountry : idCountry,
-            p_arlineName : arlineName,
-            p_arlineCode : arlineCode,
-            p_Status : status,
-            p_sortField : sortField,
+            p_Id :idAirline || null,
+            p_IdCountry : idCountry || null,
+            p_arlineName : arlineName || null,
+            p_arlineCode : arlineCode || null,
+            p_sortField : sortField || null,
             p_sortAscending: sortAscending
         } 
         //Give the procedure name and the parameters
