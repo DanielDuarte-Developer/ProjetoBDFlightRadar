@@ -11,7 +11,7 @@ export class AirplaneRepository  extends BaseSqlRepository<Airplane> implements 
         this.dbService = dbService;
     }
 
-    ListAirplanes(
+    async ListAirplanes(
         idAirplane: string = '', 
         idModel: string = '', 
         idArline: string = '', 

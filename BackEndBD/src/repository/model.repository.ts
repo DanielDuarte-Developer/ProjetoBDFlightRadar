@@ -11,7 +11,7 @@ export class ModelRepository extends BaseSqlRepository<Model> implements IModelR
         this.dbService = dbService;
     }
 
-    ListModels(
+    async ListModels(
         idModel: string = '', 
         idBrand: string = '', 
         sitsNumber: string = '', 

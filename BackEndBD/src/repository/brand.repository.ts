@@ -11,7 +11,7 @@ export class BrandRepository extends BaseSqlRepository<Brand> implements IBrandR
         this.dbService = dbService;
     }
 
-    ListBrands(
+    async ListBrands(
         idBrand: string = '',
         idCountry: string = '',
         brandName: string = '',

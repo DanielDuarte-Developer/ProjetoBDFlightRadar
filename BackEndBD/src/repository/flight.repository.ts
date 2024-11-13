@@ -11,7 +11,7 @@ export class FlightRepository extends BaseSqlRepository<Flight> implements IFlig
         this.dbService = dbService;
     }
 
-    ListFlights(
+    async ListFlights(
         idFlight: string = '',
         idObservation : string = '',
         idAirplane: string = '',

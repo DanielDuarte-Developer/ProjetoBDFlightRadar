@@ -10,15 +10,8 @@ export class AirportFlightRepository extends BaseSqlRepository<AirportFlight> im
         super(dbService, 'spInsertUpdateDeleteAirportFlight', 'spGetAirportFlights')
         this.dbService = dbService;
     }
-    /*
-    idAirport : string,
-        idFlight : string,
-        departure : string,
-        arrival : string,
-        sortField: string,
-        sortAscending: boolean
-    */
-    ListAirportFlights(
+
+    async ListAirportFlights(
         idAirport: string = '',
         idFlight: string = '',
         timeMarker: string = '',

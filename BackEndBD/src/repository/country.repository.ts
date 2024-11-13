@@ -11,7 +11,7 @@ export class CountryRepository extends BaseSqlRepository<Country> implements ICo
         this.dbService = dbService;
     }
 
-    ListCountries(
+    async ListCountries(
         idCountry: string = '',
         countryName: string = '',
         sortField: string = '',

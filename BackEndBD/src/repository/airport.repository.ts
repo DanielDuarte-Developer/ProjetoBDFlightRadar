@@ -10,7 +10,7 @@ export class AirportRepository extends BaseSqlRepository<Airport> implements IAi
         super(dbService, 'spInsertUpdateDeleteAirport', 'spGetAiports')
         this.dbService = dbService;
     }
-    ListAirports(
+    async ListAirports(
         idAirport: string = '',
         idCountry: string = '',
         airportName: string = '',
