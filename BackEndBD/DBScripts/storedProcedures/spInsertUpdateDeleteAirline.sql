@@ -8,12 +8,12 @@ DELIMITER $$
 CREATE PROCEDURE spInsertUpdateDeleteAirline(
     -- DB atributes
     INOUT Id CHAR(32),
-    IN IdCountry CHAR(36),
+    IN IdCountry CHAR(32),
     IN AirlineName NVARCHAR(100),
     IN AirlineCode CHAR(10),
     -- Control atributes
     IN SysStatus NVARCHAR(255), 
-    IN UserId CHAR(36)
+    IN UserId CHAR(32)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION	

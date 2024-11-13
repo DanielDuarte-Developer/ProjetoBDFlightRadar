@@ -7,7 +7,7 @@ DELIMITER $$
 CREATE PROCEDURE spGetModels(
     -- DB atributes
     IN p_Id CHAR(32),
-    IN p_IdBrand CHAR(36),
+    IN p_IdBrand CHAR(32),
     IN p_SitsNumber INT,
     IN p_Tare INT,
     IN p_GrossWeight INT,
