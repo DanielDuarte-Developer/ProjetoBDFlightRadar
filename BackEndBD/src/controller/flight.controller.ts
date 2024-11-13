@@ -14,7 +14,7 @@ export class FlightController {
             const filters: Flight = req.body
             try {
                 // Get the flights by the filters given
-                const flights = this.flightRepository.ListFlights(
+                const flights = await this.flightRepository.ListFlights(
                     filters.Id,
                     filters.IdObservation,
                     filters.IdAirplane,
@@ -37,7 +37,7 @@ export class FlightController {
             const id_flight = req.body
             try {
                 // Get flight by id
-                const flight = this.flightRepository.GetAsync(id_flight)
+                const flight = await this.flightRepository.GetAsync(id_flight)
 
                 // If there is no error, returns a success response
                 res.status(200).json(flight)

@@ -14,7 +14,7 @@ export class ModelController {
             const filters: Model = req.body
             try {
                 // Get the models by the filters given
-                const models = this.modelRepository.ListModels(
+                const models = await this.modelRepository.ListModels(
                     filters.Id,
                     filters.IdBrand,
                     filters.SitsNumber,
@@ -41,7 +41,7 @@ export class ModelController {
             const id_model = req.body
             try {
                 // Get model by id
-                const model = this.modelRepository.GetAsync(id_model)
+                const model = await this.modelRepository.GetAsync(id_model)
 
                 // If there is no error, returns a success response
                 res.status(200).json(model)

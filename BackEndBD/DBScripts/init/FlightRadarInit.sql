@@ -73,11 +73,12 @@ foreign key (id_model) references model(id_model)
 );
 
 create table airport_flight (
+id_airport_flight char(32),
 id_airport char(32),
 id_flight char(32),
 foreign key (id_airport) references airport(id_airport),
 foreign key (id_flight) references flight(id_flight),
-primary key (id_airport, id_flight),
+primary key (id_airport_flight),
 timeMarker timestamp
 );
 

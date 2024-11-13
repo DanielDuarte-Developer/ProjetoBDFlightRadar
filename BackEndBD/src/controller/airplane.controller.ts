@@ -14,7 +14,7 @@ export class AirplaneController {
             const filters: Airplane = req.body
             try {
                 // Get the airplanes by the filters given
-                const airplanes = this.airplaneRepository.ListAirplanes(
+                const airplanes = await this.airplaneRepository.ListAirplanes(
                     filters.Id,
                     filters.IdModel,
                     filters.IdAirline)
@@ -35,7 +35,7 @@ export class AirplaneController {
             const id_airplane = req.body
             try {
                 // Get airplane by id
-                const airplane = this.airplaneRepository.GetAsync(id_airplane)
+                const airplane = await this.airplaneRepository.GetAsync(id_airplane)
 
                 // If there is no error, returns a success response
                 res.status(200).json(airplane)

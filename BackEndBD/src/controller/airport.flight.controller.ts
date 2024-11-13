@@ -14,7 +14,7 @@ export class AirportFlightController {
             const filters: AirportFlight = req.body
             try {
                 // Get the airportFlights by the filters given
-                const airportFlights = this.airportFlightRepository.ListAirportFlights(
+                const airportFlights = await this.airportFlightRepository.ListAirportFlights(
                     filters.Id,
                     filters.IdFlight,
                     filters.TimeMarker)
@@ -30,14 +30,12 @@ export class AirportFlightController {
         }
     }
 
-    // TODO See the get by id because we have a compound key
-    // * See in the sp and model too
     getAirportFlight(): Handler {
         return async (req: Request, res: Response) => {
             const id_airportFlights = req.body
             try {
                 // Get airportFlight by id
-                const airportFlights = this.airportFlightRepository.GetAsync(id_airportFlights)
+                const airportFlights = await this.airportFlightRepository.GetAsync(id_airportFlights)
 
                 // If there is no error, returns a success response
                 res.status(200).json(airportFlights)
@@ -71,9 +69,7 @@ export class AirportFlightController {
         }
     }
 
-    /*
-    TODO Analise the method if will be necessary
-    updateAirport(): Handler {
+    updateAirportFlight(): Handler {
         return async (req: Request, res: Response) => {
             const object: AirportFlight = req.body
 
@@ -84,7 +80,7 @@ export class AirportFlightController {
                 // If there is no error, returns a success response
                 res.status(200).json({
                     success: true,
-                    message: 'airportFlights updated successfully.'
+                    message: 'AirportFlights updated successfully.'
                 });
             } catch (error) {
                 res.status(400).json({
@@ -94,5 +90,4 @@ export class AirportFlightController {
             }
         }
     }
-    */
 }

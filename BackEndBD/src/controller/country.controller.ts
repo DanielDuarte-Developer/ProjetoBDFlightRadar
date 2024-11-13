@@ -14,7 +14,7 @@ export class CountryController {
             const filters: Country = req.body
             try {
                 // Get the countries by the filters given
-                const countries = this.countryRepository.ListCountries(
+                const countries = await this.countryRepository.ListCountries(
                     filters.Id,
                     filters.CountryName)
 
@@ -34,7 +34,7 @@ export class CountryController {
             const id_country = req.body
             try {
                 // Get country by id
-                const country = this.countryRepository.GetAsync(id_country)
+                const country = await this.countryRepository.GetAsync(id_country)
 
                 // If there is no error, returns a success response
                 res.status(200).json(country)

@@ -14,7 +14,7 @@ export class BrandController {
             const filters: Brand = req.body
             try {
                 // Get the brands by the filters given
-                const brands = this.brandRepository.ListBrands(
+                const brands = await this.brandRepository.ListBrands(
                     filters.Id,
                     filters.IdCountry,
                     filters.BrandName)

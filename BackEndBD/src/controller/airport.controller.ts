@@ -14,7 +14,7 @@ export class AirportController {
             const filters: Airport = req.body
             try {
                 // Get the airports by the filters given
-                const airports = this.airportRepository.ListAirports(
+                const airports = await this.airportRepository.ListAirports(
                     filters.Id,
                     filters.IdCountry,
                     filters.AirportName,
@@ -37,7 +37,7 @@ export class AirportController {
             const id_airport = req.body
             try {
                 // Get airport by id
-                const airport = this.airportRepository.GetAsync(id_airport)
+                const airport = await this.airportRepository.GetAsync(id_airport)
 
                 // If there is no error, returns a success response
                 res.status(200).json(airport)
