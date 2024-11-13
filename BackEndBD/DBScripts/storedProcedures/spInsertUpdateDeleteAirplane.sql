@@ -88,7 +88,7 @@ BEGIN
 
     COMMIT;
     
-    -- Verifica se a linha foi modificada
+    -- Verify se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
         SELECT Id;
     ELSE

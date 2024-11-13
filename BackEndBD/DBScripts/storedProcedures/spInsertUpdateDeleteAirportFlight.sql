@@ -20,7 +20,7 @@ BEGIN
     BEGIN
         ROLLBACK;
         SET Id = NULL;
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during airportairplaneflight Stored Procedure execution';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during airport_flight Stored Procedure execution';
     END;
 
     START TRANSACTION;
@@ -89,7 +89,7 @@ BEGIN
 
     COMMIT;
     
-    -- Verifica se a linha foi modificada
+    -- Verify se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
         SELECT Id;
     ELSE
