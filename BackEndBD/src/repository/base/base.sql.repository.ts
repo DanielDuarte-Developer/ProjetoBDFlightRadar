@@ -12,48 +12,69 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
         this.getDataProcedure = getDataProcedure;
     }
 
-    async AddAsync(item:T, userId: string): Promise<T> {
-        const params =  {
-            ...item,
-            P_userId : userId
-        }
-
-        const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
+    async AddAsync(item:T, userId: string){
+        try{
+            const params =  {
+                ...item,
+                UserId : userId,
+                SysStatus : 'A'
+            }
+    
+            await this.dbService.callProcedure(this.commandStoredProcedure, params)
         
-        // Returns the id if result as anything if not will send null
-        return result.length > 0 ? result[0].p_Id : null;
+        }catch(error){
+            throw new Error(error.message || 'Error trying to add an new record')
+        }
+      
     }
 
-    async UpdateAsync(item:T, userId: string): Promise<T> {
-        const params = {
-            ...item,
-            P_userId : userId
+    async UpdateAsync(item:T, userId: string) {
+        try{
+            const params = {
+                ...item,
+                UserId : userId,
+                SysStatus : 'A'
+            }
+            const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
+
+            // Verifique o retorno de `p_Id` após a execução, especialmente em caso de `INSERT`
+            if (!result || !result[0] || result[0].p_Id === null) {
+                throw new Error('Error trying to update the record: No records modified or error during insertion');
+            }
+        }catch(error){
+            throw new Error(error.message || 'Error trying to update the record')
         }
-        const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
         
-        // Returns the id if result as anything if not will send null
-        return result.length > 0 ? result[0].p_Id : null;
     }
 
-    async DeleteAsync(id: string, userId: string): Promise<T> {
-        const params = {
-            p_Id : id,
-            p_Status : 'X',
-            p_UserId : userId,
-            p_RowVersion : ''
+    async DeleteAsync(id: string, userId: string){
+        try{
+            const params = {
+                Id : id,
+                Status : 'X',
+                UserId : userId,
+            }
+            await this.dbService.callProcedure(this.commandStoredProcedure, params)
+        }catch(error){
+            throw new Error(error.message || 'Error trying to delete the record')
         }
-        const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
-        
-        // Returns the id if result as anything if not will send null
-        return result.length > 0 ? result[0].p_Id : null;
     }
 
     async GetAsync(id): Promise<T> {
-        const params = {
-            P_Id : id
+        try{
+            const params = {
+                Id : id
+            }
+            const result = await this.dbService.callProcedure(this.getDataProcedure, params)
+
+            if (!result || result.length === 0) {
+                throw new Error('No record found with the specified ID.');
+            }
+
+            // Returns the id if result as anything if not will send null
+            return result[0] as T;
+        }catch(error){
+            throw new Error(error.message || 'Error trying to get the record by id.')
         }
-        const result = await this.dbService.callProcedure(this.getDataProcedure, params)
-        // Returns the id if result as anything if not will send null
-        return result[0] as T;
     }
 }

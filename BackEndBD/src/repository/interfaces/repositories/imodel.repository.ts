@@ -13,7 +13,6 @@ export interface IModelRepository {
      * @param flightCrewMembers Flight crew members
      * @param fuelQuantity Max plane fuel quantity 
      * @param modelYear Plane year
-     * @param status Registry Status
      * @param sortField Organize the data by sortField
      * @param sortAscending Organize ASC or DESC
      */
@@ -27,7 +26,6 @@ export interface IModelRepository {
         flightCrewMembers : number,
         fuelQuantity : number,
         modelYear : number,
-        status: string,
         sortField: string,
         sortAscending: boolean) : Promise<Model[]>
 }

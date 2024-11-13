@@ -7,7 +7,6 @@ export interface IAirplaneRepository {
      * @param idAirplane The identifier
      * @param idModel Model identifier
      * @param idArline Arline identifier
-     * @param status Registry Status 
      * @param sortField Organize the data by sortField
      * @param sortAscending Organize ASC or DESC
      */
@@ -15,7 +14,6 @@ export interface IAirplaneRepository {
         idAirplane: string, 
         idModel: string, 
         idArline: string,
-        status: string,
         sortField: string,
         sortAscending: boolean) : Promise<Airplane[]>
 }

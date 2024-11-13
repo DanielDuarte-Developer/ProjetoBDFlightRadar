@@ -8,7 +8,6 @@ export interface IArlineRepository {
      * @param idCountry Country identifier
      * @param arlineName Arline Name
      * @param arlineCode Arline Code
-     * @param status Registry Status 
      * @param sortField Organize the data by sortField
      * @param sortAscending Organize ASC or DESC
      */
@@ -17,7 +16,6 @@ export interface IArlineRepository {
         idCountry: string, 
         arlineName: string,
         arlineCode: string,
-        status: string,
         sortField: string,
         sortAscending: boolean): Promise<Airline[]>
 }

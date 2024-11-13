@@ -11,7 +11,6 @@ export interface IAirportRepository  {
      * @param airportLocationName Aiport location name
      * @param locationLatitude Airport location latitude
      * @param locationLongitude Airport location longitude
-     * @param status Registry Status 
      * @param sortField Organize the data by sortField
      * @param sortAscending Organize ASC or DESC
      */
@@ -21,7 +20,6 @@ export interface IAirportRepository  {
         airportName: string,
         airportCode: string,
         airportLocationName: string,
-        status: string,
         sortField: string,
         sortAscending: boolean): Promise<Airport[]>
 }

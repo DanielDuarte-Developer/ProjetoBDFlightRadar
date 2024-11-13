@@ -11,21 +11,21 @@ export class FlightRepository extends BaseSqlRepository<Flight> implements IFlig
         this.dbService = dbService;
     }
 
-    ListFlights(
-        idFlight: string,
-        flightCode: string,
-        stateFlight: string,
-        passengers: number,
-        status: string,
-        sortField: string,
-        sortAscending: boolean): Promise<Flight[]> {
+    async ListFlights(
+        idFlight: string = '',
+        idObservation : string = '',
+        idAirplane: string = '',
+        flightCode: string = '',
+        passengers: number = 0,
+        sortField: string = '',
+        sortAscending: boolean = false): Promise<Flight[]> {
         const filters = {
-            p_Id : idFlight,
-            p_FlightCode : flightCode,
-            p_Passengers : passengers,
-            p_State : stateFlight,
-            p_Status: status,
-            p_sortField: sortField,
+            p_Id : idFlight || null,
+            p_IdObservations : idObservation || null,
+            p_IdAirplane : idAirplane || null,
+            p_FlightCode : flightCode || null,
+            p_Passengers : passengers || null,
+            p_sortField: sortField || null,
             p_sortAscending: sortAscending
         }
         //Give the procedure name and the parameters

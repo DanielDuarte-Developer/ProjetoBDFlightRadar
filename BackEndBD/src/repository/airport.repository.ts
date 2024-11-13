@@ -10,23 +10,21 @@ export class AirportRepository extends BaseSqlRepository<Airport> implements IAi
         super(dbService, 'spInsertUpdateDeleteAirport', 'spGetAiports')
         this.dbService = dbService;
     }
-    ListAirports(
-        idAirport: string,
-        idCountry: string,
-        airportName: string,
-        airportCode: string,
-        airportLocationName: string,
-        status: string, 
-        sortField:string, 
-        sortAscending: boolean): Promise<Airport[]> {
+    async ListAirports(
+        idAirport: string = '',
+        idCountry: string = '',
+        airportName: string = '',
+        airportCode: string = '',
+        airportLocationName: string = '',
+        sortField:string = '', 
+        sortAscending: boolean = false): Promise<Airport[]> {
         const filters = {
-            p_Id: idAirport,
-            p_IdCountry: idCountry,
-            p_AirportName: airportName,
-            p_AirportCode : airportCode,
-            p_LocationName : airportLocationName,
-            p_Status: status,
-            p_sortField: sortField,
+            p_Id: idAirport || null,
+            p_IdCountry: idCountry || null,
+            p_AirportName: airportName || null,
+            p_AirportCode : airportCode || null,
+            p_LocationName : airportLocationName || null,
+            p_sortField: sortField || null,
             p_sortAscending: sortAscending
         }
         //Give the procedure name and the parameters

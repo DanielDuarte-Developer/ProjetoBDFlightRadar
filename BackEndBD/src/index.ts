@@ -9,7 +9,7 @@ import { BrandRepository } from "./repository/brand.repository";
 import { CountryRepository } from "./repository/country.repository";
 import { FlightRepository } from "./repository/flight.repository";
 import { ModelRepository } from "./repository/model.repository";
-import { AirportAirplaneFlightRepository } from "./repository/airport.airplane.flight.repository";
+import { AirportFlightRepository } from "./repository/airport.flight.repository";
 
 console.log("💾 Connecting to database");
 var db;
@@ -35,7 +35,7 @@ const brandRepository = new BrandRepository(dbService)
 const countryRepository = new CountryRepository(dbService)
 const flightRepository = new FlightRepository(dbService)
 const modelRepository = new ModelRepository(dbService)
-const airportAirplaneFlightRepository = new AirportAirplaneFlightRepository(dbService)
+const airportFlightRepository = new AirportFlightRepository(dbService)
 
 console.log("🚪 Initializing controllers")
 /*const personController = new PersonController(

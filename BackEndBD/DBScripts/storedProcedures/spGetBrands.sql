@@ -6,7 +6,7 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetBrands(
     -- DB atributes
-    IN p_Id CHAR(36),
+    IN p_Id CHAR(32),
     IN p_IdCountry CHAR(36),
     IN p_BrandName NVARCHAR(100),
     -- Control atributes
