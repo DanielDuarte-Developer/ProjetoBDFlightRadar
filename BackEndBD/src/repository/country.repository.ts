@@ -7,7 +7,7 @@ export class CountryRepository extends BaseSqlRepository<Country> implements ICo
     protected dbService: DatabaseService;
 
     constructor(dbService: DatabaseService) {
-        super(dbService, '', 'spGetCountries')
+        super(dbService, 'spInsertUpdateDeleteCountry', 'spGetCountries')
         this.dbService = dbService;
     }
 
