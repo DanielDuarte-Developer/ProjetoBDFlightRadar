@@ -7,7 +7,7 @@ export class BrandRepository extends BaseSqlRepository<Brand> implements IBrandR
     protected dbService: DatabaseService;
 
     constructor(dbService: DatabaseService) {
-        super(dbService, '', 'spGetBrands')
+        super(dbService, 'spInsertUpdateDeleteBrand', 'spGetBrands')
         this.dbService = dbService;
     }
 

@@ -7,7 +7,7 @@ export class ModelRepository extends BaseSqlRepository<Model> implements IModelR
     protected dbService: DatabaseService;
 
     constructor(dbService: DatabaseService) {
-        super(dbService, '', 'spGetModels')
+        super(dbService, 'spInsertUpdateDeleteModel', 'spGetModels')
         this.dbService = dbService;
     }
 

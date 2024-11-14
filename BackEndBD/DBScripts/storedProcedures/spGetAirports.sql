@@ -7,7 +7,7 @@ DELIMITER $$
 CREATE PROCEDURE spGetAiports(
     -- DB atributes
     IN p_Id CHAR(32),
-    IN p_IdCountry CHAR(36),
+    IN p_IdCountry CHAR(32),
     IN p_AirportName VARCHAR(30),
     IN p_AirportCode VARCHAR(30),
     IN p_LocationName VARCHAR(30)

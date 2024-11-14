@@ -1,32 +1,33 @@
--- =============================================
--- Author:		<Daniel Duarte>
--- Create date: <2024-10-28>
--- =============================================
 use flight_radar;
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteAirplane(
+CREATE PROCEDURE spInsertUpdateDeleteModel(
     -- DB atributes
     INOUT Id CHAR(32),
     IN IdBrand CHAR(32),
-    IN IdAirline CHAR(32),
+    IN SitsNumber INT,
+    IN Tare INT,
+    IN GrossWeight INT,
+    IN Payload INT,
+    IN FlightCrewNumber INT,
+    IN FuelQuantity INT,
+    IN ModelYear INT,
     -- Control atributes
     IN SysStatus NVARCHAR(255), 
     IN UserId CHAR(32)
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION	
     BEGIN
         ROLLBACK;
         SET Id = NULL;
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during airplane Stored Procedure execution';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during model Stored Procedure execution';
     END;
-
     START TRANSACTION;
 
     IF Id IS NOT NULL THEN
         IF SysStatus = 'X' THEN
-            UPDATE airplane
+            UPDATE model
             SET 
                 sys_status = SysStatus,
                 sys_modify_date = UTC_TIMESTAMP(),
@@ -36,13 +37,19 @@ BEGIN
             -- Verify if the "delete" was successed (updated status)
             IF ROW_COUNT() = 0 THEN
                 ROLLBACK;
-                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error deleting airplane: No lines were modified or were already inactive.';
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error deleting model: No lines were modified or were already inactive.';
             END IF;
         ELSE
-            UPDATE airplane
+            UPDATE model
             SET 
                 id_brand = IdBrand,
-                id_airline = IdAirline,
+                sits_number = SitsNumber,
+                tare = Tare,
+                gross_weight = GrossWeight,
+                payload = Payload,
+                flight_crew_number = FlightCrewNumber,
+                fuel_quantity = FuelQuantity,
+                model_year = ModelYear,
                 sys_status = SysStatus,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = UserId
@@ -51,16 +58,21 @@ BEGIN
             -- Verify if the line was modified 
             IF ROW_COUNT() = 0 THEN
             ROLLBACK;
-                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Update error: No lines were modified on the airplane.';
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Update error: No lines were modified on the model.';
             END IF;
         END IF;
     ELSE
         SET Id = UUID();
-        INSERT INTO airplane
+        INSERT INTO model
         (
-            id_plane,
             id_brand,
-            id_airline,
+            sits_number,
+            tare = Tare,
+            gross_weight ,
+            payload = Payload,
+            flight_crew_number,
+            fuel_quantity,
+            model_year,
             sys_status,
             sys_create_date,
             sys_create_user_id,
@@ -71,24 +83,30 @@ BEGIN
         (
             Id,
             IdBrand,
-            IdAirline,
+            SitsNumber,
+            Tare,
+            GrossWeight,
+            Payload,
+            FlightCrewNumber,
+            FuelQuantity,
+            ModelYear,
             SysStatus,
             UTC_TIMESTAMP(),
             UserId,
             UTC_TIMESTAMP(),
             UserId
         );
-        
+
         -- Verify if was inserted with success
         IF ROW_COUNT() = 0 THEN
             ROLLBACK;
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insertion error: Error inserting into the airplane table.';
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insertion error: Error inserting into the model table.';
         END IF;
     END IF;
 
     COMMIT;
     
-    -- Verify se a linha foi modificada
+    -- Verify if the line was modified
     IF ROW_COUNT() > 0 THEN
         SELECT Id;
     ELSE

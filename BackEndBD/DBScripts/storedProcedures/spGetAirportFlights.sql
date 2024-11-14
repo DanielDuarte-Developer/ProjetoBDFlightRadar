@@ -7,7 +7,7 @@ DELIMITER $$
 CREATE PROCEDURE spGetAirportFlights(
     -- DB atributes
     IN p_IdAirport CHAR(32),
-    IN p_IdFlight CHAR(36),
+    IN p_IdFlight CHAR(32),
     IN p_TimeMarker timestamp,
     -- Control atributes
     IN p_UserId VARCHAR(255),

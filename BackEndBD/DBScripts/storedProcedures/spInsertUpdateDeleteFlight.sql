@@ -14,7 +14,7 @@ CREATE PROCEDURE spInsertUpdateDeleteFlight(
     IN Passengers INT,
     -- Control atributes
     IN SysStatus NVARCHAR(255), 
-    IN UserId CHAR(36)
+    IN UserId CHAR(32)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -96,7 +96,7 @@ BEGIN
 
     COMMIT;
     
-    -- Verifica se a linha foi modificada
+    -- Verify se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
         SELECT Id;
     ELSE

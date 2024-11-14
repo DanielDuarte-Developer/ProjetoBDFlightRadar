@@ -8,7 +8,7 @@ DELIMITER $$
 CREATE PROCEDURE spInsertUpdateDeleteAirport(
     -- DB atributes
     INOUT Id CHAR(32),
-    IN IdCountry CHAR(36),
+    IN IdCountry CHAR(32),
     IN AirportName NVARCHAR(100),
     IN AirportCode CHAR(10),
     IN LocationName NVARCHAR(100),
@@ -16,7 +16,7 @@ CREATE PROCEDURE spInsertUpdateDeleteAirport(
     IN LocationLongitude INT,
     -- Control atributes
     IN SysStatus NVARCHAR(255), 
-    IN UserId CHAR(36)
+    IN UserId CHAR(32)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -104,7 +104,7 @@ BEGIN
 
     COMMIT;
     
-    -- Verifica se a linha foi modificada
+    -- Verify se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
         SELECT Id;
     ELSE

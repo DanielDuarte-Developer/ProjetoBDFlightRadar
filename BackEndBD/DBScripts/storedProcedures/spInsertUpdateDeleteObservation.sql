@@ -1,16 +1,10 @@
--- =============================================
--- Author:		<Daniel Duarte>
--- Create date: <2024-10-28>
--- =============================================
 use flight_radar;
 DELIMITER $$
 
-CREATE PROCEDURE spInsertUpdateDeleteAirportFlight(
+CREATE PROCEDURE spInsertUpdateDeleteObservation(
     -- DB atributes
-	INOUT Id CHAR(32), 
-    IN IdAirport CHAR(32),
-    IN IdFlight CHAR(32),
-    IN TimeMarker timestamp,
+    INOUT Id CHAR(32),
+    IN ObservationText NVARCHAR(255),
     -- Control atributes
     IN SysStatus NVARCHAR(255), 
     IN UserId CHAR(32)
@@ -20,14 +14,14 @@ BEGIN
     BEGIN
         ROLLBACK;
         SET Id = NULL;
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during airport_flight Stored Procedure execution';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during observation Stored Procedure execution';
     END;
 
     START TRANSACTION;
     
     IF Id IS NOT NULL THEN
         IF SysStatus = 'X' THEN
-            UPDATE airport_airplane_flight
+            UPDATE observation
             SET 
                 sys_status = SysStatus,
                 sys_modify_date = UTC_TIMESTAMP(),
@@ -37,14 +31,12 @@ BEGIN
             -- Verify if the "delete" was successed (updated status)
             IF ROW_COUNT() = 0 THEN
                 ROLLBACK;
-                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error deleting airportairplaneflight: No lines were modified or were already inactive.';
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error deleting observation: No lines were modified or were already inactive.';
             END IF;
         ELSE
-            UPDATE airport_airplane_flight
+            UPDATE observation
             SET 
-                id_airport = IdAirport,
-                id_flight = IdFlight,
-                timeMarker = TimeMarker,
+                observation_text = ObservationText,
                 sys_status = SysStatus,
                 sys_modify_date = UTC_TIMESTAMP(),
                 sys_modify_user_id = UserId
@@ -53,15 +45,14 @@ BEGIN
             -- Verify if the line was modified 
             IF ROW_COUNT() = 0 THEN
             ROLLBACK;
-                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Update error: No lines were modified on the airportairplaneflight.';
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Update error: No lines were modified on the observation.';
             END IF;
         END IF;
     ELSE
-        INSERT INTO airport_airplane_flight
+        SET Id = UUID();
+        INSERT INTO observation
         (
-            id_airport,
-            id_flight,
-            timeMarker,
+            observation_text,
             sys_status,
             sys_create_date,
             sys_create_user_id,
@@ -70,9 +61,8 @@ BEGIN
         )
         VALUES
         (
-            IdAirport,
-            IdFlight,
-            TimeMarker,
+            Id,
+            ObservationText,
             SysStatus,
             UTC_TIMESTAMP(),
             UserId,
@@ -83,7 +73,7 @@ BEGIN
         -- Verify if was inserted with success
         IF ROW_COUNT() = 0 THEN
             ROLLBACK;
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insertion error: Error inserting into the airportairplaneflight table.';
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insertion error: Error inserting into the observation table.';
         END IF;
     END IF;
 

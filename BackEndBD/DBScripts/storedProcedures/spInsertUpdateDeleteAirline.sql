@@ -8,19 +8,19 @@ DELIMITER $$
 CREATE PROCEDURE spInsertUpdateDeleteAirline(
     -- DB atributes
     INOUT Id CHAR(32),
-    IN IdCountry CHAR(36),
+    IN IdCountry CHAR(32),
     IN AirlineName NVARCHAR(100),
     IN AirlineCode CHAR(10),
     -- Control atributes
     IN SysStatus NVARCHAR(255), 
-    IN UserId CHAR(36)
+    IN UserId CHAR(32)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION	
     BEGIN
         ROLLBACK;
         SET Id = NULL;
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during arline Stored Procedure execution';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during airline Stored Procedure execution';
     END;
     START TRANSACTION;
 
@@ -91,7 +91,7 @@ BEGIN
 
     COMMIT;
     
-    -- Verifica if the line was modified
+    -- Verify if the line was modified
     IF ROW_COUNT() > 0 THEN
         SELECT Id;
     ELSE
