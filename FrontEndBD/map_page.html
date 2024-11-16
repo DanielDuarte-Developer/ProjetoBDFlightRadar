@@ -8,64 +8,88 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
     <link rel="stylesheet" href="styles/map_CSS.css">
     <link rel="stylesheet" href="styles/window_airplane_CSS.css">
+    <link rel="stylesheet" href="styles/sideMenu_CSS.css">
     <title>Document</title>
 </head>
 <body>
-    <div id="map"></div>
+    <div class="container">
+         <!-- Menu lateral -->
+         <nav class="sidebar" id="sidebar-hide">
+            <div class="menu-bar">
+                <h2>Menu</h2>
+                <button class="toggle-btn" id="toggleSidebar">☰</button>
+            </div>
+            <ul>
+                <li><a href="pagina1.html">Página 1</a></li>
+                <li><a href="pagina2.html">Página 2</a></li>
+                <li><a href="pagina3.html">Página 3</a></li>
+                <li><a href="pagina4.html">Página 4</a></li>
+                <li><a href="pagina5.html">Página 5</a></li>
+            </ul>
+        </nav>
 
-    <!-- Inclui a biblioteca do Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    
-    <!-- Janela modal -->
-    <div class="modal" id="modal">
-        <button class="close-btn" id="closeBtn">&times;</button>
-        <div class="info">
-            <div class="header">
-                <h2>TAP Air Portugal</h2>
-                <span class="flight-code">TP863</span>
-            </div>
-            <div class="image-container">
-                <img src="images/boing.jpg" alt="Avião" class="plane-image" />
-            </div>
-            <div class="flight-info">
-                <div class="row">
-                    <div class="column">
-                        <h3>Partida</h3>
-                        <p class="airport-code">LIS</p>
-                        <p class="time">9:25 PM</p>
+        <!-- Conteúdo principal -->
+        <main class="content">
+            <nav class="mini-sidebar" id="sidebar-show">
+                <button class="toggle-btn" id="showSidebar">☰</button>
+            </nav>
+            <div id="map"></div>
+
+            <!-- Inclui a biblioteca do Leaflet -->
+            <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+            
+            <!-- Janela modal -->
+            <div class="modal" id="modal">
+                <button class="close-btn" id="closeBtn">&times;</button>
+                <div class="info">
+                    <div class="header">
+                        <h2>TAP Air Portugal</h2>
+                        <span class="flight-code">TP863</span>
                     </div>
-                    <div class="column">
-                        <img src="images/right-arrow.png" alt="Arrow" class="arrow" />
+                    <div class="image-container">
+                        <img src="images/boing.jpg" alt="Avião" class="plane-image" />
                     </div>
-                    <div class="column">
-                        <h3>Chegada</h3>
-                        <p class="airport-code">CDG</p>
-                        <p class="time">11:51 PM</p>
+                    <div class="flight-info">
+                        <div class="row">
+                            <div class="column">
+                                <h3>Partida</h3>
+                                <p class="airport-code">LIS</p>
+                                <p class="time">9:25 PM</p>
+                            </div>
+                            <div class="column">
+                                <img src="images/right-arrow.png" alt="Arrow" class="arrow" />
+                            </div>
+                            <div class="column">
+                                <h3>Chegada</h3>
+                                <p class="airport-code">CDG</p>
+                                <p class="time">11:51 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="row">
+                            <p><strong>Km de Distância:</strong> 1,250 km</p>
+                            <p><strong>Tempo de Voo:</strong> 2h 30m</p>
+                        </div>
+                        <div class="row">
+                            <p><strong>Aeronave:</strong> Airbus A319</p>
+                            <p><strong>Registro:</strong> CS-TTP</p>
+                        </div>
+                        <div class="row">
+                            <p><strong>País de Registro:</strong> Portugal</p>
+                            <p><strong>Companhia:</strong> TAP Air Portugal</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="details">
-                <div class="row">
-                    <p><strong>Km de Distância:</strong> 1,250 km</p>
-                    <p><strong>Tempo de Voo:</strong> 2h 30m</p>
-                </div>
-                <div class="row">
-                    <p><strong>Aeronave:</strong> Airbus A319</p>
-                    <p><strong>Registro:</strong> CS-TTP</p>
-                </div>
-                <div class="row">
-                    <p><strong>País de Registro:</strong> Portugal</p>
-                    <p><strong>Companhia:</strong> TAP Air Portugal</p>
-                </div>
-            </div>
-        </div>
+        
+            <!-- Fundo escurecido -->
+            <div class="overlay" id="overlay"></div>
+            <script src="Scripts/sideMenu_script.js"></script>
+            <script src="Scripts/map_script.js"></script>
+            <script src="Scripts/plane_script.js"></script>
+        </main>
+        
     </div>
-
-    <!-- Fundo escurecido -->
-    <div class="overlay" id="overlay"></div>
-
-
-    <script src="Scripts/map_script.js"></script>
-    <script src="Scripts/plane_script.js"></script>
 </body>
 </html>

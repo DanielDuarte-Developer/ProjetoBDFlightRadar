@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela com Edição e Adição</title>
+    <link rel="stylesheet" href="../styles/geralTableCSS.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Botão para adicionar novo registro -->
+        <button class="add-btn" data-table="brandTable">Adicionar Registro</button>
+
+        <!-- Tabela com registros -->
+        <table class="data-table" id="brandTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>João Silva</td>
+                    <td>joao@example.com</td>
+                    <td>
+                        <button class="edit-btn">Editar</button>
+                        <button class="update-btn">Atualizar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Maria Oliveira</td>
+                    <td>maria@example.com</td>
+                    <td>
+                        <button class="edit-btn">Editar</button>
+                        <button class="update-btn">Atualizar</button>
+                    </td>
+                </tr>
+                <!-- Mais registros podem ser adicionados aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

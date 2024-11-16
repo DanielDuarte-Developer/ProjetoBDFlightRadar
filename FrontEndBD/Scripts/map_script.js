@@ -1,5 +1,6 @@
   // Inicializando o mapa e definindo o ponto central e o nível de zoom
   map = L.map('map', {
+    zoomControl: false,
     center: [20, 0],  // Centro inicial
     zoom: 2,  // Nível de zoom inicial
     minZoom: 2,  // Nível de zoom mínimo permitido
