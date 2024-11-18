@@ -13,39 +13,22 @@
         <button class="add-btn" data-table="airlineTable">Adicionar Registro</button>
 
         <!-- Tabela com registros -->
-        <table class="data-table" id="airlineTable">
+        <table class="data-table" id="airlineTable" data-columns='["Id", "IdCountry", "AirlineName", "AirlineCode"]'>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Ações</th>
+                    <th>ID Country</th>
+                    <th>Airline Name</th>
+                    <th>Airline Code</th>
+                    <th> </th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>João Silva</td>
-                    <td>joao@example.com</td>
-                    <td>
-                        <button class="edit-btn">Editar</button>
-                        <button class="update-btn">Atualizar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Maria Oliveira</td>
-                    <td>maria@example.com</td>
-                    <td>
-                        <button class="edit-btn">Editar</button>
-                        <button class="update-btn">Atualizar</button>
-                    </td>
-                </tr>
-                <!-- Mais registros podem ser adicionados aqui -->
+                <!-- Auto Populated -->
             </tbody>
         </table>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../Scripts/tableScript.js"></script>
 </body>
 </html>

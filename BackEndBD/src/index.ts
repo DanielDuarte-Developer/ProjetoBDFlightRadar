@@ -10,6 +10,14 @@ import { CountryRepository } from "./repository/country.repository";
 import { FlightRepository } from "./repository/flight.repository";
 import { ModelRepository } from "./repository/model.repository";
 import { AirportFlightRepository } from "./repository/airport.flight.repository";
+import { AirlineController } from "./controller/airline.controller";
+import { AirplaneController } from "./controller/airplane.controller";
+import { AirportController } from "./controller/airport.controller";
+import { BrandController } from "./controller/brand.controller";
+import { CountryController } from "./controller/country.controller";
+import { FlightController } from "./controller/flight.controller";
+import { ModelController } from "./controller/model.controller";
+import { AirportFlightController } from "./controller/airport.flight.controller";
 
 console.log("💾 Connecting to database");
 var db;
@@ -38,14 +46,14 @@ const modelRepository = new ModelRepository(dbService)
 const airportFlightRepository = new AirportFlightRepository(dbService)
 
 console.log("🚪 Initializing controllers")
-/*const personController = new PersonController(
-    personRepository,
-    tarefaRepository,
-    statusRepository
-)
-const tarefaController = new TarefaController(tarefaRepository, statusRepository)
-const statusController = new StatusController(statusRepository)
-*/
+const airlineController = new AirlineController(airlineRepository)
+const airplaneController = new AirplaneController(airplaneRepository)
+const airportController = new AirportController(airportRepository)
+const brandController = new BrandController(brandRepository)
+const countryController = new CountryController(countryRepository)
+const flightController = new FlightController(flightRepository)
+const modelController = new ModelController(modelRepository)
+const airportFlightController = new AirportFlightController(airportFlightRepository) 
 
 console.log("🔨 Configuring express")
 const api: express.Express = express();
@@ -58,14 +66,60 @@ api.use(cors());
 
 
 console.log("🧭 Registering routes")
-/* api.get("/person", personController.findPersons())
-api.get("/person/:personId", personController.getPerson());
-api.post("/person", personController.addPerson())
-api.delete("/person/:personId", personController.deletePerson())
-api.get("/person/:personId/tarefa", tarefaController.findTarefa())
-api.post("/person/:personId/tarefa", tarefaController.addTarefa())
-api.delete("/tarefa/:tarefaId", tarefaController.deleteTarefa())
-api.put("/tarefa/:tarefaId/:statusId", tarefaController.updateTarefa()) */
+// Airline routes
+api.get("/airline", airlineController.getAirlines())
+api.get("/airline/:airlineId", airlineController.getAirline())
+api.post("/airline", airlineController.addAirline())
+api.put("/airline", airlineController.updateAirline())
+api.delete("/airline/:airlineId", airlineController.deleteAirline())
+
+// Airplane routes
+api.get("/airplane", airplaneController.getAirplanes())
+api.get("/airplane/:airplaneId", airplaneController.getAirplane())
+api.post("/airplane", airplaneController.addAirplane())
+api.put("/airplane", airplaneController.updateAirplane())
+api.delete("/airplane/:airplaneId", airplaneController.deleteAirplane())
+
+// Airport routes
+api.get("/airport", airportController.getAirports())
+api.get("/airport/:airportId", airportController.getAirport())
+api.post("/airport", airportController.addAirport())
+api.put("/airport", airportController.updateAirport())
+api.delete("/airport/:airportId", airportController.deleteAirport())
+
+// Brand routes
+api.get("/brand", brandController.getBrands())
+api.get("/brand/:brandId", brandController.getBrand())
+api.post("/brand", brandController.addBrand())
+api.put("/brand", brandController.updateBrand())
+api.delete("/brand/:brandId", brandController.deleteBrand())
+
+// Country routes
+api.get("/country", countryController.getCountries())
+api.get("/country/:countryId", countryController.getCountry())
+api.post("/country", countryController.addCountry())
+api.put("/country", countryController.updateCountry())
+api.delete("/country/:countryId", countryController.deleteCountry())
+
+// Flight routes
+api.get("/flight", flightController.getFlights())
+api.get("/flight/:flightId", flightController.getFlight())
+api.post("/flight", flightController.addFlight())
+api.put("/flight", flightController.updateFlight())
+api.delete("/flight/:flightId", flightController.deleteFlight())
+
+// Model routes
+api.get("/airline", modelController.getModels())
+api.get("/airline/:airlineId", modelController.getModel())
+api.post("/airline", modelController.addModel())
+api.put("/airline", modelController.updateModel())
+api.delete("/airline/:airlineId", modelController.deleteModel())
+
+// Airport Flight routes
+api.get("/airportFlight", airportFlightController.getAirportFlights())
+api.get("/airportFlight/:airportFlightId", airportFlightController.getAirportFlight())
+api.post("/airportFlight", airportFlightController.addAirportFlight())
+api.put("/airportFlight", airportFlightController.updateAirportFlight())
 
 console.log("✈️ Starting express");
 api.listen(port, () => {
