@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela com Edição e Adição</title>
-    <link rel="stylesheet" href="../styles/geralTableCSS.css">
+    <link rel="stylesheet" href="../../styles/geralTableCSS.css">
 </head>
 <body>
 
     <div class="container">
         <!-- Botão para adicionar novo registro -->
-        <button class="add-btn" data-table="flightTable">Adicionar Registro</button>
+        <button class="add-btn" data-table="airplaneTable">Adicionar Registro</button>
 
         <!-- Tabela com registros -->
-        <table class="data-table" id="flightsTable" data-columns='["Id", "IdObservation", "IdAirplane", "FlightCode", "Passengers"]'>
+        <table class="data-table" id="airplaneTable" data-columns='["Id", "IdModel", "IdAirline"]'>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>ID Observation</th>
-                    <th>ID Airplane</th>
-                    <th>Flight Code</th>
-                    <th>Passengers</th>
+                    <th>ID Model</th>
+                    <th>ID Airline</th>
                     <th> </th>
                 </tr>
             </thead>
@@ -30,6 +28,7 @@
         </table>
     </div>
 
-    <script src="script.js"></script>
+    <script src= "../../Scripts/taskApi.js"></script>
+    <script src="../../Scripts/tableScript.js"></script>
 </body>
 </html>

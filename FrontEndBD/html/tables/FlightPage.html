@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela com Edição e Adição</title>
+    <link rel="stylesheet" href="../../styles/geralTableCSS.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Botão para adicionar novo registro -->
+        <button class="add-btn" data-table="flightTable">Adicionar Registro</button>
+
+        <!-- Tabela com registros -->
+        <table class="data-table" id="flightsTable" data-columns='["Id", "IdObservation", "IdAirplane", "FlightCode", "Passengers"]'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Observation</th>
+                    <th>ID Airplane</th>
+                    <th>Flight Code</th>
+                    <th>Passengers</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Auto Populated -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src= "../../Scripts/taskApi.js"></script>
+    <script src="../../Scripts/tableScript.js"></script>
+</body>
+</html>

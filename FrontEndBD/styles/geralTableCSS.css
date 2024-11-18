@@ -76,7 +76,7 @@ body {
 }
 
 /* Botões de Ação */
-.edit-btn, .update-btn {
+.edit-btn, .delete-btn {
     padding: 8px 16px;
     border: none;
     border-radius: 30px;
@@ -102,17 +102,17 @@ body {
     transform: scale(1);
 }
 
-.update-btn {
-    background-color: #ffc107;
+.delete-btn {
+    background-color: gray;
     color: #fff;
 }
 
-.update-btn:hover {
-    background-color: #e0a800;
+.delete-btn:hover {
+    background-color: gray;
     transform: scale(1.05);
 }
 
-.update-btn:active {
+.delete-btn:active {
     transform: scale(1);
 }
 

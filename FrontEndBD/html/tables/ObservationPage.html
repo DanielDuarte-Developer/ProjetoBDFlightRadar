@@ -4,31 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela com Edição e Adição</title>
-    <link rel="stylesheet" href="../styles/geralTableCSS.css">
+    <link rel="stylesheet" href="../../styles/geralTableCSS.css">
 </head>
 <body>
 
     <div class="container">
         <!-- Botão para adicionar novo registro -->
-        <button class="add-btn" data-table="airlineTable">Adicionar Registro</button>
+        <button class="add-btn" data-table="observationTable">Adicionar Registro</button>
 
         <!-- Tabela com registros -->
-        <table class="data-table" id="airlineTable" data-columns='["Id", "IdCountry", "AirlineName", "AirlineCode"]'>
+        <table class="data-table" id="observationTable" data-columns='["Id", "ObservationText"]'>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>ID Country</th>
-                    <th>Airline Name</th>
-                    <th>Airline Code</th>
+                    <th>Observation Text</th>
                     <th> </th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Auto Populated -->
+               <!-- Auto Populated -->
             </tbody>
         </table>
     </div>
-
-    <script src="../Scripts/tableScript.js"></script>
+    
+    <script src= "../../Scripts/taskApi.js"></script>
+    <script src="../../Scripts/tableScript.js"></script>
 </body>
 </html>

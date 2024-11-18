@@ -324,4 +324,44 @@ class TaskApi {
         return (await req).json();
     }
 
+    // ########################### Observation Methods ############################
+
+    /**
+    * 
+    * @returns {Promise<Observation[]>}
+    */
+    async findObservations() {
+        return (await fetch(`http://localhost:3000/observation`)).json();
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @returns {Promise<Observation>}
+     */
+    async getObservation(observationId) {
+        return (await fetch(`http://localhost:3000/observation/${observationId}`)).json()
+    }
+
+
+    async createObservation(value) {
+        const req = fetch(`http://localhost:3000/observation`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
+    async deleteObservation(observationId) {
+        fetch(`http://localhost:3000/observation/${observationId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+    }
 }

@@ -18,6 +18,8 @@ import { CountryController } from "./controller/country.controller";
 import { FlightController } from "./controller/flight.controller";
 import { ModelController } from "./controller/model.controller";
 import { AirportFlightController } from "./controller/airport.flight.controller";
+import { ObservationRepository } from "./repository/observation.repository";
+import { ObservationController } from "./controller/observation.controller";
 
 console.log("💾 Connecting to database");
 var db;
@@ -44,6 +46,7 @@ const countryRepository = new CountryRepository(dbService)
 const flightRepository = new FlightRepository(dbService)
 const modelRepository = new ModelRepository(dbService)
 const airportFlightRepository = new AirportFlightRepository(dbService)
+const observationRepository = new ObservationRepository(dbService)
 
 console.log("🚪 Initializing controllers")
 const airlineController = new AirlineController(airlineRepository)
@@ -54,6 +57,7 @@ const countryController = new CountryController(countryRepository)
 const flightController = new FlightController(flightRepository)
 const modelController = new ModelController(modelRepository)
 const airportFlightController = new AirportFlightController(airportFlightRepository) 
+const observationController = new ObservationController(observationRepository)
 
 console.log("🔨 Configuring express")
 const api: express.Express = express();
@@ -109,17 +113,24 @@ api.put("/flight", flightController.updateFlight())
 api.delete("/flight/:flightId", flightController.deleteFlight())
 
 // Model routes
-api.get("/airline", modelController.getModels())
-api.get("/airline/:airlineId", modelController.getModel())
-api.post("/airline", modelController.addModel())
-api.put("/airline", modelController.updateModel())
-api.delete("/airline/:airlineId", modelController.deleteModel())
+api.get("/model", modelController.getModels())
+api.get("/model/:modelId", modelController.getModel())
+api.post("/model", modelController.addModel())
+api.put("/model", modelController.updateModel())
+api.delete("/model/:modelId", modelController.deleteModel())
 
 // Airport Flight routes
 api.get("/airportFlight", airportFlightController.getAirportFlights())
 api.get("/airportFlight/:airportFlightId", airportFlightController.getAirportFlight())
 api.post("/airportFlight", airportFlightController.addAirportFlight())
 api.put("/airportFlight", airportFlightController.updateAirportFlight())
+
+// Observation routes
+api.get("/observation", observationController.getObservations())
+api.get("/observation/:observationId", observationController.getObservation())
+api.post("/observation", observationController.addObservation())
+api.put("/observation", observationController.updateObservation())
+api.delete("/observation/:observationId", observationController.deleteObservation())
 
 console.log("✈️ Starting express");
 api.listen(port, () => {
