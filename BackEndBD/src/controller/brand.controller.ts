@@ -1,12 +1,12 @@
 import { Handler, Request, Response } from "express";
-import { BrandRepository } from "../repository/brand.repository";
 import { Brand } from "../model/brand.model";
+import { BrandService } from "../services/brand.service";
 
 export class BrandController {
-    private brandRepository: BrandRepository;
+    private brandService: BrandService;
 
-    constructor(brandRepository: BrandRepository) {
-        this.brandRepository = brandRepository;
+    constructor(brandService: BrandService) {
+        this.brandService = brandService;
     }
    
     getBrands(): Handler {
@@ -14,7 +14,7 @@ export class BrandController {
             const filters: Brand = req.body
             try {
                 // Get the brands by the filters given
-                const brands = await this.brandRepository.ListBrands(
+                const brands = await this.brandService.ListAsync(
                     filters.Id,
                     filters.IdCountry,
                     filters.BrandName)
@@ -35,7 +35,7 @@ export class BrandController {
             const id_brand = req.body
             try {
                 // Get brand by id
-                const brand = this.brandRepository.GetAsync(id_brand)
+                const brand = this.brandService.GetByIdAsync(id_brand)
 
                 // If there is no error, returns a success response
                 res.status(200).json(brand)
@@ -53,7 +53,7 @@ export class BrandController {
             const object: Brand = req.body
             try {
                 // Adds a new brand
-                await this.brandRepository.AddAsync(object, 'daniel')
+                await this.brandService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -75,7 +75,7 @@ export class BrandController {
 
             try {
                 // Updates the brand
-                await this.brandRepository.UpdateAsync(object, 'daniel')
+                await this.brandService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -95,7 +95,7 @@ export class BrandController {
             const id_brand = req.body
             try {
                 // Deletes the brand
-                await this.brandRepository.DeleteAsync(id_brand, 'daniel')
+                await this.brandService.DeleteAsync(id_brand, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

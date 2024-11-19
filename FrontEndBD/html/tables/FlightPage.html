@@ -5,32 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela com Edição e Adição</title>
     <link rel="stylesheet" href="../../styles/geralTableCSS.css">
+    <link rel="stylesheet" href="../../styles/sideMenu_CSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.4/css/tabulator.min.css">
 </head>
 <body>
-
     <div class="container">
-        <!-- Botão para adicionar novo registro -->
-        <button class="add-btn" data-table="flightTable">Adicionar Registro</button>
-
-        <!-- Tabela com registros -->
-        <table class="data-table" id="flightsTable" data-columns='["Id", "IdObservation", "IdAirplane", "FlightCode", "Passengers"]'>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>ID Observation</th>
-                    <th>ID Airplane</th>
-                    <th>Flight Code</th>
-                    <th>Passengers</th>
-                    <th> </th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Auto Populated -->
-            </tbody>
-        </table>
+        <!--Side Bar-->
+        <nav class="sidebar" id="sidebar-hide">
+            <div class="menu-bar">
+                <h2>Menu</h2>
+                <button class="toggle-btn" id="toggleSidebar">☰</button>
+            </div>
+            <ul>
+                <li><a href="../map_page.html">Map</a></li>
+                <li><a href="AirlinePage.html">Airline Table</a></li>
+                <li><a href="AirplanePage.html">Airplane Table</a></li>
+                <li><a href="AirportPage.html">Airport Table</a></li>
+                <li><a href="BrandPage.html">Brand Table</a></li>
+                <li><a href="CountryPage.html">Country Table</a></li>
+                <li><a href="FlightPage.html">Flight Table</a></li>
+                <li><a href="ModelPage.html">Model Table</a></li>
+                <li><a href="ObservationPage.html">Observation Table</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <nav class="mini-sidebar" id="sidebar-show">
+                <button class="toggle-btn" id="showSidebar">☰</button>
+            </nav>
+            
+            <!-- Botão para adicionar novo registro -->
+            <button class="add-btn" data-table="flightTable">Add new flight</button>
+            <div class="table-container" id="table-container" data-table="flightTable" data-columns='["Id", "IdObservation", "IdAirplane", "FlightCode", "Passengers"]'>
+            </div>
+        </main>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.4/js/tabulator.min.js"></script>
     <script src= "../../Scripts/taskApi.js"></script>
     <script src="../../Scripts/tableScript.js"></script>
+    <script src="../../Scripts/sideMenu_script.js"></script>
 </body>
 </html>

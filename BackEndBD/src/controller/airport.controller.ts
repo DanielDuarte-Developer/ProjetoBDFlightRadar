@@ -1,12 +1,12 @@
 import { Handler, Request, Response } from "express";
-import { AirportRepository } from "../repository/airport.repository";
 import { Airport } from "../model/airport.model";
+import { AirportService } from "../services/airport.service";
 
 export class AirportController {
-    private airportRepository: AirportRepository;
+    private airportService: AirportService;
 
-    constructor(airportRepository: AirportRepository) {
-        this.airportRepository = airportRepository;
+    constructor(airportService: AirportService) {
+        this.airportService = airportService;
     }
 
     getAirports(): Handler {
@@ -14,7 +14,7 @@ export class AirportController {
             const filters: Airport = req.body
             try {
                 // Get the airports by the filters given
-                const airports = await this.airportRepository.ListAirports(
+                const airports = await this.airportService.ListAsync(
                     filters.Id,
                     filters.IdCountry,
                     filters.AirportName,
@@ -37,7 +37,7 @@ export class AirportController {
             const id_airport = req.body
             try {
                 // Get airport by id
-                const airport = await this.airportRepository.GetAsync(id_airport)
+                const airport = await this.airportService.GetByIdAsync(id_airport)
 
                 // If there is no error, returns a success response
                 res.status(200).json(airport)
@@ -55,7 +55,7 @@ export class AirportController {
             const object: Airport = req.body
             try {
                 // Adds a new airport
-                await this.airportRepository.AddAsync(object, 'daniel')
+                await this.airportService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -77,7 +77,7 @@ export class AirportController {
 
             try {
                 // Updates the airport
-                await this.airportRepository.UpdateAsync(object, 'daniel')
+                await this.airportService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -97,7 +97,7 @@ export class AirportController {
             const id_airport = req.body
             try {
                 // Deletes the airport
-                await this.airportRepository.DeleteAsync(id_airport, 'daniel')
+                await this.airportService.DeleteAsync(id_airport, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

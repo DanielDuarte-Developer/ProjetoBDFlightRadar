@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela com Edição e Adição</title>
+    <link rel="stylesheet" href="../styles/formCSS.css">
+    <link rel="stylesheet" href="../styles/sideMenu_CSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.4/css/tabulator.min.css">
+</head>
+<body>
+    <div class="container">
+        <!--Side Bar-->
+        <nav class="sidebar" id="sidebar-hide">
+            <div class="menu-bar">
+                <h2>Menu</h2>
+                <button class="toggle-btn" id="toggleSidebar">☰</button>
+            </div>
+            <ul>
+                <li><a href="../map_page.html">Map</a></li>
+                <li><a href="../html/tables/AirlinePage.html">Airline Table</a></li>
+                <li><a href="../html/tables/AirplanePage.html">Airplane Table</a></li>
+                <li><a href="../html/tables/AirportPage.html">Airport Table</a></li>
+                <li><a href="../html/tables/BrandPage.html">Brand Table</a></li>
+                <li><a href="../html/tables/CountryPage.html">Country Table</a></li>
+                <li><a href="../html/tables/FlightPage.html">Flight Table</a></li>
+                <li><a href="../html/tables/ModelPage.html">Model Table</a></li>
+                <li><a href="../html/tables/ObservationPage.html">Observation Table</a></li>
+            </ul>
+        </nav>
+          <main class="content">
+            <nav class="mini-sidebar" id="sidebar-show">
+                <button class="toggle-btn" id="showSidebar">☰</button>
+            </nav>
+            <div id="form-container"></div>
+            <button id="submit-button">Submit</button>
+          </main>
+    </div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.4/js/tabulator.min.js"></script>
+    <script src="../Scripts/formScript.js"></script>
+    <script src="../Scripts/sideMenu_script.js"></script>
+    
+</body>
+</html>

@@ -1,12 +1,12 @@
 import { Handler, Request, Response } from "express";
-import { FlightRepository } from "../repository/flight.repository";
 import { Flight } from "../model/flight.model";
+import { FlightService } from "../services/flight.service";
 
 export class FlightController {
-    private flightRepository: FlightRepository;
+    private flightService: FlightService;
 
-    constructor(flightRepository: FlightRepository) {
-        this.flightRepository = flightRepository;
+    constructor(flightService: FlightService) {
+        this.flightService = flightService;
     }
     
     getFlights(): Handler {
@@ -14,7 +14,7 @@ export class FlightController {
             const filters: Flight = req.body
             try {
                 // Get the flights by the filters given
-                const flights = await this.flightRepository.ListFlights(
+                const flights = await this.flightService.ListAsync(
                     filters.Id,
                     filters.IdObservation,
                     filters.IdAirplane,
@@ -37,7 +37,7 @@ export class FlightController {
             const id_flight = req.body
             try {
                 // Get flight by id
-                const flight = await this.flightRepository.GetAsync(id_flight)
+                const flight = await this.flightService.GetByIdAsync(id_flight)
 
                 // If there is no error, returns a success response
                 res.status(200).json(flight)
@@ -55,7 +55,7 @@ export class FlightController {
             const object: Flight = req.body
             try {
                 // Adds a new flight
-                await this.flightRepository.AddAsync(object, 'daniel')
+                await this.flightService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -77,7 +77,7 @@ export class FlightController {
 
             try {
                 // Updates the flight
-                await this.flightRepository.UpdateAsync(object, 'daniel')
+                await this.flightService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -97,7 +97,7 @@ export class FlightController {
             const id_flight = req.body
             try {
                 // Deletes the flight
-                await this.flightRepository.DeleteAsync(id_flight, 'daniel')
+                await this.flightService.DeleteAsync(id_flight, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

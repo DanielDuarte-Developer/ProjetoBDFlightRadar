@@ -1,12 +1,12 @@
 import { Handler, Request, Response } from "express";
-import { ModelRepository } from "../repository/model.repository";
 import { Model } from "../model/model.model";
+import { ModelService } from "../services/model.service";
 
 export class ModelController {
-    private modelRepository: ModelRepository;
+    private modelService: ModelService;
 
-    constructor(modelRepository: ModelRepository) {
-        this.modelRepository = modelRepository;
+    constructor(modelService: ModelService) {
+        this.modelService = modelService;
     }
 
     getModels(): Handler {
@@ -14,7 +14,7 @@ export class ModelController {
             const filters: Model = req.body
             try {
                 // Get the models by the filters given
-                const models = await this.modelRepository.ListModels(
+                const models = await this.modelService.ListAsync(
                     filters.Id,
                     filters.IdBrand,
                     filters.SitsNumber,
@@ -41,7 +41,7 @@ export class ModelController {
             const id_model = req.body
             try {
                 // Get model by id
-                const model = await this.modelRepository.GetAsync(id_model)
+                const model = await this.modelService.GetByIdAsync(id_model)
 
                 // If there is no error, returns a success response
                 res.status(200).json(model)
@@ -59,7 +59,7 @@ export class ModelController {
             const object: Model = req.body
             try {
                 // Adds a new model
-                await this.modelRepository.AddAsync(object, 'daniel')
+                await this.modelService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -81,7 +81,7 @@ export class ModelController {
 
             try {
                 // Updates the model
-                await this.modelRepository.UpdateAsync(object, 'daniel')
+                await this.modelService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -101,7 +101,7 @@ export class ModelController {
             const id_model = req.body
             try {
                 // Deletes the model
-                await this.modelRepository.DeleteAsync(id_model, 'daniel')
+                await this.modelService.DeleteAsync(id_model, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

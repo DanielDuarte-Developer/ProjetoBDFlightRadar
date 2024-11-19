@@ -14,15 +14,15 @@ export class AirlineRepository extends BaseSqlRepository<Airline> implements IAr
     async ListArlines(
         idAirline: string = '', 
         idCountry: string = '', 
-        arlineName: string = '',
-        arlineCode: string = '',
+        airlineName: string = '',
+        airlineCode: string = '',
         sortField: string = 'id_airline',
         sortAscending: boolean = false): Promise<Airline[]> {
         const filters = {
             p_Id :idAirline || null,
             p_IdCountry : idCountry || null,
-            p_arlineName : arlineName || null,
-            p_arlineCode : arlineCode || null,
+            p_arlineName : airlineName || null,
+            p_arlineCode : airlineCode || null,
             p_sortField : sortField || null,
             p_sortAscending: sortAscending
         } 

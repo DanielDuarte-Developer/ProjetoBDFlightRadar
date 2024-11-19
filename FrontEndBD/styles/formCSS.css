@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f7f9fc;
+}
+
+#form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    margin-left: 270px;
+    margin-top: 20px;
+    background: #fff; /* Adiciona cor de fundo para separar visualmente do restante */
+    padding: 20px; /* Adiciona espaçamento interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cria uma sombra leve para destaque */
+    border-radius: 8px; /* Bordas arredondadas */
+    max-width: 1200px; /* Limita o tamanho máximo para evitar telas muito grandes */
+    transition: margin-left 0.2s ease-in-out;
+}
+
+#form-container.active {
+    margin-left: 70px;
+    transition: margin-left 0.2s ease-in-out;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    outline: none;
+}
+
+select {
+    -webkit-appearance: none; /* Remove default styling in Webkit browsers */
+    -moz-appearance: none; /* Remove default styling in Firefox */
+    appearance: none; /* Remove default styling */
+    cursor: pointer; /* Make the select box appear interactive */
+}
+
+select:focus {
+    border-color: #4CAF50; /* Add focus color to match submit button */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Focus effect */
+}
+
+option {
+    padding: 10px; /* Ensures the text inside options has enough space */
+}
+
+#submit-button {
+    align-self: flex-end; /* Alinha o botão à direita dentro do contêiner flex */
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: margin-left 0.2s ease-in-out;
+    margin-left: 85.5%;
+}
+#submit-button.active {
+    margin-left: 73.5%;
+    transition: margin-left 0.2s ease-in-out;
+}
+
+
+#submit-button:hover {
+    background-color: #45a049;
+}

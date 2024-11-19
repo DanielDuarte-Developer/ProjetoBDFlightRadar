@@ -6,9 +6,9 @@
     <title>Mapa Interativo</title>
     <!-- Link para o CSS do Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles/map_CSS.css">
-    <link rel="stylesheet" href="styles/window_airplane_CSS.css">
-    <link rel="stylesheet" href="styles/sideMenu_CSS.css">
+    <link rel="stylesheet" href="../styles/map_CSS.css">
+    <link rel="stylesheet" href="../styles/window_airplane_CSS.css">
+    <link rel="stylesheet" href="../styles/sideMenu_CSS.css">
     <title>Document</title>
 </head>
 <body>
@@ -20,11 +20,15 @@
                 <button class="toggle-btn" id="toggleSidebar">☰</button>
             </div>
             <ul>
-                <li><a href="pagina1.html">Página 1</a></li>
-                <li><a href="pagina2.html">Página 2</a></li>
-                <li><a href="pagina3.html">Página 3</a></li>
-                <li><a href="pagina4.html">Página 4</a></li>
-                <li><a href="pagina5.html">Página 5</a></li>
+                <li><a href="../map_page.html">Map</a></li>
+                <li><a href="../html/tables/AirlinePage.html">Airline Table</a></li>
+                <li><a href="../html/tables/AirplanePage.html">Airplane Table</a></li>
+                <li><a href="../html/tables/AirportPage.html">Airport Table</a></li>
+                <li><a href="../html/tables/BrandPage.html">Brand Table</a></li>
+                <li><a href="../html/tables/CountryPage.html">Country Table</a></li>
+                <li><a href="../html/tables/FlightPage.html">Flight Table</a></li>
+                <li><a href="../html/tables/ModelPage.html">Model Table</a></li>
+                <li><a href="../html/tables/ObservationPage.html">Observation Table</a></li>
             </ul>
         </nav>
 
@@ -47,7 +51,7 @@
                         <span class="flight-code">TP863</span>
                     </div>
                     <div class="image-container">
-                        <img src="images/boing.jpg" alt="Avião" class="plane-image" />
+                        <img src="../images/boing.jpg" alt="Avião" class="plane-image" />
                     </div>
                     <div class="flight-info">
                         <div class="row">
@@ -57,7 +61,7 @@
                                 <p class="time">9:25 PM</p>
                             </div>
                             <div class="column">
-                                <img src="images/right-arrow.png" alt="Arrow" class="arrow" />
+                                <img src="../images/right-arrow.png" alt="Arrow" class="arrow" />
                             </div>
                             <div class="column">
                                 <h3>Chegada</h3>
@@ -85,9 +89,9 @@
         
             <!-- Fundo escurecido -->
             <div class="overlay" id="overlay"></div>
-            <script src="Scripts/sideMenu_script.js"></script>
-            <script src="Scripts/map_script.js"></script>
-            <script src="Scripts/plane_script.js"></script>
+            <script src="../Scripts/sideMenu_script.js"></script>
+            <script src="../Scripts/map_script.js"></script>
+            <script src="../Scripts/plane_script.js"></script>
         </main>
         
     </div>

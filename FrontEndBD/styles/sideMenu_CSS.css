@@ -1,14 +1,9 @@
 /* Estilos gerais */
-* {
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body, html {
     height: 100%;
-    overflow-x: hidden;
+    width: 100%;
 }
 
 /* Container principal que contém o menu e o conteúdo */
@@ -164,13 +159,12 @@ body, html {
 
 /* Conteúdo principal */
 .content {
-    margin-left: 250px;
     flex: 1;
     transition: margin-left 0.3s ease;
 }
 
 .sidebar.hidden + .content {
-    margin-left: 0;
+    margin-left: 0px;
 }
 
 .sidebar.hidden ~ .content .show-menu-btn {

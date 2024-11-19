@@ -20,6 +20,12 @@ import { ModelController } from "./controller/model.controller";
 import { AirportFlightController } from "./controller/airport.flight.controller";
 import { ObservationRepository } from "./repository/observation.repository";
 import { ObservationController } from "./controller/observation.controller";
+import { AirlineService } from "./services/airline.service";
+import { AirplaneService } from "./services/airplane.service";
+import { AirportService } from "./services/airport.service";
+import { BrandService } from "./services/brand.service";
+import { FlightService } from "./services/flight.service";
+import { ModelService } from "./services/model.service";
 
 console.log("💾 Connecting to database");
 var db;
@@ -48,14 +54,23 @@ const modelRepository = new ModelRepository(dbService)
 const airportFlightRepository = new AirportFlightRepository(dbService)
 const observationRepository = new ObservationRepository(dbService)
 
+
+console.log("🌐 Initializing Services ")
+const airlineService = new AirlineService(airlineRepository,countryRepository);
+const airplaneService = new AirplaneService(airplaneRepository, modelRepository,airlineRepository)
+const airportService = new AirportService(airportRepository,countryRepository)
+const brandService = new BrandService(brandRepository,countryRepository)
+const flightService = new FlightService(flightRepository, observationRepository, airplaneRepository)
+const modelService = new ModelService(modelRepository, brandRepository)
+
 console.log("🚪 Initializing controllers")
-const airlineController = new AirlineController(airlineRepository)
-const airplaneController = new AirplaneController(airplaneRepository)
-const airportController = new AirportController(airportRepository)
-const brandController = new BrandController(brandRepository)
+const airlineController = new AirlineController(airlineService)
+const airplaneController = new AirplaneController(airplaneService)
+const airportController = new AirportController(airportService)
+const brandController = new BrandController(brandService)
 const countryController = new CountryController(countryRepository)
-const flightController = new FlightController(flightRepository)
-const modelController = new ModelController(modelRepository)
+const flightController = new FlightController(flightService)
+const modelController = new ModelController(modelService)
 const airportFlightController = new AirportFlightController(airportFlightRepository) 
 const observationController = new ObservationController(observationRepository)
 

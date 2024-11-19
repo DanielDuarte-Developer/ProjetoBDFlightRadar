@@ -1,38 +1,22 @@
 let taskApi = new TaskApi()
-const tableId = document.querySelector('.data-table').id;
+const tableContainer = document.getElementById('table-container');
+const tableId = tableContainer.dataset.table;
+const columns = JSON.parse(tableContainer.dataset.columns);
 document.addEventListener("DOMContentLoaded", () => {
     // Get the data by the correspondent tableId
     //let data = getDataByTableId(tableId);
     data = [
-        { "Id": 1, "IdCountry": 101, "AirlineName": "Airline A", "AirlineCode": "AA" },
-        { "Id": 2, "IdCountry": 102, "AirlineName": "Airline B", "AirlineCode": "BB" }
-    ]
-    // Fill the table with the correspondent data 
-    populateTable(tableId, data);
+        { Id: 1, CountryObj:{Id : 112, CountryName: "Africa"}, AirlineName: "Airline A", AirlineCode: "AA" },
+        { Id: 2, CountryObj: {Id : 109, CountryName: "Lisboa"}, AirlineName: "Airline B", AirlineCode: "BB" }
+    ];
+    constructForm(data,columns)
 
     // Adicionar eventos de clique nos botões "Adicionar Registro"
     const addButtons = document.querySelectorAll('.add-btn');
     addButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
-            const tableId = btn.getAttribute('data-table');
-            addNewRecord(tableId);
+            navigateToEditOrAddPage(columns, "", 'Add')
         });
-    });
-
-    // Eventos de edição e atualização
-    document.addEventListener('click', (event) => {
-        if (event.target.classList.contains('edit-btn')) {
-            const row = event.target.closest('tr');
-            const cells = row.querySelectorAll('td:not(:last-child)');
-            cells.forEach(cell => cell.contentEditable = true);
-        }
-
-        if (event.target.classList.contains('update-btn')) {
-            const row = event.target.closest('tr');
-            const cells = row.querySelectorAll('td:not(:last-child)');
-            cells.forEach(cell => cell.contentEditable = false);
-            alert('Dados atualizados!'); // Aqui, você pode salvar os dados no banco ou API
-        }
     });
 });
 
@@ -42,28 +26,28 @@ function getDataByTableId(tableId){
 
     switch (tableId) {
         case 'airlineTable':
-            data = taskApi.findAirlines();
+            data.push(taskApi.findAirlines());
             break;
         case 'airplaneTable':
-            data = taskApi.findAirplanes();
+            data.push(taskApi.findAirplanes());
             break;
         case 'airportTable':
-            data = taskApi.findAirports();
+            data.push(taskApi.findAirports());
             break;
         case 'brandTable':
-            data = taskApi.findBrands();
+            data.push(taskApi.findBrands());
             break;
         case 'countryTable':
-            data = taskApi.findCountries();
+            data.push(taskApi.findCountries());
             break;
         case 'flightsTable':
-            data = taskApi.findFlights();
+            data.push(taskApi.findFlights());
             break;
         case 'modelTable':
-            data = taskApi.findModels();
+            data.push(taskApi.findModels());
             break;
         case 'observationTable':
-            data = taskApi.findObservations();
+            data.push(taskApi.findObservations());
             break;
         default:
             console.error('Unknown table ID');
@@ -72,84 +56,48 @@ function getDataByTableId(tableId){
     return data;
 }
 
+function constructForm(data,columns){
+    // Transform columns for Tabulator
+    const transformedColumns = columns.map(column => {
+        // Create a path function for nested properties (e.g., CountryObj.CountryName)
+        const fieldParts = column.split('.'); // Split into an array (['CountryObj', 'CountryName'])
 
-// Função para preencher dinamicamente a tabela
-function populateTable(tableId, data) {
-    const table = document.getElementById(tableId);
-    const columns = JSON.parse(table.getAttribute('data-columns'));
-    const tbody = table.querySelector('tbody');
-    tbody.innerHTML = '';
-
-    data.forEach((tableData, index) => {
-        const tr = document.createElement('tr');
-        
-        // Preencher células com dados de acordo com as colunas
-        columns.forEach((col) => {
-            const td = document.createElement('td');
-            td.textContent = tableData[col] || '—'; // Dados em minúsculas correspondem às chaves do objeto
-            tr.appendChild(td);
-        });
-        
-        // Adicionar botões de ações
-        const actionsTd = document.createElement('td');
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
-        editButton.className = 'edit-btn';
-        editButton.setAttribute('data-index', index);
-        editButton.addEventListener('click', (event) => {
-            // Pass row data, tableId, and data-columns to the edit page via query params
-            navigateToEditPage(tableId, columns, tableData);
-        });
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'delete-btn';
-        deleteButton.setAttribute('data-index', index);
-
-        actionsTd.appendChild(editButton);
-        actionsTd.appendChild(deleteButton);
-        tr.appendChild(actionsTd);
-
-        tbody.appendChild(tr);
+        return {
+            title: fieldParts[1] || fieldParts[0],
+            field: column
+        };
+    });
+    // Add the "Actions" column
+    transformedColumns.push({
+        title: "Actions",
+        formatter: (cell, formatterParams) => {
+            return `
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            `;
+        },
+        width: 220,
+        cellClick: (e, cell) => {
+            const rowData = cell.getRow().getData(); // Get the row data
+            if (e.target.classList.contains("edit-btn")) {
+                navigateToEditOrAddPage(columns, rowData, 'Edit')
+            } else if (e.target.classList.contains("delete-btn")) {
+                // Handle delete logic
+            }
+        },
+    });
+    const table = new Tabulator("#table-container", {
+        data: data,
+        layout: "fitColumns",
+        columns: transformedColumns,
     });
 }
 
-function navigateToEditPage(tableId, columns, rowData) {
-    // Convert the columns array and rowData to query strings
-    const columnsStr = encodeURIComponent(JSON.stringify(columns));
-    const rowDataStr = encodeURIComponent(JSON.stringify(rowData));
+
+function navigateToEditOrAddPage(columns, rowData, type) {
+    sessionStorage.setItem('columns',JSON.stringify(columns))
+    sessionStorage.setItem('rowData',JSON.stringify(rowData))
 
     // Navigate to the edit page, passing tableId, columns, and row data as query params
-    window.location.href = `../editTable.html?tableId=${tableId}&columns=${columnsStr}&rowData=${rowDataStr}`;
-}
-
- // Função para lidar com novos registros
- function addNewRecord(tableId) {
-    const table = document.getElementById(tableId);
-    const columns = JSON.parse(table.getAttribute('data-columns'));
-    const tbody = table.querySelector('tbody');
-    const newRow = document.createElement('tr');
-
-    // Preencher nova linha com células vazias ou valores padrão
-    columns.forEach((col) => {
-        const td = document.createElement('td');
-        td.textContent = `Novo ${col}`;
-        newRow.appendChild(td);
-    });
-
-    // Adicionar ações na nova linha
-    const actionsTd = document.createElement('td');
-    const editButton = document.createElement('button');
-    editButton.textContent = 'Editar';
-    editButton.className = 'edit-btn';
-
-    const updateButton = document.createElement('button');
-    updateButton.textContent = 'Atualizar';
-    updateButton.className = 'update-btn';
-
-    actionsTd.appendChild(editButton);
-    actionsTd.appendChild(updateButton);
-    newRow.appendChild(actionsTd);
-
-    tbody.appendChild(newRow);
+    window.location.href = `../EditOrAddTable.html?type=${type}`;
 }

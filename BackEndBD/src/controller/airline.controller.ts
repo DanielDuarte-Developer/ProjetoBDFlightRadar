@@ -1,12 +1,12 @@
 import { Handler, Request, Response } from "express";
-import { AirlineRepository } from "../repository/airline.repository";
 import { Airline } from "../model/airline.model";
+import { AirlineService } from "../services/airline.service";
 
 export class AirlineController {
-    private airlineRepository: AirlineRepository;
+    private airlineService: AirlineService;
 
-    constructor(airlineRepository: AirlineRepository) {
-        this.airlineRepository = airlineRepository;
+    constructor(airlineService: AirlineService) {
+        this.airlineService = airlineService;
     }
 
     getAirlines(): Handler {
@@ -14,7 +14,7 @@ export class AirlineController {
             const filters: Airline = req.body
             try {
                 // Get the airlines by the filters given
-                const airlines = await this.airlineRepository.ListArlines(
+                const airlines = await this.airlineService.ListAsync(
                     filters.Id,
                     filters.IdCountry,
                     filters.AirlineName,
@@ -36,7 +36,7 @@ export class AirlineController {
             const id_airline = req.body
             try {
                 // Get airline by id
-                const airline = await this.airlineRepository.GetAsync(id_airline)
+                const airline = await this.airlineService.GetByIdAsync(id_airline)
 
                 // If there is no error, returns a success response
                 res.status(200).json(airline)
@@ -54,7 +54,7 @@ export class AirlineController {
             const object: Airline = req.body
             try {
                 // Adds a new airline
-                await this.airlineRepository.AddAsync(object, 'daniel')
+                await this.airlineService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -76,7 +76,7 @@ export class AirlineController {
 
             try {
                 // Updates the Airline
-                await this.airlineRepository.UpdateAsync(object, 'daniel')
+                await this.airlineService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -96,7 +96,7 @@ export class AirlineController {
             const id_airline = req.body
             try {
                 // Deletes the airline
-                await this.airlineRepository.DeleteAsync(id_airline, 'daniel')
+                await this.airlineService.DeleteAsync(id_airline, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
