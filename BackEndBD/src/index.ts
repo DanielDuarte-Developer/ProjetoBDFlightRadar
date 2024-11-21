@@ -28,6 +28,9 @@ import { AirportService } from "./services/airport.service";
 import { BrandService } from "./services/brand.service";
 import { FlightService } from "./services/flight.service";
 import { ModelService } from "./services/model.service";
+import { AirportFlightService } from "./services/airport.flight.service";
+import { CountryService } from "./services/country.service";
+import { ObservationService } from "./services/observation.service";
 
 console.log("💾 Connecting to database");
 (async () => {
@@ -56,17 +59,20 @@ console.log("💾 Connecting to database");
         const brandService = new BrandService(brandRepository, countryRepository)
         const flightService = new FlightService(flightRepository, observationRepository, airplaneRepository,modelRepository,brandRepository,countryRepository,airlineRepository)
         const modelService = new ModelService(modelRepository, brandRepository,countryRepository)
-
+        const airportFlightService = new AirportFlightService(airportFlightRepository,airportRepository,flightRepository,countryRepository,observationRepository,airplaneRepository,modelRepository,brandRepository,airlineRepository)
+        const countryService = new CountryService(countryRepository)
+        const observationService = new ObservationService(observationRepository)
+        
         console.log("🚪 Initializing controllers")
         const airlineController = new AirlineController(airlineService)
         const airplaneController = new AirplaneController(airplaneService)
         const airportController = new AirportController(airportService)
         const brandController = new BrandController(brandService)
-        const countryController = new CountryController(countryRepository)
+        const countryController = new CountryController(countryService)
         const flightController = new FlightController(flightService)
         const modelController = new ModelController(modelService)
-        const airportFlightController = new AirportFlightController(airportFlightRepository)
-        const observationController = new ObservationController(observationRepository)
+        const airportFlightController = new AirportFlightController(airportFlightService)
+        const observationController = new ObservationController(observationService)
 
         console.log("🔨 Configuring express")
         const api: express.Express = express();

@@ -52,7 +52,7 @@ export class AirplaneService implements IAirplaneService{
             Id : airplane[0].Id,
             ModelObj : { 
                 Id: model[0].Id,
-                BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand.BrandName},
+                BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand[0].BrandName},
                 SitsNumber: model[0].SitsNumber,
                 Tare: model[0].Tare,
                 GrossWeight: model[0].GrossWeight,
@@ -89,7 +89,7 @@ export class AirplaneService implements IAirplaneService{
                     Id: airplane.Id,
                     ModelObj : { 
                         Id: model[0].Id,
-                        BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand.BrandName},
+                        BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand[0].BrandName},
                         SitsNumber: model[0].SitsNumber,
                         Tare: model[0].Tare,
                         GrossWeight: model[0].GrossWeight,

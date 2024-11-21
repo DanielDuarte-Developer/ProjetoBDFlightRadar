@@ -11,8 +11,12 @@ class TaskApi {
     * 
     * @returns {Promise<Airline[]>}
     */
-    async findAirlines() {
-        return (await fetch(`http://localhost:3000/airline`)).json();
+    async findAirlines(filters={}) {
+        // Monta a query string a partir dos filtros
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/airline?${queryParams}`, {
+            method: 'GET',
+        })).json();
     }
 
     /**
@@ -52,8 +56,9 @@ class TaskApi {
     * 
     * @returns {Promise<Airplane[]>}
     */
-    async findAirplanes() {
-        return (await fetch(`http://localhost:3000/airplane`)).json();
+    async findAirplanes(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/airplane?${queryParams}`)).json();
     }
 
     /**
@@ -93,8 +98,9 @@ class TaskApi {
     * 
     * @returns {Promise<Airport[]>}
     */
-    async findAirports() {
-        return (await fetch(`http://localhost:3000/airport`)).json();
+    async findAirports(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/airport?${queryParams}`)).json();
     }
 
     /**
@@ -134,8 +140,9 @@ class TaskApi {
     * 
     * @returns {Promise<Brand[]>}
     */
-    async findBrands() {
-        return (await fetch(`http://localhost:3000/brand`)).json();
+    async findBrands(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/brand?${queryParams}`)).json();
     }
 
     /**
@@ -175,8 +182,9 @@ class TaskApi {
     * 
     * @returns {Promise<Country[]>}
     */
-    async findCountries() {
-        return (await fetch(`http://localhost:3000/country`)).json();
+    async findCountries(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/country?${queryParams}`)).json();
     }
 
     /**
@@ -216,8 +224,9 @@ class TaskApi {
     * 
     * @returns {Promise<Flight[]>}
     */
-    async findFlights() {
-        return (await fetch(`http://localhost:3000/flight`)).json();
+    async findFlights(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/flight?${queryParams}`)).json();
     }
 
     /**
@@ -257,8 +266,9 @@ class TaskApi {
     * 
     * @returns {Promise<Model[]>}
     */
-    async findModels() {
-        return (await fetch(`http://localhost:3000/model`)).json();
+    async findModels(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/model?${queryParams}`)).json();
     }
 
     /**
@@ -298,8 +308,9 @@ class TaskApi {
     * 
     * @returns {Promise<AirportFlight[]>}
     */
-    async findAirportFlights() {
-        return (await fetch(`http://localhost:3000/airportFlight`)).json();
+    async findAirportFlights(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/airportFlight?${queryParams}`)).json();
     }
 
     /**
@@ -330,8 +341,9 @@ class TaskApi {
     * 
     * @returns {Promise<Observation[]>}
     */
-    async findObservations() {
-        return (await fetch(`http://localhost:3000/observation`)).json();
+    async findObservations(filters={}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        return (await fetch(`http://localhost:3000/observation?${queryParams}`)).json();
     }
 
     /**

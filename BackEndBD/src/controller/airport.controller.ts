@@ -11,7 +11,13 @@ export class AirportController {
 
     getAirports(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Airport = req.body
+            const filters = {
+                Id: req.query.Id as string,
+                IdCountry: req.query.IdCountry as string,
+                AirportName: req.query.AirportName as string,
+                AirportCode: req.query.AirportCode as string,
+                LocationName: req.query.LocationName as string
+            }
             try {
                 // Get the airports by the filters given
                 const airports = await this.airportService.ListAsync(
@@ -34,7 +40,7 @@ export class AirportController {
 
     getAirport(): Handler {
         return async (req: Request, res: Response) => {
-            const id_airport = req.body
+            const id_airport = req.params.airportId as string
             try {
                 // Get airport by id
                 const airport = await this.airportService.GetByIdAsync(id_airport)

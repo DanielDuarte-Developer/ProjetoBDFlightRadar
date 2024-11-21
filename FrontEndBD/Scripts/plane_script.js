@@ -1,17 +1,16 @@
 // Function to move the plane
-function moveAndCreatePlane(departureLat, departureLng, destinyLat, destinyLng, map) {
+function moveAndCreatePlane(departureLat, departureLng, destinyLat, destinyLng, map, id) {
     const departureCoordinations = L.latLng(departureLat, departureLng);
     const destinyCoordinations = L.latLng(destinyLat, destinyLng);
-
     // Create an custom icon
     const customIcon = L.icon({
-        iconUrl: 'images/airplane.png', // URL img to the icon
+        iconUrl: '../images/airplane.png', // URL img to the icon
         iconSize: [24, 24], // Icone size
         iconAnchor: [10, 14.5], // Icon anchor point (bottom center) change for the respective icon
     });
 
     // Create a marker with the custom icon (starting position)
-    const planeMarker = L.marker([departure[0], departure[1]], { icon: customIcon }).addTo(map);
+    const planeMarker = L.marker([departureLat, departureLng], { icon: customIcon }).addTo(map);
     // Get the Curved point to draw an line based on the curvature of the earth
     const curvedPoints = getCurvedPoints(departureCoordinations, destinyCoordinations, 100);
     // Draw an line to departaur to destiny
@@ -22,23 +21,23 @@ function moveAndCreatePlane(departureLat, departureLng, destinyLat, destinyLng, 
 
     // When clicked on the "plane" will show the modal with all information
     planeMarker.on('click', function () {
-        document.getElementById('modal').style.display = 'block'; // Show modal
-        document.getElementById('overlay').style.display = 'block'; // Show darkened background
+        document.getElementById('modal-' + id).style.display = 'block'; // Show modal
+        document.getElementById('overlay-' + id).style.display = 'block'; // Show darkened background
         map.addLayer(polyline);
     })
 
     // Close modal window
-    document.getElementById('closeBtn').onclick = function () {
-        document.getElementById('modal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
+    document.getElementById('closeBtn-' + id).onclick = function () {
+        document.getElementById('modal-' + id).style.display = 'none';
+        document.getElementById('overlay-' + id ).style.display = 'none';
         map.removeLayer(polyline);
     };
 
 
     // Close modal window when clicking outside it
-    document.getElementById('overlay').onclick = function () {
-        document.getElementById('modal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
+    document.getElementById('overlay-' + id).onclick = function () {
+        document.getElementById('modal-' + id).style.display = 'none';
+        document.getElementById('overlay-' + id).style.display = 'none';
         map.removeLayer(polyline);
     };
 

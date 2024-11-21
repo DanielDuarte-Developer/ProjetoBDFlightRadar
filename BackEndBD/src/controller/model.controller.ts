@@ -11,7 +11,17 @@ export class ModelController {
 
     getModels(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Model = req.body
+            const filters = {
+                Id: req.query.Id as string,
+                IdBrand: req.query.IdBrand as string,
+                SitsNumber: req.query.SitsNumber as string,
+                Tare: req.query.Tare as string,
+                GrossWeight: req.query.GrossWeight as string,
+                Payload: req.query.Payload as string,
+                FlightCrewNumber: req.query.FlightCrewNumber as string,
+                FuelQuantity: req.query.FuelQuantity as string,
+                ModelYear: req.query.ModelYear as string
+            }
             try {
                 // Get the models by the filters given
                 const models = await this.modelService.ListAsync(
@@ -20,10 +30,10 @@ export class ModelController {
                     filters.SitsNumber,
                     filters.Tare,
                     filters.GrossWeight,
-                    filters.Payload,
-                    filters.FlightCrewMembers,
-                    filters.FuelQuantity,
-                    filters.ModelYear)
+                    parseInt(filters.Payload),
+                    parseInt(filters.FlightCrewNumber),
+                    parseInt(filters.FuelQuantity),
+                    parseInt(filters.ModelYear))
 
                 // If there is no error, returns a success response
                 res.status(200).json(models)
@@ -38,7 +48,7 @@ export class ModelController {
 
     getModel(): Handler {
         return async (req: Request, res: Response) => {
-            const id_model = req.body
+            const id_model = req.params.modelId as string
             try {
                 // Get model by id
                 const model = await this.modelService.GetByIdAsync(id_model)

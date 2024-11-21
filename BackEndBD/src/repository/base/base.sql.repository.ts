@@ -78,7 +78,7 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
             const params = await this.dbService.constructParams(procedureParams)
             
             params['p_Id'] = id
-            console.log(params)
+            
             const result = await this.dbService.callProcedure(this.getDataProcedure, params)
 
             if (!result || result.length === 0) {

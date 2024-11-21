@@ -29,7 +29,6 @@ export class AirlineRepository extends BaseSqlRepository<Airline> implements IAr
             p_sortField : sortField || null,
             p_sortAscending: sortAscending ? 'ASC': 'DESC',
         });
-        console.log(filters)
         
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<Airline[]>('spGetAirlines', filters);

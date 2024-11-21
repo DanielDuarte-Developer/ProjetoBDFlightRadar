@@ -1,20 +1,25 @@
 import { Handler, Request, Response } from "express";
 import { AirportFlightRepository } from "../repository/airport.flight.repository";
 import { AirportFlight } from "../model/airportflight.model";
+import { AirportFlightService } from "../services/airport.flight.service";
 
 export class AirportFlightController {
-    private airportFlightRepository: AirportFlightRepository;
+    private airportFlightService: AirportFlightService;
 
-    constructor(airportFlightRepository: AirportFlightRepository) {
-        this.airportFlightRepository = airportFlightRepository;
+    constructor(airportFlightRepository: AirportFlightService) {
+        this.airportFlightService = airportFlightRepository;
     }
 
     getAirportFlights(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: AirportFlight = req.body
+            const filters = {
+                Id : req.query.Id as string,
+                IdFlight: req.query.IdFlight as string,
+                TimeMarker: req.query.TimeMarker as string
+            }
             try {
                 // Get the airportFlights by the filters given
-                const airportFlights = await this.airportFlightRepository.ListAirportFlights(
+                const airportFlights = await this.airportFlightService.ListAsync(
                     filters.Id,
                     filters.IdFlight,
                     filters.TimeMarker)
@@ -32,13 +37,13 @@ export class AirportFlightController {
 
     getAirportFlight(): Handler {
         return async (req: Request, res: Response) => {
-            const id_airportFlights = req.body
+            const id_airportFlights = req.params.airportFlightId as string
             try {
                 // Get airportFlight by id
-                const airportFlights = await this.airportFlightRepository.GetAsync(id_airportFlights)
+                const airportFlight = await this.airportFlightService.GetByIdAsync(id_airportFlights)
 
                 // If there is no error, returns a success response
-                res.status(200).json(airportFlights)
+                res.status(200).json(airportFlight)
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -53,7 +58,7 @@ export class AirportFlightController {
             const object: AirportFlight = req.body
             try {
                 // Adds a new airportFlight
-                await this.airportFlightRepository.AddAsync(object, 'daniel')
+                await this.airportFlightService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -75,7 +80,7 @@ export class AirportFlightController {
 
             try {
                 // Updates the airportFlights
-                await this.airportFlightRepository.UpdateAsync(object, 'daniel')
+                await this.airportFlightService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

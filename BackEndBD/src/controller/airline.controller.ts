@@ -11,7 +11,13 @@ export class AirlineController {
 
     getAirlines(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Airline = req.body
+            const filters = {
+                Id: req.query.Id as string,
+                IdCountry: req.query.IdCountry as string,
+                AirlineName: req.query.AirlineName as string,
+                AirlineCode: req.query.AirlineCode as string
+            }
+            
             try {
                 // Get the airlines by the filters given
                 const airlines = await this.airlineService.ListAsync(
@@ -32,10 +38,10 @@ export class AirlineController {
 
     getAirline(): Handler {
         return async (req: Request, res: Response) => {
-            const id_airline = req.body
+            const IdAirline = req.params.airlineId as string
             try {
                 // Get airline by id
-                const airline = await this.airlineService.GetByIdAsync(id_airline)
+                const airline = await this.airlineService.GetByIdAsync(IdAirline)
 
                 // If there is no error, returns a success response
                 res.status(200).json(airline)

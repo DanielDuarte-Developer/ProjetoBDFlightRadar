@@ -11,7 +11,13 @@ export class FlightController {
     
     getFlights(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Flight = req.body
+            const filters = {
+                Id : req.query.Id as string,
+                IdObservation: req.query.IdObservation as string,
+                IdAirplane : req.query.IdAirplane as string,
+                FlightCode : req.query.FlightCode as string,
+                Passengers : req.query.Passengers as string
+            }
             try {
                 // Get the flights by the filters given
                 const flights = await this.flightService.ListAsync(
@@ -19,7 +25,7 @@ export class FlightController {
                     filters.IdObservation,
                     filters.IdAirplane,
                     filters.FlightCode,
-                    filters.Passengers)
+                    parseInt(filters.Passengers))
 
                 // If there is no error, returns a success response
                 res.status(200).json(flights)
@@ -34,7 +40,7 @@ export class FlightController {
 
     getFlight(): Handler {
         return async (req: Request, res: Response) => {
-            const id_flight = req.body
+            const id_flight = req.params.flightId as string
             try {
                 // Get flight by id
                 const flight = await this.flightService.GetByIdAsync(id_flight)

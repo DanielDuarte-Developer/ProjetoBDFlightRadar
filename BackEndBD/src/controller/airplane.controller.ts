@@ -11,7 +11,11 @@ export class AirplaneController {
 
     getAirplanes(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Airplane = req.body
+            const filters = {
+                Id: req.query.Id as string,
+                IdModel: req.query.IdModel as string,
+                IdAirline: req.query.IdAirline as string
+            }
             try {
                 // Get the airplanes by the filters given
                 const airplanes = await this.airplaneService.ListAsync(
@@ -32,7 +36,7 @@ export class AirplaneController {
 
     getAirplane(): Handler {
         return async (req: Request, res: Response) => {
-            const id_airplane = req.body
+            const id_airplane = req.params.airplaneId as string
             try {
                 // Get airplane by id
                 const airplane = await this.airplaneService.GetByIdAsync(id_airplane)

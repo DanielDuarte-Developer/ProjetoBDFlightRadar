@@ -1,25 +1,29 @@
 import { Handler, Request, Response } from "express";
-import { CountryRepository } from "../repository/country.repository";
 import { Country } from "../model/country.model";
+import { CountryService } from "../services/country.service";
 
 export class CountryController {
-    private countryRepository: CountryRepository;
+    private countryService: CountryService;
 
-    constructor(countryRepository: CountryRepository) {
-        this.countryRepository = countryRepository;
+    constructor(countryRepository: CountryService) {
+        this.countryService = countryRepository;
     }
 
     getCountries(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Country = req.body
+            const filters = {
+                Id : req.query.Id as string,
+                CountryName: req.query.CountryName as string
+            }
+            
             try {
                 // Get the countries by the filters given
-                const countries = await this.countryRepository.ListCountries(
+                const countries = await this.countryService.ListAsync(
                     filters.Id,
                     filters.CountryName)
 
                 // If there is no error, returns a success response
-                res.status(200).json(countries[0])
+                res.status(200).json(countries)
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -31,13 +35,13 @@ export class CountryController {
 
     getCountry(): Handler {
         return async (req: Request, res: Response) => {
-            const id_country = req.body
+            const id_country = req.params.countryId as string
             try {
                 // Get country by id
-                const country = await this.countryRepository.GetAsync(id_country)
+                const country = await this.countryService.GetByIdAsync(id_country)
 
                 // If there is no error, returns a success response
-                res.status(200).json(country[0])
+                res.status(200).json(country)
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -52,7 +56,7 @@ export class CountryController {
             const object: Country = req.body
             try {
                 // Adds a new country
-                await this.countryRepository.AddAsync(object, 'daniel')
+                await this.countryService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -74,7 +78,7 @@ export class CountryController {
 
             try {
                 // Updates the country
-                await this.countryRepository.UpdateAsync(object, 'daniel')
+                await this.countryService.UpdateAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -94,7 +98,7 @@ export class CountryController {
             const id_country = req.body
             try {
                 // Deletes the country
-                await this.countryRepository.DeleteAsync(id_country, 'daniel')
+                await this.countryService.DeleteAsync(id_country, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

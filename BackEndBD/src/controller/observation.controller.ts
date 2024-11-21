@@ -1,25 +1,28 @@
 import { Handler, Request, Response } from "express";
-import { ObservationRepository } from "../repository/observation.repository";
 import { Observation } from "../model/observation.model";
+import { ObservationService } from "../services/observation.service";
 
 export class ObservationController {
-    private observationRepository: ObservationRepository;
+    private observationService: ObservationService;
 
-    constructor(observationRepository: ObservationRepository) {
-        this.observationRepository = observationRepository;
+    constructor(observationRepository: ObservationService) {
+        this.observationService = observationRepository;
     }
 
     getObservations(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Observation = req.body
+            const filters = {
+                Id : req.query.Id as string,
+                ObservationText: req.query.ObservationText as string
+            }
             try {
                 // Get the models by the filters given
-                const observations = await this.observationRepository.ListObservations(
+                const observations = await this.observationService.ListAsync(
                     filters.Id,
                     filters.ObservationText)
 
                 // If there is no error, returns a success response
-                res.status(200).json(observations[0])
+                res.status(200).json(observations)
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -31,13 +34,13 @@ export class ObservationController {
 
     getObservation(): Handler {
         return async (req: Request, res: Response) => {
-            const id_observation = req.body
+            const id_observation = req.params.observationId as string
             try {
                 // Get observation by id
-                const observation = await this.observationRepository.GetAsync(id_observation)
+                const observation = await this.observationService.GetByIdAsync(id_observation)
 
                 // If there is no error, returns a success response
-                res.status(200).json(observation[0])
+                res.status(200).json(observation)
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -52,7 +55,7 @@ export class ObservationController {
             const object: Observation = req.body
             try {
                 // Adds a new observation
-                await this.observationRepository.AddAsync(object, 'jonas')
+                await this.observationService.AddAsync(object, 'jonas')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
@@ -74,7 +77,7 @@ export class ObservationController {
 
             try {
                 // Updates the observation
-                await this.observationRepository.UpdateAsync(object, 'jonas')
+                await this.observationService.UpdateAsync(object, 'jonas')
 
                 // If there is no error, returns a success response
                 res.status(200).json({
@@ -94,7 +97,7 @@ export class ObservationController {
             const id_observation = req.body
             try {
                 // Deletes the observation
-                await this.observationRepository.DeleteAsync(id_observation, 'jonas')
+                await this.observationService.DeleteAsync(id_observation, 'jonas')
 
                 // If there is no error, returns a success response
                 res.status(200).json({

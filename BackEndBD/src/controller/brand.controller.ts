@@ -11,7 +11,11 @@ export class BrandController {
    
     getBrands(): Handler {
         return async (req: Request, res: Response) => {
-            const filters: Brand = req.body
+            const filters = {
+                Id: req.query.Id as string,
+                IdCountry: req.query.IdCountry as string,
+                BrandName: req.query.BrandName as string
+            }
             try {
                 // Get the brands by the filters given
                 const brands = await this.brandService.ListAsync(
@@ -32,7 +36,7 @@ export class BrandController {
 
     getBrand(): Handler {
         return async (req: Request, res: Response) => {
-            const id_brand = req.body
+            const id_brand = req.params.brandId as string
             try {
                 // Get brand by id
                 const brand = this.brandService.GetByIdAsync(id_brand)

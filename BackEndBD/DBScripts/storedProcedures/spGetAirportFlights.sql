@@ -33,7 +33,7 @@ BEGIN
     -- Query principal
     SELECT
         *
-    FROM airplane_flight
+    FROM airport_flight
     WHERE (p_Id IS NULL OR Id = p_Id)
         AND (p_IdAirport IS NULL OR Id = p_IdAirport)
         AND (p_IdFlight IS NULL OR IdFlight = p_IdFlight)
