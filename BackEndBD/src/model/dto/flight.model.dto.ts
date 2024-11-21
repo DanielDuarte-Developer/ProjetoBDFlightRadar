@@ -1,10 +1,10 @@
-import { Airplane } from "../airplane.model"
-import { Observation } from "../observation.model"
+import { AirplaneDTO } from "./airplane.model.dto"
+import { ObservationDTO } from "./observation.model.dto"
 
 export interface FlightDTO {
     Id?: string
-    ObservationObj: Observation
-    AirplaneObj: Airplane
+    ObservationObj: ObservationDTO
+    AirplaneObj: AirplaneDTO
     FlightCode: string
     Passengers: number
 }

@@ -123,30 +123,6 @@ function shouldBeSelect(field) {
 }
 
 function getSelectOptions(field) {
-    // Fetch options for select fields (replace with your data source or API)
-
-    switch (field) {
-        case 'CountryObj':
-            return [
-                { id: '1', label: 'Africa' },
-                { id: '2', label: 'Lisboa' },
-                { id: '3', label: 'USA' }
-            ];
-        case 'ModelObj':
-            return [
-                { id: 'A', label: 'Model A' },
-                { id: 'B', label: 'Model B' }
-            ];
-        case 'AirlineObj':
-            return [
-                { id: '1', label: 'Airline A' },
-                { id: '2', label: 'Airline B' }
-            ];
-        // Add cases for other select fields like IdAirport, IdFlight, etc.
-        default:
-            return [];
-    }
-    /*
     switch (field) {
         case 'IdCountry':
             return taskApi.findCountries();
@@ -167,7 +143,6 @@ function getSelectOptions(field) {
         default:
             return [];
     }
-            */
 }
 
 

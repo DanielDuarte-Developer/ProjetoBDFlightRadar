@@ -28,16 +28,16 @@ export class AirportService implements IAirportService{
 
     async GetByIdAsync(id: string): Promise<AirportDTO> {
         const airport: Airport = await this.airportRepository.GetAsync(id);
-        const country: Country = await this.countryRepository.GetAsync(airport.IdCountry);
+        const country: Country = await this.countryRepository.GetAsync(airport[0].IdCountry);
 
         return {
-            Id : airport.Id,
-            CountryObj : country,
-            AirportName : airport.AirportName,
-            AirportCode : airport.AirportCode,
-            LocationName : airport.LocationName,
-            LocationLatitude : airport.LocationLatitude,
-            LocationLongitude: airport.LocationLongitude
+            Id : airport[0].Id,
+            CountryObj : {Id: country[0].Id, CountryName: country[0].CountryName},
+            AirportName : airport[0].AirportName,
+            AirportCode : airport[0].AirportCode,
+            LocationName : airport[0].LocationName,
+            LocationLatitude : airport[0].LocationLatitude,
+            LocationLongitude: airport[0].LocationLongitude
         }
     }
 
@@ -52,11 +52,11 @@ export class AirportService implements IAirportService{
         const airports: Airport[] = await this.airportRepository.ListAirports(idAirport,idCountry,airportName,airportCode,airportLocationName,sortField,sortAscending)
         
         const airportDTOs = await Promise.all(
-            airports.map(async (airport) => {
+            airports[0].map(async (airport) => {
                 const country: Country = await this.countryRepository.GetAsync(airport.IdCountry);
                 return {
                     Id : airport.Id,
-                    CountryObj : country,
+                    CountryObj : {Id: country[0].Id, CountryName: country[0].CountryName},
                     AirportName : airport.AirportName,
                     AirportCode : airport.AirportCode,
                     LocationName : airport.LocationName,

@@ -23,7 +23,9 @@ export class ModelRepository extends BaseSqlRepository<Model> implements IModelR
         modelYear: number = 0, 
         sortField: string = '', 
         sortAscending: boolean = false): Promise<Model[]> {
-        const filters = {
+        const procedureParams = await this.dbService.getProcedureParams('spGetModels');
+
+        const filters = this.dbService.constructParams(procedureParams,{
             p_Id : idModel || null,
             p_IdBrand : idBrand || null,
             p_SitsNumber :sitsNumber || null,
@@ -33,9 +35,9 @@ export class ModelRepository extends BaseSqlRepository<Model> implements IModelR
             p_FlightCrewNumber : flightCrewMembers || null,
             p_FuelQuantity : fuelQuantity || null,
             p_ModelYear : modelYear || null,
-            p_sortField: sortField || null,
-            p_sortAscending: sortAscending
-        }
+            p_sortField : sortField || null,
+            p_sortAscending: sortAscending ? 'ASC': 'DESC',
+        })
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<Model[]>('spGetModels', filters);
     }

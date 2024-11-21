@@ -17,13 +17,16 @@ export class BrandRepository extends BaseSqlRepository<Brand> implements IBrandR
         brandName: string = '',
         sortField: string = '',
         sortAscending: boolean = false): Promise<Brand[]> {
-        const filters = {
+
+        const procedureParams = await this.dbService.getProcedureParams('spGetBrands');
+
+        const filters = this.dbService.constructParams(procedureParams, {
             p_Id: idBrand || null,
             p_IdCountry: idCountry || null,
             p_BrandName: brandName || null,
             p_sortField: sortField || null,
-            p_sortAscending: sortAscending
-        }
+            p_sortAscending: sortAscending ? 'ASC' : 'DESC',
+        })
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<Brand[]>('spGetBrands', filters);
     }

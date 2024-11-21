@@ -1,6 +1,7 @@
 import { Airline } from "../model/airline.model";
 import { Country } from "../model/country.model";
 import { AirlineDTO } from "../model/dto/airline.model.dto";
+import { CountryDTO } from "../model/dto/country.model.dto";
 import { AirlineRepository } from "../repository/airline.repository";
 import { CountryRepository } from "../repository/country.repository";
 import { IAirlineService } from "./interfaces/iairline.service";
@@ -28,13 +29,14 @@ export class AirlineService implements IAirlineService{
 
     async GetByIdAsync(id: String): Promise<AirlineDTO> {
         const airline: Airline = await this.airlineRepository.GetAsync(id)
-        const country: Country = await this.countryRepository.GetAsync(airline.IdCountry);
+
+        const country = await this.countryRepository.GetAsync(airline[0].IdCountry);
   
         return {
-            Id : airline.Id,
-            CountryObj: country,
-            AirlineName: airline.AirlineName,
-            AirlineCode: airline.AirlineCode
+            Id : airline[0].Id,
+            CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName},
+            AirlineName: airline[0].AirlineName,
+            AirlineCode: airline[0].AirlineCode
         }
     }
 
@@ -45,14 +47,15 @@ export class AirlineService implements IAirlineService{
         airlineCode: string = '', 
         sortField: string = '', 
         sortAscending: boolean = false): Promise<AirlineDTO[]> {
-        const airlines: Airline[] = await this.airlineRepository.ListArlines(idAirline,idCountry, airlineName,airlineCode,sortField,sortAscending)
-                
+        const airlines: Airline[] = await this.airlineRepository.ListArlines(idAirline,idCountry, airlineName, airlineCode, sortField, sortAscending)
+        
         const airlineDTOs = await Promise.all(
-            airlines.map(async (airline) => {
+            airlines[0].map(async (airline) => {
                 const country = await this.countryRepository.GetAsync(airline.IdCountry);
+
                 return {
                     Id: airline.Id,
-                    CountryObj: country,
+                    CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName},
                     AirlineName: airline.AirlineName,
                     AirlineCode: airline.AirlineCode,
                 };

@@ -16,12 +16,14 @@ export class ObservationRepository extends BaseSqlRepository<Observation> implem
         observationText: string = '',
         sortField: string = '', 
         sortAscending: boolean = false): Promise<Observation[]> {
-        const filters = {
+        const procedureParams = await this.dbService.getProcedureParams('spGetObservations');
+
+        const filters = this.dbService.constructParams(procedureParams,{
             p_Id : idObservation || null,
             p_ObservationText : observationText || null,
-            p_sortField: sortField || null,
-            p_sortAscending: sortAscending
-        }
+            p_sortField : sortField || null,
+            p_sortAscending: sortAscending ? 'ASC': 'DESC',
+        })
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<Observation[]>('spGetObservations', filters);
     }

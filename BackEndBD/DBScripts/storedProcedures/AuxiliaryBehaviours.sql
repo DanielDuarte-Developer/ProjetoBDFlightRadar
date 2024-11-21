@@ -7,7 +7,7 @@ declare observationsNumber int;
 declare observationId int;
 
 select count(*) into observationsNumberfrom from observation;
-select id_observation into observationId from observation where id_observation = rand(@observationsNumber);
+select I into observationId from observation where Id = rand(@observationsNumber);
 
 return observationId;
 end $$

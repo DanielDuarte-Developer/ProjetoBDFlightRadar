@@ -10,7 +10,7 @@ CREATE PROCEDURE spGetAiports(
     IN p_IdCountry CHAR(32),
     IN p_AirportName VARCHAR(30),
     IN p_AirportCode VARCHAR(30),
-    IN p_LocationName VARCHAR(30)
+    IN p_LocationName VARCHAR(30),
     IN p_LocationLatitude INT,
     IN p_LocationLongitude INT,
     -- Control atributes
@@ -32,7 +32,7 @@ BEGIN
     SET p_LocationLongitude = IFNULL(p_LocationLongitude, NULL);
     SET p_UserId = IFNULL(p_UserId, NULL);
     SET p_Status = IFNULL(p_Status, NULL);
-    SET p_SortField = IFNULL(p_SortField, 'id_airport');
+    SET p_SortField = IFNULL(p_SortField, 'Id');
     SET p_SortOrder = IFNULL(p_SortOrder, 'ASC');
     SET p_Skip = IFNULL(p_Skip, 0);
     SET p_Take = IFNULL(p_Take, 1000000);
@@ -41,42 +41,42 @@ BEGIN
     SELECT
         *
     FROM airport
-    WHERE (p_Id IS NULL OR id_airport = p_Id)
-        AND (p_IdCountry IS NULL OR id_country = p_IdCountry)
-        AND (p_AirportName IS NULL OR airport_name = p_AirportName)
-        AND (p_AirportCode IS NULL OR airport_code = p_AirportCode)
-        AND (p_LocationName IS NULL OR location_name = p_LocationName)
-        AND (p_LocationLatitude IS NULL OR location_latitude = p_LocationLatitude)
-        AND (p_LocationLongitude IS NULL OR location_longitude = p_LocationLongitude)
-        AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
-        AND (p_Status IS NULL OR sys_status = p_Status)
-        AND (sys_status != 'X')
+    WHERE (p_Id IS NULL OR Id = p_Id)
+        AND (p_IdCountry IS NULL OR IdCountry = p_IdCountry)
+        AND (p_AirportName IS NULL OR AirportName = p_AirportName)
+        AND (p_AirportCode IS NULL OR AirportCode = p_AirportCode)
+        AND (p_LocationName IS NULL OR LocationName = p_LocationName)
+        AND (p_LocationLatitude IS NULL OR LocationLatitude = p_LocationLatitude)
+        AND (p_LocationLongitude IS NULL OR LocationLongitude = p_LocationLongitude)
+        AND (p_UserId IS NULL OR SysCreateUserId = p_UserId)
+        AND (p_Status IS NULL OR SysStatus = p_Status)
+        AND (SysStatus != 'X')
     -- Ordenação com CASE
     ORDER BY 
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_airport' THEN id_airport END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_airport' THEN id_airport END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_country' THEN id_country END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_country' THEN id_country END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'airport_name' THEN airport_name END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'airport_name' THEN airport_name END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'airport_code' THEN airport_code END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'airport_code' THEN airport_code END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'location_name' THEN location_name END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'location_name' THEN location_name END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'location_latitude' THEN location_latitude END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'location_latitude' THEN location_latitude END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'location_longitude' THEN location_longitude END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'location_longitude' THEN location_longitude END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_date' THEN sys_create_date END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_modify_date' THEN sys_modify_date END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_modify_date' THEN sys_modify_date END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_modify_user_id' THEN sys_modify_user_id END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_modify_user_id' THEN sys_modify_user_id END DESC
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'Id' THEN Id END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'Id' THEN Id END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'IdCountry' THEN IdCountry END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'IdCountry' THEN IdCountry END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'AirportName' THEN AirportName END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'AirportName' THEN AirportName END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'AirportCode' THEN AirportCode END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'AirportCode' THEN AirportCode END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'LocationName' THEN LocationName END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'LocationName' THEN LocationName END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'LocationLatitude' THEN LocationLatitude END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'LocationLatitude' THEN LocationLatitude END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'LocationLongitude' THEN LocationLongitude END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'LocationLongitude' THEN LocationLongitude END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysStatus' THEN SysStatus END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysStatus' THEN SysStatus END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysCreateDate' THEN SysCreateDate END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysCreateDate' THEN SysCreateDate END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysCreateUserId' THEN SysCreateUserId END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysCreateUserId' THEN SysCreateUserId END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysModifyDate' THEN SysModifyDate END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysModifyDate' THEN SysModifyDate END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysModifyUserId' THEN SysModifyUserId END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysModifyUserId' THEN SysModifyUserId END DESC
     -- Paginação com LIMIT e OFFSET
     LIMIT p_Take OFFSET p_Skip;
 END $$

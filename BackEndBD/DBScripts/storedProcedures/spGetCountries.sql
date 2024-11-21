@@ -19,10 +19,10 @@ CREATE PROCEDURE spGetCountries(
 BEGIN
     -- Setting default values
     SET p_Id = IFNULL(p_Id, NULL);
-    SET p_IdCountryName= IFNULL(p_IdCountryName, NULL);
+    SET p_CountryName= IFNULL(p_CountryName, NULL);
     SET p_UserId = IFNULL(p_UserId, NULL);
     SET p_Status = IFNULL(p_Status, NULL);
-    SET p_SortField = IFNULL(p_SortField, 'id_country');
+    SET p_SortField = IFNULL(p_SortField, 'Id');
     SET p_SortOrder = IFNULL(p_SortOrder, 'ASC');
     SET p_Skip = IFNULL(p_Skip, 0);
     SET p_Take = IFNULL(p_Take, 1000000);
@@ -31,27 +31,27 @@ BEGIN
     SELECT
         *
     FROM country
-    WHERE (p_Id IS NULL OR id_country = p_Id)
-        AND (p_CountryName IS NULL OR country_name = p_CountryName)
-        AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
-        AND (p_Status IS NULL OR sys_status = p_Status)
-        AND (sys_status != 'X')
+    WHERE (p_Id IS NULL OR Id = p_Id)
+        AND (p_CountryName IS NULL OR CountryName = p_CountryName)
+        AND (p_UserId IS NULL OR SysCreateUserId = p_UserId)
+        AND (p_Status IS NULL OR SysStatus = p_Status)
+        AND (SysStatus != 'X')
     -- Ordenação com CASE
     ORDER BY 
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_country' THEN id_country END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_country' THEN id_country END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'country_name' THEN country_name END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'country_name' THEN country_name END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_date' THEN sys_create_date END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_modify_date' THEN sys_modify_date END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_modify_date' THEN sys_modify_date END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_modify_user_id' THEN sys_modify_user_id END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_modify_user_id' THEN sys_modify_user_id END DESC
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'Id' THEN Id END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'Id' THEN Id END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'CountryName' THEN CountryName END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'CountryName' THEN CountryName END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysStatus' THEN SysStatus END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysStatus' THEN SysStatus END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysCreateDate' THEN SysCreateDate END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysCreateDate' THEN SysCreateDate END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysCreateUserId' THEN SysCreateUserId END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysCreateUserId' THEN SysCreateUserId END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysModifyDate' THEN SysModifyDate END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysModifyDate' THEN SysModifyDate END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysModifyUserId' THEN SysModifyUserId END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysModifyUserId' THEN SysModifyUserId END DESC
     -- Paginação com LIMIT e OFFSET
     LIMIT p_Take OFFSET p_Skip;
 END $$

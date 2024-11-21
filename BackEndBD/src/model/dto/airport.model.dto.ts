@@ -1,8 +1,8 @@
-import { Country } from "../country.model"
+import { CountryDTO } from "./country.model.dto"
 
 export interface AirportDTO {
     Id?: string
-    CountryObj: Country
+    CountryObj: CountryDTO
     AirportName: string
     AirportCode: string
     LocationName: string

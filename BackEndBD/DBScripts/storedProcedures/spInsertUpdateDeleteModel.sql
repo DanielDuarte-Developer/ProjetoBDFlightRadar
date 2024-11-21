@@ -29,9 +29,9 @@ BEGIN
         IF SysStatus = 'X' THEN
             UPDATE model
             SET 
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the "delete" was successed (updated status)
@@ -42,17 +42,17 @@ BEGIN
         ELSE
             UPDATE model
             SET 
-                id_brand = IdBrand,
-                sits_number = SitsNumber,
-                tare = Tare,
-                gross_weight = GrossWeight,
-                payload = Payload,
-                flight_crew_number = FlightCrewNumber,
-                fuel_quantity = FuelQuantity,
-                model_year = ModelYear,
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                IdBrand = IdBrand,
+                SitsNumber = SitsNumber,
+                Tare = Tare,
+                GrossWeight = GrossWeight,
+                Payload = Payload,
+                FlightCrewNumber = FlightCrewNumber,
+                FuelQuantity = FuelQuantity,
+                ModelYear = ModelYear,
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the line was modified 
@@ -65,19 +65,19 @@ BEGIN
         SET Id = UUID();
         INSERT INTO model
         (
-            id_brand,
-            sits_number,
-            tare = Tare,
-            gross_weight ,
-            payload = Payload,
-            flight_crew_number,
-            fuel_quantity,
-            model_year,
-            sys_status,
-            sys_create_date,
-            sys_create_user_id,
-            sys_modify_date,
-            sys_modify_user_id
+            IdBrand,
+            SitsNumber,
+            Tare = Tare,
+            GrossWeight ,
+            Payload = Payload,
+            FlightCrewNumber,
+            FuelQuantity,
+            ModelYear,
+            SysStatus,
+            SysCreateDate,
+            SysCreateUserId,
+            SysModifyDate,
+            SysModifyUserId
         )
         VALUES
         (

@@ -30,9 +30,9 @@ BEGIN
         IF SysStatus = 'X' THEN
             UPDATE flight
             SET 
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the "delete" was successed (updated status)
@@ -43,13 +43,13 @@ BEGIN
         ELSE
             UPDATE flight
             SET 
-                id_observation = IdObservation,
-                id_airplane = IdAirplane,
-                flight_code = FlightCode,
-                passengers = Passengers,
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                IdObservation = IdObservation,
+                IdAirplane = IdAirplane,
+                FlightCode = FlightCode,
+                Passengers = Passengers,
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the line was modified 
@@ -62,16 +62,16 @@ BEGIN
         SET Id = UUID();
         INSERT INTO flight
         (
-            id_flight,
-            id_observation,
-            id_airplane,
-            flight_code,
-            passengers,
-            sys_status,
-            sys_create_date,
-            sys_create_user_id,
-            sys_modify_date,
-            sys_modify_user_id
+            IdFlight,
+            IdObservation,
+            IdAirplane,
+            FlightCode,
+            Passengers,
+            SysStatus,
+            SysCreateDate,
+            SysCreateUserId,
+            SysModifyDate,
+            SysModifyUserId
         )
         VALUES
         (

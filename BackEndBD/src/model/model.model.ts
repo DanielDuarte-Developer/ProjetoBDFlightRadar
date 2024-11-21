@@ -8,7 +8,7 @@ export interface Model extends RowDataPacket, BaseSqlModel{
     Tare: string
     GrossWeight: string
     Payload : number
-    FlightCrewMembers : number
+    FlightCrewNumber : number
     FuelQuantity : number
     ModelYear : number
 }

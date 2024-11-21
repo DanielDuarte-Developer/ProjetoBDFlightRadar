@@ -2,14 +2,11 @@ let taskApi = new TaskApi()
 const tableContainer = document.getElementById('table-container');
 const tableId = tableContainer.dataset.table;
 const columns = JSON.parse(tableContainer.dataset.columns);
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // Get the data by the correspondent tableId
-    //let data = getDataByTableId(tableId);
-    data = [
-        { Id: 1, CountryObj:{Id : 112, CountryName: "Africa"}, AirlineName: "Airline A", AirlineCode: "AA" },
-        { Id: 2, CountryObj: {Id : 109, CountryName: "Lisboa"}, AirlineName: "Airline B", AirlineCode: "BB" }
-    ];
-    constructForm(data,columns)
+    let data = await getDataByTableId(tableId);
+    console.log(data)
+    constructTable(data,columns)
 
     // Adicionar eventos de clique nos botões "Adicionar Registro"
     const addButtons = document.querySelectorAll('.add-btn');
@@ -20,43 +17,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-function getDataByTableId(tableId){
+async function getDataByTableId(tableId){
     // Giving data for each table
     let data = [];
 
     switch (tableId) {
         case 'airlineTable':
-            data.push(taskApi.findAirlines());
+            data = await taskApi.findAirlines();
             break;
         case 'airplaneTable':
-            data.push(taskApi.findAirplanes());
+            data = await taskApi.findAirplanes();
             break;
         case 'airportTable':
-            data.push(taskApi.findAirports());
+            data = await taskApi.findAirports();
             break;
         case 'brandTable':
-            data.push(taskApi.findBrands());
+            data = await taskApi.findBrands();
             break;
         case 'countryTable':
-            data.push(taskApi.findCountries());
+            data = await taskApi.findCountries();
             break;
         case 'flightsTable':
-            data.push(taskApi.findFlights());
+            data = await taskApi.findFlights();
             break;
         case 'modelTable':
-            data.push(taskApi.findModels());
+            data = await taskApi.findModels();
             break;
         case 'observationTable':
-            data.push(taskApi.findObservations());
+            data = await taskApi.findObservations();
             break;
         default:
             console.error('Unknown table ID');
     }
 
-    return data;
+    return Promise.all(data);
 }
 
-function constructForm(data,columns){
+
+function constructTable(data,columns){
     // Transform columns for Tabulator
     const transformedColumns = columns.map(column => {
         // Create a path function for nested properties (e.g., CountryObj.CountryName)

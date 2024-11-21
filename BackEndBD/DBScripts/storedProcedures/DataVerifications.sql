@@ -8,21 +8,21 @@ returns bool
 begin 
 case tableName
 when tableName = airport 
-	then return exists (select id_aiport from airport_airplane_flight where id_airport = tableId and (id_flight != null or id_airplane != null));
+	then return exists (select IdAirport from airport_airplane_flight where IdAirport = tableId and (IdFlight != null or IdAirplane != null));
 when tableName = airplane 
-	then return exists (select id_airplane from airport_airplane_flight where id_airplane = tableId and (id_flight != null or id_airport != null));
+	then return exists (select IdAirplane from airport_airplane_flight where IdAirplane = tableId and (IdFlight != null or IdAirport != null));
 when tableName = country
-	then return exists (select id_country from airport_airplane_flight where id_country = tableId and (id_flight != null or id_airport != null));
+	then return exists (select IdCountry from airport_airplane_flight where IdCountry = tableId and (IdFlight != null or IdAirport != null));
 when tableName = flight
 	then return false;
 when tableName = airline
-	then return exists (select id_airline from airplane where id_airline = tableId);
+	then return exists (select IdAirline from airplane where IdAirline = tableId);
 when tableName = model
-	then return exists (select id_model from airplane where id_model = tableId);
+	then return exists (select IdModelfrom airplane where IdModel= tableId);
 when tableName = brand
-	then return exists (select id_brand from model where id_brand = tableId);
+	then return exists (select IdBrand from model where IdBrand = tableId);
 when tableName = country
-	then return exists (select id_country from airline natural join brand natural join airport where id_country = tableId);
+	then return exists (select IdCountry from airline natural join brand natural join airport where IdCountry = tableId);
 else return true;
 end case;
 end $$

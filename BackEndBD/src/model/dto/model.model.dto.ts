@@ -1,13 +1,13 @@
-import { Brand } from "../brand.model"
+import { BrandDTO } from "./brand.model.dto"
 
 export interface ModelDTO {
     Id?: string
-    BrandObj : Brand
+    BrandObj : BrandDTO
     SitsNumber: string
     Tare: string
     GrossWeight: string
     Payload : number
-    FlightCrewMembers : number
+    FlightCrewNumber : number
     FuelQuantity : number
     ModelYear : number
 }

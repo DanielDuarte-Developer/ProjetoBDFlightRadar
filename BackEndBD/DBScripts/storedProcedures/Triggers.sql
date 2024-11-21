@@ -2,26 +2,26 @@ DELIMITER $$
 
 CREATE TRIGGER deleteAirlineDepencies AFTER UPDATE ON airline FOR EACH ROW
 BEGIN
-	UPDATE airport_flight SET sys_status = 'X' WHERE id_flight = (SELECT id_flight FROM flight WHERE id_airplane = (SELECT id_airplane FROM airplane WHERE id_airline = OLD.id_airline));
-	UPDATE flight SET sys_status = 'X' WHERE id_airplane = (SELECT id_airplane FROM airplane WHERE id_airline = OLD.id_airline);
-	UPDATE airplane SET sys_status = 'X' WHERE id_airline = OLD.id_airline;
+	UPDATE airport_flight SET SysStatus = 'X' WHERE IdFlight = (SELECT IdFlight FROM flight WHERE IdAirplane = (SELECT IdAirplane FROM airplane WHERE IdAirline = OLD.IdAirline));
+	UPDATE flight SET SysStatus = 'X' WHERE IdAirplane = (SELECT IdAirplane FROM airplane WHERE IdAirline = OLD.IdAirline);
+	UPDATE airplane SET SysStatus = 'X' WHERE IdAirline = OLD.IdAirline;
 END $$    
 
 CREATE TRIGGER deleteAirplaneDepencies AFTER UPDATE ON airplane FOR EACH ROW
 BEGIN
-	UPDATE airport_flight SET sys_status = 'X' WHERE id_flight = (SELECT id_flight FROM flight WHERE id_airplane = OLD.id_airplane);
-	UPDATE flights SET sys_status = 'X' WHERE id_airplane = OLD.id_airplane;
+	UPDATE airport_flight SET SysStatus = 'X' WHERE IdFlight = (SELECT IdFlight FROM flight WHERE IdAirplane = OLD.IdAirplane);
+	UPDATE flights SET SysStatus = 'X' WHERE IdAirplane = OLD.IdAirplane;
 END $$    
 
 CREATE TRIGGER deleteFlightDepencies AFTER UPDATE ON flight FOR EACH ROW
 BEGIN
-	UPDATE airport_flight SET sys_status = 'X' WHERE id_flight = old.id_flight;
+	UPDATE airport_flight SET SysStatus = 'X' WHERE IdFlight = old.IdFlight;
 END $$   
 
 CREATE TRIGGER deleteAirportDepencies AFTER UPDATE ON airport FOR EACH ROW
 BEGIN
-	UPDATE flight SET sys_status = 'X' WHERE id_flight = (SELECT id_flight FROM airport_flight WHERE id_airport = OLD.id_airport);
-	UPDATE airport_flight SET sys_status = 'X' WHERE id_airport = old.id_airport;
+	UPDATE flight SET SysStatus = 'X' WHERE IdFlight = (SELECT IdFlight FROM airport_flight WHERE IdAirport = OLD.IdAirport);
+	UPDATE airport_flight SET SysStatus = 'X' WHERE IdAirport = old.IdAirport;
 END $$   
 
 CREATE TRIGGER setFlightObservation AFTER INSERT ON flight FOR EACH ROW
@@ -29,6 +29,6 @@ BEGIN
 	DECLARE rand int;
 	SET @rand = (SELECT RAND(100)); 
     IF rand < 25 THEN
-    UPDATE flight SET id_observation = randomFlightObservation();
+    UPDATE flight SET IdObservation = randomFlightObservation();
     END IF;
 END $$

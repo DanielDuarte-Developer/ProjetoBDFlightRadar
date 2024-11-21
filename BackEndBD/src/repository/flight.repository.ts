@@ -19,15 +19,17 @@ export class FlightRepository extends BaseSqlRepository<Flight> implements IFlig
         passengers: number = 0,
         sortField: string = '',
         sortAscending: boolean = false): Promise<Flight[]> {
-        const filters = {
+        const procedureParams = await this.dbService.getProcedureParams('spGetFlights');
+
+        const filters = this.dbService.constructParams(procedureParams,{
             p_Id : idFlight || null,
             p_IdObservations : idObservation || null,
             p_IdAirplane : idAirplane || null,
             p_FlightCode : flightCode || null,
             p_Passengers : passengers || null,
-            p_sortField: sortField || null,
-            p_sortAscending: sortAscending
-        }
+            p_sortField : sortField || null,
+            p_sortAscending: sortAscending ? 'ASC': 'DESC',
+        })
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<Flight[]>('spGetFlights', filters);
     }

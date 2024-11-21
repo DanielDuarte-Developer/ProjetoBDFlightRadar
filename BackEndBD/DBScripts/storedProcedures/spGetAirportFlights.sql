@@ -6,6 +6,7 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetAirportFlights(
     -- DB atributes
+    IN p_Id CHAR(32),
     IN p_IdAirport CHAR(32),
     IN p_IdFlight CHAR(32),
     IN p_TimeMarker timestamp,
@@ -24,7 +25,7 @@ BEGIN
     SET p_TimeMarker = IFNULL(p_TimeMarker, NULL);
     SET p_UserId = IFNULL(p_UserId, NULL);
     SET p_Status = IFNULL(p_Status, NULL);
-    SET p_SortField = IFNULL(p_SortField, 'id_airplane_flight');
+    SET p_SortField = IFNULL(p_SortField, 'Id');
     SET p_SortOrder = IFNULL(p_SortOrder, 'ASC');
     SET p_Skip = IFNULL(p_Skip, 0);
     SET p_Take = IFNULL(p_Take, 1000000);
@@ -33,30 +34,33 @@ BEGIN
     SELECT
         *
     FROM airplane_flight
-    WHERE (p_IdAirport IS NULL OR id_airport = p_IdAirport)
-        AND (p_IdFlight IS NULL OR id_flight = p_IdFlight)
-        AND (p_TimeMarker IS NULL OR timeMarker = p_TimeMarker)
-        AND (p_UserId IS NULL OR sys_create_user_id = p_UserId)
-        AND (p_Status IS NULL OR sys_status = p_Status)
-        AND (sys_status != 'X')
+    WHERE (p_Id IS NULL OR Id = p_Id)
+        AND (p_IdAirport IS NULL OR Id = p_IdAirport)
+        AND (p_IdFlight IS NULL OR IdFlight = p_IdFlight)
+        AND (p_TimeMarker IS NULL OR TimeMarker = p_TimeMarker)
+        AND (p_UserId IS NULL OR SysCreateUserId = p_UserId)
+        AND (p_Status IS NULL OR SysStatus = p_Status)
+        AND (SysStatus != 'X')
     -- Ordenação com CASE
     ORDER BY 
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_airport' THEN id_airport END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_airport' THEN id_airport END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'id_flight' THEN id_flight END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'id_flight' THEN id_flight END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'timeMarker' THEN timeMarker END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'timeMarker' THEN timeMarker END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_status' THEN sys_status END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_status' THEN sys_status END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_date' THEN sys_create_date END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_date' THEN sys_create_date END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_create_user_id' THEN sys_create_user_id END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_modify_date' THEN sys_modify_date END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_modify_date' THEN sys_modify_date END DESC,
-        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'sys_modify_user_id' THEN sys_modify_user_id END ASC,
-        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'sys_modify_user_id' THEN sys_modify_user_id END DESC
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'Id' THEN Id END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'Id' THEN Id END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'IdAirport' THEN IdAirport END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'IdAirport' THEN IdAirport END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'IdFlight' THEN IdFlight END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'IdFlight' THEN IdFlight END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'TimeMarker' THEN TimeMarker END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'TimeMarker' THEN TimeMarker END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysStatus' THEN SysStatus END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysStatus' THEN SysStatus END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysCreateDate' THEN SysCreateDate END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysCreateDate' THEN SysCreateDate END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysCreateUserId' THEN SysCreateUserId END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysCreateUserId' THEN SysCreateUserId END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysModifyDate' THEN SysModifyDate END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysModifyDate' THEN SysModifyDate END DESC,
+        CASE WHEN p_SortOrder = 'ASC' AND p_SortField = 'SysModifyUserId' THEN SysModifyUserId END ASC,
+        CASE WHEN p_SortOrder = 'DESC' AND p_SortField = 'SysModifyUserId' THEN SysModifyUserId END DESC
     -- Paginação com LIMIT e OFFSET
     LIMIT p_Take OFFSET p_Skip;
 END $$

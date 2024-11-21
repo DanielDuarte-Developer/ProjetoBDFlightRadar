@@ -1,7 +1,7 @@
-import { Country } from "../country.model"
+import { CountryDTO } from "./country.model.dto"
 
 export interface BrandDTO {
     Id?: string
-    CountryObj: Country
+    CountryObj: CountryDTO
     BrandName: string
 }

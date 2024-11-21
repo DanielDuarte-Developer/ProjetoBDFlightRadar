@@ -23,9 +23,9 @@ BEGIN
         IF SysStatus = 'X' THEN
             UPDATE brand
             SET 
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the "delete" was successed (updated status)
@@ -36,11 +36,11 @@ BEGIN
         ELSE
             UPDATE brand
             SET 
-                id_country = IdCountry,
-                brand_name = BrandName,
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                IdCountry = IdCountry,
+                BrandName = BrandName,
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the line was modified 
@@ -53,13 +53,13 @@ BEGIN
         SET Id = UUID();
         INSERT INTO brand
         (
-            id_country,
-            brand_name,
-            sys_status,
-            sys_create_date,
-            sys_create_user_id,
-            sys_modify_date,
-            sys_modify_user_id
+            IdCountry,
+            BrandName,
+            SysStatus,
+            SysCreateDate,
+            SysCreateUserId,
+            SysModifyDate,
+            SysModifyUserId
         )
         VALUES
         (

@@ -19,7 +19,6 @@ export class AirlineController {
                     filters.IdCountry,
                     filters.AirlineName,
                     filters.AirlineCode)
-
                 // If there is no error, returns a success response
                 res.status(200).json(airlines)
             } catch (error) {

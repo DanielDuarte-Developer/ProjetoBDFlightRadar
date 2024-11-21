@@ -31,9 +31,9 @@ export class BrandService implements IBrandService{
         const country: Country = await this.countryRepository.GetAsync(brand.IdCountry);
 
         return {
-            Id: brand.Id,
-            CountryObj: country,
-            BrandName: brand.BrandName
+            Id: brand[0].Id,
+            CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName},
+            BrandName: brand[0].BrandName
         }
     }
 
@@ -46,11 +46,11 @@ export class BrandService implements IBrandService{
         const brands: Brand[] = await this.brandRepository.ListBrands(idBrand,idCountry,brandName,sortField,sortAscending);
 
         const brandDTOs = await Promise.all(
-        brands.map(async (brand) => {
+        brands[0].map(async (brand) => {
                 const country: Country = await this.countryRepository.GetAsync(brand.IdCountry);
                 return {
                     Id: brand.Id,
-                    CountryObj: country,
+                    CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName},
                     BrandName: brand.BrandName
                 }
             })

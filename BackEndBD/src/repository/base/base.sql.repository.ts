@@ -17,7 +17,11 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
             const params =  {
                 ...item,
                 UserId : userId,
-                SysStatus : 'A'
+                SysStatus : 'A',
+                p_SortField : null,
+                p_SortOrder : null,
+                p_Skip : 0,
+                p_Take : 10000
             }
     
             await this.dbService.callProcedure(this.commandStoredProcedure, params)
@@ -30,11 +34,17 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
 
     async UpdateAsync(item:T, userId: string) {
         try{
-            const params = {
-                ...item,
-                UserId : userId,
-                SysStatus : 'A'
-            }
+            
+           const params = {
+                ...item,  // Faz a cópia do item
+                UserId: userId,
+                SysStatus: 'A',
+                p_SortField: null,
+                p_SortOrder: null,
+                p_Skip: 0,
+                p_Take: 10000
+            };
+            
             const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
 
             // Verifique o retorno de `p_Id` após a execução, especialmente em caso de `INSERT`
@@ -49,11 +59,13 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
 
     async DeleteAsync(id: string, userId: string){
         try{
-            const params = {
-                Id : id,
-                Status : 'X',
-                UserId : userId,
-            }
+            const procedureParams = await this.dbService.getProcedureParams(this.getDataProcedure);
+            const params = await this.dbService.constructParams(procedureParams)
+
+            params['Id'] = id;
+            params['UserId'] = userId;
+            params['SysStatus'] = 'X';
+
             await this.dbService.callProcedure(this.commandStoredProcedure, params)
         }catch(error){
             throw new Error(error.message || 'Error trying to delete the record')
@@ -62,9 +74,11 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
 
     async GetAsync(id): Promise<T> {
         try{
-            const params = {
-                Id : id
-            }
+            const procedureParams = await this.dbService.getProcedureParams(this.getDataProcedure);
+            const params = await this.dbService.constructParams(procedureParams)
+            
+            params['p_Id'] = id
+            console.log(params)
             const result = await this.dbService.callProcedure(this.getDataProcedure, params)
 
             if (!result || result.length === 0) {
@@ -77,4 +91,5 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
             throw new Error(error.message || 'Error trying to get the record by id.')
         }
     }
+
 }

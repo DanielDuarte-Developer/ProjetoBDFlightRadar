@@ -32,9 +32,9 @@ BEGIN
         IF SysStatus = 'X' THEN
             UPDATE airport
             SET 
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the "delete" was successed (updated status)
@@ -45,15 +45,15 @@ BEGIN
         ELSE
             UPDATE airport
             SET 
-                id_country = IdCountry,
-                airport_name = AirportName,
-                airport_code = AirportCode,
-                location_name = LocationName,
-                location_latitude = LocationLatitude,
-                location_longitude = LocationLongitude,
-                sys_status = SysStatus,
-                sys_modify_date = UTC_TIMESTAMP(),
-                sys_modify_user_id = UserId
+                IdCountry = IdCountry,
+                AirportName = AirportName,
+                AirportCode = AirportCode,
+                LocationName = LocationName,
+                LocationLatitude = LocationLatitude,
+                LocationLongitude = LocationLongitude,
+                SysStatus = SysStatus,
+                SysModifyDate = UTC_TIMESTAMP(),
+                SysModifyUserId = UserId
             WHERE Id = Id;
 
             -- Verify if the line was modified 
@@ -66,18 +66,18 @@ BEGIN
         SET Id = UUID();
         INSERT INTO airport
         (
-            id_plane,
-            id_country,
-            airport_name,
-            airport_code,
-            location_name,
-            location_latitude,
-            location_longitude,
-            sys_status,
-            sys_create_date,
-            sys_create_user_id,
-            sys_modify_date,
-            sys_modify_user_id
+            IdPlane,
+            IdCountry,
+            AirportName,
+            AirportCode,
+            LocationName,
+            LocationLatitude,
+            LocationLongitude,
+            SysStatus,
+            SysCreateDate,
+            SysCreateUserId,
+            SysModifyDate,
+            SysModifyUserId
         )
         VALUES
         (

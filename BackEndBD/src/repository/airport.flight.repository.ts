@@ -17,13 +17,16 @@ export class AirportFlightRepository extends BaseSqlRepository<AirportFlight> im
         timeMarker: string = '',
         sortField: string = '',
         sortAscending: boolean = false) {
-        const filters = {
-            p_IdAirport : idAirport || null,
-            p_IdFlight : idFlight || null,
-            p_TimeMarker : timeMarker || null,
+
+        const procedureParams = await this.dbService.getProcedureParams('spGetAirportFlights');
+
+        const filters = this.dbService.constructParams(procedureParams, {
+            p_IdAirport: idAirport || null,
+            p_IdFlight: idFlight || null,
+            p_TimeMarker: timeMarker || null,
             p_sortField: sortField || null,
-            p_sortAscending: sortAscending
-        }
+            p_sortAscending: sortAscending ? 'ASC' : 'DESC',
+        })
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<AirportFlight[]>('spGetAirportFlights', filters);
     }

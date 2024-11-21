@@ -18,15 +18,18 @@ export class AirportRepository extends BaseSqlRepository<Airport> implements IAi
         airportLocationName: string = '',
         sortField:string = '', 
         sortAscending: boolean = false): Promise<Airport[]> {
-        const filters = {
+        
+        const procedureParams = await this.dbService.getProcedureParams('spGetAiports');
+        
+        const filters = this.dbService.constructParams(procedureParams, { 
             p_Id: idAirport || null,
             p_IdCountry: idCountry || null,
             p_AirportName: airportName || null,
             p_AirportCode : airportCode || null,
             p_LocationName : airportLocationName || null,
-            p_sortField: sortField || null,
-            p_sortAscending: sortAscending
-        }
+            p_sortField : sortField || null,
+            p_sortAscending: sortAscending ? 'ASC': 'DESC',
+        });
         //Give the procedure name and the parameters
         return this.dbService.callProcedure<Airport[]>('spGetAiports', filters);
     }
