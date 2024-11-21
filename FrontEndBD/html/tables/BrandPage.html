@@ -28,14 +28,14 @@
                 <li><a href="ObservationPage.html">Observation Table</a></li>
             </ul>
         </nav>
-        <main class="content">
+        <main class="content-table">
             <nav class="mini-sidebar" id="sidebar-show">
                 <button class="toggle-btn" id="showSidebar">☰</button>
             </nav>
             
             <!-- Botão para adicionar novo registro -->
             <button class="add-btn" data-table="brandTable">Add new brand</button>
-            <div class="table-container" id="table-container" data-table="brandTable" data-columns='["Id", "IdCountry", "BrandName"]'>
+            <div class="table-container" id="table-container" data-table="brandTable" data-columns='["Id", "CountryObj.CountryName", "BrandName"]'>
             </div>
         </main>
     </div>

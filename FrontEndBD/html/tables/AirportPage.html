@@ -28,13 +28,13 @@
                 <li><a href="ObservationPage.html">Observation Table</a></li>
             </ul>
         </nav>
-        <main class="content">
+        <main class="content-table">
             <nav class="mini-sidebar" id="sidebar-show">
                 <button class="toggle-btn" id="showSidebar">☰</button>
             </nav>
             
             <button class="add-btn" data-table="airportTable">Add new airport</button>
-            <div class="table-container" id="table-container" data-table="airportTable" data-columns='["Id", "IdCountry", "AirportName", "AirportCode", "LocationName", "LocationLatitude", "LocationLongitude"]'>
+            <div class="table-container" id="table-container" data-table="airportTable" data-columns='["Id", "CountryObj.CountryName", "AirportName", "AirportCode", "LocationName", "LocationLatitude", "LocationLongitude"]'>
             </div>
         </main>
     </div>

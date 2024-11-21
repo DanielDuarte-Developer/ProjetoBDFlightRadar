@@ -28,14 +28,14 @@
                 <li><a href="ObservationPage.html">Observation Table</a></li>
             </ul>
         </nav>
-        <main class="content">
+        <main class="content-table">
             <nav class="mini-sidebar" id="sidebar-show">
                 <button class="toggle-btn" id="showSidebar">☰</button>
             </nav>
             
             <!-- Botão para adicionar novo registro -->
             <button class="add-btn" data-table="flightTable">Add new flight</button>
-            <div class="table-container" id="table-container" data-table="flightTable" data-columns='["Id", "IdObservation", "IdAirplane", "FlightCode", "Passengers"]'>
+            <div class="table-container" id="table-container" data-table="flightTable" data-columns='["Id", "ObservationObj.ObservationText", "IdAirplane", "FlightCode", "Passengers"]'>
             </div>
         </main>
     </div>

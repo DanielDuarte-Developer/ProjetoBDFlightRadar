@@ -37,7 +37,7 @@ async function getDataByTableId(tableId){
         case 'countryTable':
             data = await taskApi.findCountries();
             break;
-        case 'flightsTable':
+        case 'flightTable':
             data = await taskApi.findFlights();
             break;
         case 'modelTable':
@@ -88,6 +88,7 @@ function constructTable(data,columns){
         data: data,
         layout: "fitColumns",
         columns: transformedColumns,
+        responsiveLayout: true,
     });
 }
 

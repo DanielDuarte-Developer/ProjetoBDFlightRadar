@@ -50,7 +50,7 @@ body {
     /*margin: 20px auto;*/ /*See Later*/
     /*width: 80%;*/ /*See Later*/
     margin-left: 270px;
-    max-width: 1370px; /* Limita o tamanho máximo para evitar telas muito grandes */
+    max-width: 1500px; /* Limita o tamanho máximo para evitar telas muito grandes */
     border: 2px solid #ccc;
     border-radius: 10px;
     overflow: hidden;

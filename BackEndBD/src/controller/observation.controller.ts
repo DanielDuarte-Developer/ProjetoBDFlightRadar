@@ -19,7 +19,7 @@ export class ObservationController {
                     filters.ObservationText)
 
                 // If there is no error, returns a success response
-                res.status(200).json(observations)
+                res.status(200).json(observations[0])
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -37,7 +37,7 @@ export class ObservationController {
                 const observation = await this.observationRepository.GetAsync(id_observation)
 
                 // If there is no error, returns a success response
-                res.status(200).json(observation)
+                res.status(200).json(observation[0])
             } catch (error) {
                 res.status(400).json({
                     success: false,

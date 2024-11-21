@@ -28,14 +28,14 @@
                 <li><a href="ObservationPage.html">Observation Table</a></li>
             </ul>
         </nav>
-        <main class="content">
+        <main class="content-table">
             <nav class="mini-sidebar" id="sidebar-show">
                 <button class="toggle-btn" id="showSidebar">☰</button>
             </nav>
             
             <!-- Botão para adicionar novo registro -->
             <button class="add-btn" data-table="modelTable">Add new model</button>
-            <div class="table-container" id="table-container" data-table="modelTable" data-columns='["Id", "IdBrand", "SitsNumber", "Tare", "GrossWeight", "Payload", "FlightCrewMembers", "FuelQuantity", "ModelYear"]'>
+            <div class="table-container" id="table-container" data-table="modelTable" data-columns='["Id", "BrandObj.BrandName", "SitsNumber", "Tare", "GrossWeight", "Payload", "FlightCrewNumber", "FuelQuantity", "ModelYear"]'>
             </div>
         </main>
     </div>

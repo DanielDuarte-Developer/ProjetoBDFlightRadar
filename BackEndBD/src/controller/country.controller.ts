@@ -19,7 +19,7 @@ export class CountryController {
                     filters.CountryName)
 
                 // If there is no error, returns a success response
-                res.status(200).json(countries)
+                res.status(200).json(countries[0])
             } catch (error) {
                 res.status(400).json({
                     success: false,
@@ -37,7 +37,7 @@ export class CountryController {
                 const country = await this.countryRepository.GetAsync(id_country)
 
                 // If there is no error, returns a success response
-                res.status(200).json(country)
+                res.status(200).json(country[0])
             } catch (error) {
                 res.status(400).json({
                     success: false,

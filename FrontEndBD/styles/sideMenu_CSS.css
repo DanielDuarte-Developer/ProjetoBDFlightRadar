@@ -162,6 +162,11 @@ body, html {
     flex: 1;
     transition: margin-left 0.3s ease;
 }
+/* Conteúdo principal para a tabela*/
+.content-table {
+    width: 100%;
+    transition: margin-left 0.3s ease;
+}
 
 .sidebar.hidden + .content {
     margin-left: 0px;
