@@ -1,3 +1,5 @@
+use flight_radar;
+
 DELIMITER $$
 
 CREATE TRIGGER deleteAirlineDepencies AFTER UPDATE ON airline FOR EACH ROW
@@ -32,3 +34,5 @@ BEGIN
     UPDATE flight SET IdObservation = randomFlightObservation();
     END IF;
 END $$
+
+DELIMITER ;

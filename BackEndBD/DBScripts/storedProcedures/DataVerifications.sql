@@ -1,4 +1,5 @@
 use flight_radar;
+
 DELIMITER $$
 
 ## Verifica se a tabela especificada contém registos de outras tabelas a ela associada

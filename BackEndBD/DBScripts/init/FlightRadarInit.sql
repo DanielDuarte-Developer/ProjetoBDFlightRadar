@@ -70,6 +70,7 @@ create table model (
 Id VARCHAR(100) primary key,
 IdBrand VARCHAR(100),
 foreign key (IdBrand) references brand(Id),
+ModelName nvarchar(100),
 SitsNumber int,
 Tare int,
 GrossWeight int,
