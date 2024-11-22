@@ -3,30 +3,23 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteCountry(
     -- DB atributes
-    INOUT Id CHAR(32),
-    IN CountryName NVARCHAR(255),
+    INOUT p_Id VARCHAR(36),
+    IN p_CountryName NVARCHAR(255),
     -- Control atributes
-    IN SysStatus NVARCHAR(255), 
-    IN UserId CHAR(32)
+    IN p_SysStatus NVARCHAR(255), 
+    IN p_UserId CHAR(32)
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;
-        SET Id = NULL;
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during country Stored Procedure execution';
-    END;
-
     START TRANSACTION;
     
-    IF Id IS NOT NULL THEN
-        IF SysStatus = 'X' THEN
+    IF p_Id  IS NOT NULL THEN
+        IF p_SysStatus = 'X' THEN
             UPDATE country
             SET 
-                SysStatus = SysStatus,
+                SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
-                SysModifyUserId = UserId
-            WHERE Id = Id;
+                SysModifyUserId = p_UserId
+            WHERE Id =  p_Id;
 
             -- Verify if the "delete" was successed (updated status)
             IF ROW_COUNT() = 0 THEN
@@ -36,23 +29,24 @@ BEGIN
         ELSE
             UPDATE country
             SET 
-                country_text = CountryName,
-                SysStatus = SysStatus,
+                CountryName = p_CountryName,
+                SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
-                SysModifyUserId = UserId
-            WHERE Id = Id;
-
+                SysModifyUserId = p_UserId
+            WHERE Id = p_Id;
+			
             -- Verify if the line was modified 
             IF ROW_COUNT() = 0 THEN
-            ROLLBACK;
+                ROLLBACK;
                 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Update error: No lines were modified on the country.';
             END IF;
         END IF;
     ELSE
-        SET Id = UUID();
+        SET p_Id = UUID();
         INSERT INTO country
         (
-            country_text,
+			Id,
+            CountryName,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -61,13 +55,13 @@ BEGIN
         )
         VALUES
         (
-            Id,
-            CountryName,
-            SysStatus,
+			p_Id,
+            p_CountryName,
+            p_SysStatus,
             UTC_TIMESTAMP(),
-            UserId,
+            p_UserId,
             UTC_TIMESTAMP(),
-            UserId
+            p_UserId
         );
 
         -- Verify if was inserted with success
@@ -81,10 +75,10 @@ BEGIN
     
     -- Verify se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
-        SELECT Id;
+        SELECT p_Id;
     ELSE
-        SET Id = NULL;
-        SELECT Id;
+        SET  p_Id= NULL;
+        SELECT p_Id;
     END IF;
 END $$
 

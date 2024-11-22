@@ -8,12 +8,19 @@ export class DatabaseService {
     }
 
     async callProcedure<T extends RowDataPacket[]>(procedureName: string, params: object): Promise<T> {
-        const paramValues = Object.values(params);
-        const placeholders = paramValues.map(() => '?').join(', ');
-        
-        const sql = `CALL ${procedureName}(${placeholders})`;
-        const [result] = await this.db.execute<T>(sql, paramValues);
-
+        var result
+        try{
+            const paramValues = Object.values(params);
+            const placeholders = paramValues.map(() => '?').join(', ');
+            console.log(paramValues)
+            const sql = `CALL ${procedureName}(${placeholders})`;
+            [result] = await this.db.execute<T>(sql, paramValues);
+            console.log(result)
+        }
+        catch(error){
+            console.log(error)
+            throw new Error("Error Trying to call procedure " + procedureName);
+        }
         return result;
     }
 
@@ -43,6 +50,25 @@ export class DatabaseService {
             }   
         }
         return defaultParams;
+    }
+
+    async mapItemToParams(commandStoredProcedure, item){
+        //item {Id: "C1", CountryName: "Ns"}
+        const procedureParams = await this.getProcedureParams(commandStoredProcedure);
+
+        const mappedParams = {};
+        // Itera sobre os parâmetros da stored procedure e mapeia os valores do item
+        for (let param of procedureParams) {
+            const paramNameWithoutPrefix = param.PARAMETER_NAME.slice(2)
+            // Verifica se o item tem a chave correspondente ao parâmetro
+            if (item.hasOwnProperty(paramNameWithoutPrefix)) {
+                mappedParams[param.PARAMETER_NAME] = item[paramNameWithoutPrefix];
+            } else {
+                // Se o campo não existe no item, pode definir como null ou outro valor padrão
+                mappedParams[param.PARAMETER_NAME] = null;
+            }
+        }
+        return mappedParams
     }
 
 }

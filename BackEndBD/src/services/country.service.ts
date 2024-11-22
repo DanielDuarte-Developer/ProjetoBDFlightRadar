@@ -10,10 +10,19 @@ export class CountryService implements ICountryService{
         this.countryRepository = countryRepository
     }
     async AddAsync(item: Country, userId: string) {
-        return await this.countryRepository.AddAsync(item,userId)
+        console.log("Entrei no serviço")
+        try{
+            return await this.countryRepository.AddAsync(item,userId)
+        }catch(error){
+            return error
+        }
     }
     async UpdateAsync(item: Country, userId: string) {
-        return await this.countryRepository.UpdateAsync(item,userId)
+        try{
+            return await this.countryRepository.UpdateAsync(item,userId)
+        }catch(error){
+            return error
+        }
     }
     async DeleteAsync(id: string, userId: string) {
         return await this.countryRepository.DeleteAsync(id, userId)

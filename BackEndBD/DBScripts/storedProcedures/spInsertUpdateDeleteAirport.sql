@@ -7,35 +7,28 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteAirport(
     -- DB atributes
-    INOUT Id CHAR(32),
-    IN IdCountry CHAR(32),
-    IN AirportName NVARCHAR(100),
-    IN AirportCode CHAR(10),
-    IN LocationName NVARCHAR(100),
-    IN LocationLatitude INT,
-    IN LocationLongitude INT,
+    INOUT p_Id CHAR(32),
+    IN p_IdCountry CHAR(32),
+    IN p_AirportName NVARCHAR(100),
+    IN p_AirportCode CHAR(10),
+    IN p_LocationName NVARCHAR(100),
+    IN p_LocationLatitude INT,
+    IN p_LocationLongitude INT,
     -- Control atributes
-    IN SysStatus NVARCHAR(255), 
-    IN UserId CHAR(32)
+    IN p_SysStatus NVARCHAR(255), 
+    IN p_UserId CHAR(32)
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;
-        SET Id = NULL;
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Unexpected error during airport Stored Procedure execution';
-    END;
-
     START TRANSACTION;
     
-    IF Id IS NOT NULL THEN
-        IF SysStatus = 'X' THEN
+    IF p_Id IS NOT NULL THEN
+        IF p_SysStatus = 'X' THEN
             UPDATE airport
             SET 
-                SysStatus = SysStatus,
+                SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
-                SysModifyUserId = UserId
-            WHERE Id = Id;
+                SysModifyUserId = p_UserId
+            WHERE Id = p_Id;
 
             -- Verify if the "delete" was successed (updated status)
             IF ROW_COUNT() = 0 THEN
@@ -45,16 +38,16 @@ BEGIN
         ELSE
             UPDATE airport
             SET 
-                IdCountry = IdCountry,
-                AirportName = AirportName,
-                AirportCode = AirportCode,
-                LocationName = LocationName,
-                LocationLatitude = LocationLatitude,
-                LocationLongitude = LocationLongitude,
-                SysStatus = SysStatus,
+                IdCountry = p_IdCountry,
+                AirportName = p_AirportName,
+                AirportCode = p_AirportCode,
+                LocationName = p_LocationName,
+                LocationLatitude = p_LocationLatitude,
+                LocationLongitude = p_LocationLongitude,
+                SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
-                SysModifyUserId = UserId
-            WHERE Id = Id;
+                SysModifyUserId = p_UserId
+            WHERE Id = p_Id;
 
             -- Verify if the line was modified 
             IF ROW_COUNT() = 0 THEN
@@ -63,7 +56,7 @@ BEGIN
             END IF;
         END IF;
     ELSE
-        SET Id = UUID();
+        SET p_Id = UUID();
         INSERT INTO airport
         (
             IdPlane,
@@ -81,18 +74,18 @@ BEGIN
         )
         VALUES
         (
-            Id,
-            IdCountry,
-            AirportName,
-            AirportCode,
-            LocationName,
-            LocationLatitude,
-            LocationLongitude,
-            SysStatus,
+            p_Id,
+            p_IdCountry,
+            p_AirportName,
+            p_AirportCode,
+            p_LocationName,
+            p_LocationLatitude,
+            p_LocationLongitude,
+            p_SysStatus,
             UTC_TIMESTAMP(),
-            UserId,
+            p_UserId,
             UTC_TIMESTAMP(),
-            UserId
+            p_UserId
         );
 
         -- Verify if was inserted with success
@@ -106,10 +99,10 @@ BEGIN
     
     -- Verify se a linha foi modificada
     IF ROW_COUNT() > 0 THEN
-        SELECT Id;
+        SELECT p_Id;
     ELSE
-        SET Id = NULL;
-        SELECT Id;
+        SET p_Id = NULL;
+        SELECT p_Id;
     END IF;
 END $$
 

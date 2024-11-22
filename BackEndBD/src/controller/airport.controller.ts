@@ -100,7 +100,7 @@ export class AirportController {
     }
     deleteAirport(): Handler {
         return async (req: Request, res: Response) => {
-            const id_airport = req.body
+            const id_airport = req.params.airportId as string
             try {
                 // Deletes the airport
                 await this.airportService.DeleteAsync(id_airport, 'daniel')

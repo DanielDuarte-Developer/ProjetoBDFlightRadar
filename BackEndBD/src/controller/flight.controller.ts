@@ -100,7 +100,7 @@ export class FlightController {
     }
     deleteFlight(): Handler {
         return async (req: Request, res: Response) => {
-            const id_flight = req.body
+            const id_flight = req.params.flightId as string
             try {
                 // Deletes the flight
                 await this.flightService.DeleteAsync(id_flight, 'daniel')

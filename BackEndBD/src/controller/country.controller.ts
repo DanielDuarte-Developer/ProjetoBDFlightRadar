@@ -95,7 +95,7 @@ export class CountryController {
     }
     deleteCountry(): Handler {
         return async (req: Request, res: Response) => {
-            const id_country = req.body
+            const id_country = req.params.countryId as string
             try {
                 // Deletes the country
                 await this.countryService.DeleteAsync(id_country, 'daniel')

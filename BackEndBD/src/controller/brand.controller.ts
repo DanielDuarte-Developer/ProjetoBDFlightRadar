@@ -96,7 +96,7 @@ export class BrandController {
     }
     deleteBrand(): Handler {
         return async (req: Request, res: Response) => {
-            const id_brand = req.body
+            const id_brand = req.params.brandId as string
             try {
                 // Deletes the brand
                 await this.brandService.DeleteAsync(id_brand, 'daniel')

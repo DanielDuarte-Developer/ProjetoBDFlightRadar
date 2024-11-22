@@ -14,37 +14,26 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
 
     async AddAsync(item:T, userId: string){
         try{
-            const params =  {
-                ...item,
-                UserId : userId,
-                SysStatus : 'A',
-                p_SortField : null,
-                p_SortOrder : null,
-                p_Skip : 0,
-                p_Take : 10000
-            }
-    
+            console.log("Entrei no repository")
+            const params = await this.dbService.mapItemToParams(this.commandStoredProcedure, item)
+            params['p_UserId'] = userId
+            params['p_SysStatus'] = "A"
+
             await this.dbService.callProcedure(this.commandStoredProcedure, params)
-        
+
         }catch(error){
             throw new Error(error.message || 'Error trying to add an new record')
         }
-      
+        
     }
 
     async UpdateAsync(item:T, userId: string) {
         try{
-            
-           const params = {
-                ...item,  // Faz a cópia do item
-                UserId: userId,
-                SysStatus: 'A',
-                p_SortField: null,
-                p_SortOrder: null,
-                p_Skip: 0,
-                p_Take: 10000
-            };
-            
+            const params = await this.dbService.mapItemToParams(this.commandStoredProcedure, item)
+            params['p_UserId'] = userId
+            params['p_SysStatus'] = "A"
+
+            console.log(params)
             const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
 
             // Verifique o retorno de `p_Id` após a execução, especialmente em caso de `INSERT`
@@ -59,12 +48,10 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
 
     async DeleteAsync(id: string, userId: string){
         try{
-            const procedureParams = await this.dbService.getProcedureParams(this.getDataProcedure);
-            const params = await this.dbService.constructParams(procedureParams)
-
-            params['Id'] = id;
-            params['UserId'] = userId;
-            params['SysStatus'] = 'X';
+            const params = await this.dbService.mapItemToParams(this.commandStoredProcedure, "")
+            params['p_Id'] = id;
+            params['p_UserId'] = userId;
+            params['p_SysStatus'] = 'X';
 
             await this.dbService.callProcedure(this.commandStoredProcedure, params)
         }catch(error){

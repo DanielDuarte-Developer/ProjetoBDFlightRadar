@@ -41,6 +41,18 @@ class TaskApi {
         return (await req).json();
     }
 
+    async updateAirline(value) {
+        const req = fetch(`http://localhost:3000/airline`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
     async deleteAirline(airlineId) {
         fetch(`http://localhost:3000/airline/${airlineId}`, {
             method: "DELETE",
@@ -74,6 +86,18 @@ class TaskApi {
     async createAirplane(value) {
         const req = fetch(`http://localhost:3000/airplane`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
+    async updateAirplane(value) {
+        const req = fetch(`http://localhost:3000/airplane`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -125,6 +149,18 @@ class TaskApi {
         return (await req).json();
     }
 
+    async updateAirport(value) {
+        const req = fetch(`http://localhost:3000/airport`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
     async deleteAirport(airportId) {
         fetch(`http://localhost:3000/airport/${airportId}`, {
             method: "DELETE",
@@ -158,6 +194,18 @@ class TaskApi {
     async createBrand(value) {
         const req = fetch(`http://localhost:3000/brand`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
+    async updateBrand(value) {
+        const req = fetch(`http://localhost:3000/brand`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -209,6 +257,18 @@ class TaskApi {
         return (await req).json();
     }
 
+    async updateCountry(value) {
+        const req = fetch(`http://localhost:3000/country`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
     async deleteCountry(countryId) {
         fetch(`http://localhost:3000/country/${countryId}`, {
             method: "DELETE",
@@ -242,6 +302,18 @@ class TaskApi {
     async createFlight(value) {
         const req = fetch(`http://localhost:3000/flight`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
+    async updateFlight(value) {
+        const req = fetch(`http://localhost:3000/flight`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -293,6 +365,18 @@ class TaskApi {
         return (await req).json();
     }
 
+    async updateModel(value) {
+        const req = fetch(`http://localhost:3000/model`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
     async deleteModel(modelId) {
         fetch(`http://localhost:3000/model/${modelId}`, {
             method: "DELETE",
@@ -335,6 +419,18 @@ class TaskApi {
         return (await req).json();
     }
 
+    async updateAirportFlight(value) {
+        const req = fetch(`http://localhost:3000/airportFlight`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
     // ########################### Observation Methods ############################
 
     /**
@@ -359,6 +455,18 @@ class TaskApi {
     async createObservation(value) {
         const req = fetch(`http://localhost:3000/observation`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(value),
+        });
+
+        return (await req).json();
+    }
+
+    async updateObservation(value) {
+        const req = fetch(`http://localhost:3000/observation`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },

@@ -94,7 +94,7 @@ export class ObservationController {
     }
     deleteObservation(): Handler {
         return async (req: Request, res: Response) => {
-            const id_observation = req.body
+            const id_observation = req.params.observationId as string
             try {
                 // Deletes the observation
                 await this.observationService.DeleteAsync(id_observation, 'jonas')

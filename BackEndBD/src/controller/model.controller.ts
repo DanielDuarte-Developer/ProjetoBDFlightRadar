@@ -108,7 +108,7 @@ export class ModelController {
     }
     deleteModel(): Handler {
         return async (req: Request, res: Response) => {
-            const id_model = req.body
+            const id_model = req.params.modelId as string
             try {
                 // Deletes the model
                 await this.modelService.DeleteAsync(id_model, 'daniel')
