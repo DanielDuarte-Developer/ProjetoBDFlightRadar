@@ -16,6 +16,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE country
             SET 
+                IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -47,6 +48,7 @@ BEGIN
         (
 			Id,
             CountryName,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -57,6 +59,7 @@ BEGIN
         (
 			p_Id,
             p_CountryName,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,

@@ -16,6 +16,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE observation
             SET 
+                IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -46,6 +47,7 @@ BEGIN
         INSERT INTO observation
         (
             ObservationText,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -56,6 +58,7 @@ BEGIN
         (
             p_Id,
             p_ObservationText,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,

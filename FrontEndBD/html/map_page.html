@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +12,17 @@
     <link rel="stylesheet" href="../styles/sideMenu_CSS.css">
     <title>Document</title>
 </head>
+
 <body>
     <div class="container">
-         <!-- Menu lateral -->
-         <nav class="sidebar" id="sidebar-hide">
+        <!-- Menu lateral -->
+        <nav class="sidebar" id="sidebar-hide">
             <div class="menu-bar">
                 <h2>Menu</h2>
                 <button class="toggle-btn" id="toggleSidebar">☰</button>
             </div>
             <ul>
-                <li><a href="../map_page.html">Map</a></li>
+                <li><a href="map_page.html">Map</a></li>
                 <li><a href="../html/tables/AirlinePage.html">Airline Table</a></li>
                 <li><a href="../html/tables/AirplanePage.html">Airplane Table</a></li>
                 <li><a href="../html/tables/AirportPage.html">Airport Table</a></li>
@@ -38,66 +40,61 @@
                 <button class="toggle-btn" id="showSidebar">☰</button>
             </nav>
             <div id="map"></div>
+            <button class="btn-add" id="btn-add">Add new Flight</button>
+
 
             <!-- Inclui a biblioteca do Leaflet -->
             <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-            
-            <!--
-            Janela modal
-            <div class="modal" id="modal">
-                <button class="close-btn" id="closeBtn">&times;</button>
-                <div class="info">
-                    <div class="header">
-                        <h2>TAP Air Portugal</h2>
-                        <span class="flight-code">TP863</span>
+
+            <!-- Modal -->
+            <div class="modal-add-flight" id="myModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add new Flight</h5>
+                        <span class="close" id="closeModal">&times;</span>
                     </div>
-                    <div class="image-container">
-                        <img src="../images/boing.jpg" alt="Avião" class="plane-image" />
+                    <div class="modal-body">
+                        <form id="flightForm">
+                            <input type="hidden" id="Id" >
+
+                            <label for="observationSelect">Observation</label>
+                            <select id="observationSelect">
+                            </select>
+
+                            <label for="modelSelect">Model</label>
+                            <select id="modelSelect">
+                            </select>
+
+                            <label for="airportSelect">Airport</label>
+                            <select id="airportSelect">
+                            </select>
+
+                            <label for="flightCode">Flight Code</label>
+                            <input type="text" id="flightCode" required>
+
+                            <label for="passengers">Passengers</label>
+                            <input type="number" id="passengers" required>
+
+                            <label for="timeMarker">Departure Time</label>
+                            <input type="datetime-local" id="timeMarkerStart" required>
+                            <label for="timeMarker">Arrival Time</label>
+                            <input type="datetime-local" id="timeMarkerEnd" required>
+                        </form>
                     </div>
-                    <div class="flight-info">
-                        <div class="row">
-                            <div class="column">
-                                <h3>Partida</h3>
-                                <p class="airport-code">LIS</p>
-                                <p class="time">9:25 PM</p>
-                            </div>
-                            <div class="column">
-                                <img src="../images/right-arrow.png" alt="Arrow" class="arrow" />
-                            </div>
-                            <div class="column">
-                                <h3>Chegada</h3>
-                                <p class="airport-code">CDG</p>
-                                <p class="time">11:51 PM</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details">
-                        <div class="row">
-                            <p><strong>Km de Distância:</strong> 1,250 km</p>
-                            <p><strong>Tempo de Voo:</strong> 2h 30m</p>
-                        </div>
-                        <div class="row">
-                            <p><strong>Aeronave:</strong> Airbus A319</p>
-                            <p><strong>Registro:</strong> CS-TTP</p>
-                        </div>
-                        <div class="row">
-                            <p><strong>País de Registro:</strong> Portugal</p>
-                            <p><strong>Companhia:</strong> TAP Air Portugal</p>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveButton">Save</button>
                     </div>
                 </div>
             </div>
-            -->
-            <!-- Fundo escurecido 
-            <div class="overlay" id="overlay"></div>
-            -->
+
             <script src="../Scripts/taskApi.js"></script>
             <script src="../Scripts/sideMenu_script.js"></script>
             <script src="../Scripts/map_script.js"></script>
             <script src="../Scripts/plane_script.js"></script>
             <script src="../Scripts/constructPlanesScript.js"></script>
         </main>
-        
+
     </div>
 </body>
+
 </html>

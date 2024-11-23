@@ -2,17 +2,18 @@ let taskApi = new TaskApi()
 const tableContainer = document.getElementById('table-container');
 const tableId = tableContainer.dataset.table;
 const columns = JSON.parse(tableContainer.dataset.columns);
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     // Get the data by the correspondent tableId
     let data = await getDataByTableId(tableId);
     console.log(data)
     constructTable(data,columns)
-
     // Adicionar eventos de clique nos botões "Adicionar Registro"
     const addButtons = document.querySelectorAll('.add-btn');
     addButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
-            navigateToEditOrAddPage(columns, "", 'Add')
+            navigateToEditOrAddPage(columns, "", 'Add', tableId)
         });
     });
 });
@@ -75,28 +76,80 @@ function constructTable(data,columns){
             `;
         },
         width: 220,
-        cellClick: (e, cell) => {
+        cellClick: async (e, cell)  => {
             const rowData = cell.getRow().getData(); // Get the row data
+            const rowId = rowData.Id; 
             if (e.target.classList.contains("edit-btn")) {
-                navigateToEditOrAddPage(columns, rowData, 'Edit')
+                navigateToEditOrAddPage(columns, rowData, 'Edit', tableId)
             } else if (e.target.classList.contains("delete-btn")) {
-                // Handle delete logic
+                const response = await DeleteObject(rowId, tableId)
+                if (response.ok) {
+                    cell.getRow().delete()
+                }
             }
         },
     });
     const table = new Tabulator("#table-container", {
         data: data,
+        rowData: "Id",
         layout: "fitColumns",
         columns: transformedColumns,
         responsiveLayout: true,
+        pagination: "local",     // Enables local pagination
+        paginationSize: 10,      // Number of rows per page
+        paginationButtonCount: 5,  // Number of pagination buttons to show
+        paginationSizeSelector: [5, 10, 20], // Allows user to select the number of rows per page
+        search: true,            // Enables the global search
+        headerFilterPlaceholder: "Search...", // Placeholder text for search input
+        tooltips: true,          // Enables tooltips on table cells
     });
+
+    document.getElementById('search-input').addEventListener('keyup', function(e) {
+        const searchValue = e.target.value.toLowerCase();  // Obtém o valor da barra de pesquisa (em minúsculas)
+
+        if (searchValue) {
+            // Se o valor de pesquisa não estiver vazio, faz o filtro
+            table.setFilter([
+                    //filters
+                    {field: "CountryName", type: "like", value: searchValue}
+            ]);
+        } else {
+            // Se o valor da pesquisa estiver vazio, remove o filtro e mostra todos os dados
+            table.clearFilter();
+        }
+    });
+
 }
 
+async function DeleteObject(id, tableId) {
+    switch (tableId) {
+        case 'airlineTable':
+            return taskApi.deleteAirline(id);
+        case 'airplaneTable':
+            return taskApi.deleteAirplane(id);
+        case 'airportTable':
+            return taskApi.deleteAirport(id);
+        case 'brandTable':
+            return taskApi.deleteBrand(id);
+        case 'countryTable':
+            return taskApi.deleteCountry(id)
+        case 'flightTable':
+            return taskApi.deleteFlight(id)
+        case 'modelTable':
+            return taskApi.deleteModel(id)
+        case 'observationTable':
+            return taskApi.deleteObservation(id)
+        default: 
+            console.log("Error Table Id ", tableId)
+            return;
+    }
 
-function navigateToEditOrAddPage(columns, rowData, type) {
+}
+function navigateToEditOrAddPage(columns, rowData, type, tableId) {
     sessionStorage.setItem('columns',JSON.stringify(columns))
     sessionStorage.setItem('rowData',JSON.stringify(rowData))
+    sessionStorage.setItem('tableId', tableId)
 
-    // Navigate to the edit page, passing tableId, columns, and row data as query params
+    // Navigate to the edit page, passing type
     window.location.href = `../EditOrAddTable.html?type=${type}`;
 }

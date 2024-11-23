@@ -38,7 +38,7 @@ export class FlightService implements IFlightService{
     }
 
     async AddAsync(item: Flight, userId: string) {
-        await this.flightRepository.AddAsync(item,userId);
+        return await this.flightRepository.AddAsync(item,userId);
     }
 
     async UpdateAsync(item: Flight, userId: string) {
@@ -66,6 +66,7 @@ export class FlightService implements IFlightService{
                 ModelObj : { 
                     Id: model[0].Id,
                     BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand.BrandName},
+                    ModelName: model[0].ModelName,
                     SitsNumber: model[0].SitsNumber,
                     Tare: model[0].Tare,
                     GrossWeight: model[0].GrossWeight,
@@ -114,6 +115,7 @@ export class FlightService implements IFlightService{
                         ModelObj : { 
                             Id: model[0].Id,
                             BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand.BrandName},
+                            ModelName: model[0].ModelName,
                             SitsNumber: model[0].SitsNumber,
                             Tare: model[0].Tare,
                             GrossWeight: model[0].GrossWeight,

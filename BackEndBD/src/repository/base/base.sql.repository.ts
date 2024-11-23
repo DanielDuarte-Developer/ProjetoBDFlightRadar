@@ -14,12 +14,11 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
 
     async AddAsync(item:T, userId: string){
         try{
-            console.log("Entrei no repository")
             const params = await this.dbService.mapItemToParams(this.commandStoredProcedure, item)
             params['p_UserId'] = userId
             params['p_SysStatus'] = "A"
 
-            await this.dbService.callProcedure(this.commandStoredProcedure, params)
+            return await this.dbService.callProcedure(this.commandStoredProcedure, params)
 
         }catch(error){
             throw new Error(error.message || 'Error trying to add an new record')
@@ -33,7 +32,6 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
             params['p_UserId'] = userId
             params['p_SysStatus'] = "A"
 
-            console.log(params)
             const result = await this.dbService.callProcedure(this.commandStoredProcedure, params)
 
             // Verifique o retorno de `p_Id` após a execução, especialmente em caso de `INSERT`
@@ -52,7 +50,7 @@ export class BaseSqlRepository<T> implements IBaseSqlRepository<T>{
             params['p_Id'] = id;
             params['p_UserId'] = userId;
             params['p_SysStatus'] = 'X';
-
+            
             await this.dbService.callProcedure(this.commandStoredProcedure, params)
         }catch(error){
             throw new Error(error.message || 'Error trying to delete the record')

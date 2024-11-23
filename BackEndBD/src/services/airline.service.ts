@@ -24,7 +24,12 @@ export class AirlineService implements IAirlineService{
     }
 
     async DeleteAsync(id: string, userId: string) {
-        await this.airlineRepository.DeleteAsync(id,userId);
+        try{
+
+            await this.airlineRepository.DeleteAsync(id,userId);
+        }catch(error){
+            throw new Error(error)
+        }
     }
 
     async GetByIdAsync(id: String): Promise<AirlineDTO> {

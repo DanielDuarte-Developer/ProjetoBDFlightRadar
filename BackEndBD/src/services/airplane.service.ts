@@ -38,7 +38,7 @@ export class AirplaneService implements IAirplaneService{
     }
 
     async DeleteAsync(id: string, userId: string) {
-        await this.airlineRepository.DeleteAsync(id,userId);
+        await this.airplaneRepository.DeleteAsync(id,userId);
     }
 
     async GetByIdAsync(id: string): Promise<AirplaneDTO> {
@@ -53,6 +53,7 @@ export class AirplaneService implements IAirplaneService{
             ModelObj : { 
                 Id: model[0].Id,
                 BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand[0].BrandName},
+                ModelName: model[0].ModelName,
                 SitsNumber: model[0].SitsNumber,
                 Tare: model[0].Tare,
                 GrossWeight: model[0].GrossWeight,
@@ -90,6 +91,7 @@ export class AirplaneService implements IAirplaneService{
                     ModelObj : { 
                         Id: model[0].Id,
                         BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand[0].BrandName},
+                        ModelName: model[0].ModelName,
                         SitsNumber: model[0].SitsNumber,
                         Tare: model[0].Tare,
                         GrossWeight: model[0].GrossWeight,

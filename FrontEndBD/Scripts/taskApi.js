@@ -11,7 +11,7 @@ class TaskApi {
     * 
     * @returns {Promise<Airline[]>}
     */
-    async findAirlines(filters={}) {
+    async findAirlines(filters = {}) {
         // Monta a query string a partir dos filtros
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/airline?${queryParams}`, {
@@ -54,12 +54,19 @@ class TaskApi {
     }
 
     async deleteAirline(airlineId) {
-        fetch(`http://localhost:3000/airline/${airlineId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try {
+            const response = fetch(`http://localhost:3000/airline/${airlineId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     // ########################### Airplane Methods ############################
@@ -68,7 +75,7 @@ class TaskApi {
     * 
     * @returns {Promise<Airplane[]>}
     */
-    async findAirplanes(filters={}) {
+    async findAirplanes(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/airplane?${queryParams}`)).json();
     }
@@ -108,12 +115,18 @@ class TaskApi {
     }
 
     async deleteAirplane(airplaneId) {
-        fetch(`http://localhost:3000/airplane/${airplaneId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try {
+            const response = fetch(`http://localhost:3000/airplane/${airplaneId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 
     // ########################### Airport Methods ############################
@@ -122,7 +135,7 @@ class TaskApi {
     * 
     * @returns {Promise<Airport[]>}
     */
-    async findAirports(filters={}) {
+    async findAirports(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/airport?${queryParams}`)).json();
     }
@@ -162,12 +175,18 @@ class TaskApi {
     }
 
     async deleteAirport(airportId) {
-        fetch(`http://localhost:3000/airport/${airportId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try{
+            const response = fetch(`http://localhost:3000/airport/${airportId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 
     // ########################### Brand Methods ############################
@@ -176,7 +195,7 @@ class TaskApi {
     * 
     * @returns {Promise<Brand[]>}
     */
-    async findBrands(filters={}) {
+    async findBrands(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/brand?${queryParams}`)).json();
     }
@@ -216,12 +235,18 @@ class TaskApi {
     }
 
     async deleteBrand(brandId) {
-        fetch(`http://localhost:3000/brand/${brandId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try{
+            const response = fetch(`http://localhost:3000/brand/${brandId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response;
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 
     // ########################### Brand Methods ############################
@@ -230,7 +255,7 @@ class TaskApi {
     * 
     * @returns {Promise<Country[]>}
     */
-    async findCountries(filters={}) {
+    async findCountries(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/country?${queryParams}`)).json();
     }
@@ -270,12 +295,18 @@ class TaskApi {
     }
 
     async deleteCountry(countryId) {
-        fetch(`http://localhost:3000/country/${countryId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try{
+            const response = fetch(`http://localhost:3000/country/${countryId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 
     // ########################### Flight Methods ############################
@@ -284,7 +315,7 @@ class TaskApi {
     * 
     * @returns {Promise<Flight[]>}
     */
-    async findFlights(filters={}) {
+    async findFlights(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/flight?${queryParams}`)).json();
     }
@@ -324,6 +355,17 @@ class TaskApi {
     }
 
     async deleteFlight(flightId) {
+        try{
+            const response = fetch(`http://localhost:3000/flight/${flightId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response
+        }catch(error){
+            console.error(error)
+        }
         fetch(`http://localhost:3000/flight/${flightId}`, {
             method: "DELETE",
             headers: {
@@ -338,7 +380,7 @@ class TaskApi {
     * 
     * @returns {Promise<Model[]>}
     */
-    async findModels(filters={}) {
+    async findModels(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/model?${queryParams}`)).json();
     }
@@ -378,12 +420,18 @@ class TaskApi {
     }
 
     async deleteModel(modelId) {
-        fetch(`http://localhost:3000/model/${modelId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try{
+            const response = fetch(`http://localhost:3000/model/${modelId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 
     // ########################### Airport Flight Methods ############################
@@ -392,7 +440,7 @@ class TaskApi {
     * 
     * @returns {Promise<AirportFlight[]>}
     */
-    async findAirportFlights(filters={}) {
+    async findAirportFlights(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/airportFlight?${queryParams}`)).json();
     }
@@ -437,7 +485,7 @@ class TaskApi {
     * 
     * @returns {Promise<Observation[]>}
     */
-    async findObservations(filters={}) {
+    async findObservations(filters = {}) {
         const queryParams = new URLSearchParams(filters).toString();
         return (await fetch(`http://localhost:3000/observation?${queryParams}`)).json();
     }
@@ -477,11 +525,17 @@ class TaskApi {
     }
 
     async deleteObservation(observationId) {
-        fetch(`http://localhost:3000/observation/${observationId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+        try{
+            const response = fetch(`http://localhost:3000/observation/${observationId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            return response
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 }

@@ -88,6 +88,7 @@ export class AirportFlightService implements IAirportFlightService{
                     ModelObj : { 
                         Id: model[0].Id,
                         BrandObj : {Id: brand[0].Id, CountryObj: {Id: countryBrand[0].Id, CountryName: countryBrand[0].CountryName}, BrandName: brand.BrandName},
+                        ModelName: model[0].ModelName,
                         SitsNumber: model[0].SitsNumber,
                         Tare: model[0].Tare,
                         GrossWeight: model[0].GrossWeight,
@@ -150,6 +151,7 @@ export class AirportFlightService implements IAirportFlightService{
                             ModelObj : { 
                                 Id: model[0].Id,
                                 BrandObj : {Id: brand[0].Id, CountryObj: {Id: countryBrand[0].Id, CountryName: countryBrand[0].CountryName}, BrandName: brand[0].BrandName},
+                                ModelName: model[0].ModelName,
                                 SitsNumber: model[0].SitsNumber,
                                 Tare: model[0].Tare,
                                 GrossWeight: model[0].GrossWeight,

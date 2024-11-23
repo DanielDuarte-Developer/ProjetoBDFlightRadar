@@ -7,8 +7,8 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteAirline(
     -- DB atributes
-    INOUT p_Id CHAR(32),
-    IN p_IdCountry CHAR(32),
+    INOUT p_Id CHAR(36),
+    IN p_IdCountry CHAR(36),
     IN p_AirlineName NVARCHAR(100),
     IN p_AirlineCode CHAR(10),
     -- Control atributes
@@ -22,6 +22,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE airline
             SET 
+				IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -36,8 +37,8 @@ BEGIN
             UPDATE airline
             SET 
                 IdCountry = p_IdCountry,
-                ArlineName = p_AirlineName,
-                ArlineCode = p_AirlineCode,
+                AirlineName = p_AirlineName,
+                AirlineCode = p_AirlineCode,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -53,10 +54,11 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO airline
         (
-            IdAirline,
+            Id,
             IdCountry,
-            ArlineName,
-            ArlineCode,
+            AirlineName,
+            AirlineCode,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -69,6 +71,7 @@ BEGIN
             p_IdCountry,
             p_AirlineName,
             p_AirlineCode,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,

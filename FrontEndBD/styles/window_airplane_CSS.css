@@ -1,9 +1,9 @@
  /* Estilos da modal */
  .modal {
     position: fixed;
-    top: 16px;  /* Afastamento do topo */
-    left: 16px;  /* Afastamento do lado esquerdo */
-    bottom: 40px;  /* Afastamento do fundo */
+    top: 70px;  /* Afastamento do topo */
+    left: 73%;  /* Afastamento do lado esquerdo */
+    bottom: 30px;  /* Afastamento do fundo */
     width: 500px;  /* Largura da modal */
     background-color: #fff;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);

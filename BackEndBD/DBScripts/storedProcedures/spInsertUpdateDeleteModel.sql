@@ -29,6 +29,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE model
             SET 
+                IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -73,6 +74,7 @@ BEGIN
             FlightCrewNumber,
             FuelQuantity,
             ModelYear,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -90,6 +92,7 @@ BEGIN
             p_FlightCrewNumber,
             p_FuelQuantity,
             p_ModelYear,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,

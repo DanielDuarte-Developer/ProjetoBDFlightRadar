@@ -21,6 +21,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE airplane
             SET 
+				IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -54,6 +55,7 @@ BEGIN
             IdPlane,
             IdBrand,
             IdAirline,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -65,6 +67,7 @@ BEGIN
             p_Id,
             p_IdBrand,
             p_IdAirline,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,

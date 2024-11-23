@@ -9,17 +9,17 @@ returns bool
 begin 
 case tableName
 when tableName = airport 
-	then return exists (select IdAirport from airport_airplane_flight where IdAirport = tableId and (IdFlight != null or IdAirplane != null));
+	then return exists (select IdAirport from airport_flight where IdAirport = tableId and (IdFlight != null));
 when tableName = airplane 
-	then return exists (select IdAirplane from airport_airplane_flight where IdAirplane = tableId and (IdFlight != null or IdAirport != null));
+	then return exists (select IdAirplane from airport_flight where IdAirplane = tableId and (IdFlight != null or IdAirport != null));
 when tableName = country
-	then return exists (select IdCountry from airport_airplane_flight where IdCountry = tableId and (IdFlight != null or IdAirport != null));
+	then return exists (select IdCountry from airport_flight where IdCountry = tableId and (IdFlight != null or IdAirport != null));
 when tableName = flight
 	then return false;
 when tableName = airline
 	then return exists (select IdAirline from airplane where IdAirline = tableId);
 when tableName = model
-	then return exists (select IdModelfrom airplane where IdModel= tableId);
+	then return exists (select IdModel from airplane where IdModel= tableId);
 when tableName = brand
 	then return exists (select IdBrand from model where IdBrand = tableId);
 when tableName = country

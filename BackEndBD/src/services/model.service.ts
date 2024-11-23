@@ -38,6 +38,7 @@ export class ModelService implements IModelService{
         return{ 
             Id: model[0].Id,
             BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand.BrandName},
+            ModelName: model[0].ModelName,
             SitsNumber: model[0].SitsNumber,
             Tare: model[0].Tare,
             GrossWeight: model[0].GrossWeight,
@@ -70,6 +71,7 @@ export class ModelService implements IModelService{
                 return{ 
                     Id: model.Id,
                     BrandObj : {Id: brand[0].Id, CountryObj: {Id: country[0].Id, CountryName: country[0].CountryName}, BrandName: brand[0].BrandName},
+                    ModelName: model.ModelName,
                     SitsNumber: model.SitsNumber,
                     Tare: model.Tare,
                     GrossWeight: model.GrossWeight,

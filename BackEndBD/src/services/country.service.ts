@@ -10,7 +10,6 @@ export class CountryService implements ICountryService{
         this.countryRepository = countryRepository
     }
     async AddAsync(item: Country, userId: string) {
-        console.log("Entrei no serviço")
         try{
             return await this.countryRepository.AddAsync(item,userId)
         }catch(error){

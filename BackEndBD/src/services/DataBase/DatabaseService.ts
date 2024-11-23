@@ -12,8 +12,9 @@ export class DatabaseService {
         try{
             const paramValues = Object.values(params);
             const placeholders = paramValues.map(() => '?').join(', ');
-            console.log(paramValues)
+
             const sql = `CALL ${procedureName}(${placeholders})`;
+           
             [result] = await this.db.execute<T>(sql, paramValues);
             console.log(result)
         }

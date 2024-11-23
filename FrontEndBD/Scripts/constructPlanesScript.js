@@ -8,6 +8,88 @@ async function main() {
         mainContent.appendChild(modalContent)
         moveAndCreatePlane(flightAiport.AirportObj.LocationLatitude, flightAiport.AirportObj.LocationLongitude, 38.736946, -9.142685, map, flightAiport.FlightObj.Id)
     })
+    await populateModal()
+}
+
+
+
+async function populateModal() {
+    const observations = await loadObservations()
+    const airports = await loadAiports()
+    const airplanes = await loadAirplanes()
+
+    const button = document.getElementById("btn-add")
+    const modal = document.getElementById("myModal");
+    const closeModal = document.getElementById("closeModal");
+    const saveButton = document.getElementById("saveButton");
+
+    button.addEventListener('click', () => {
+        // Preencher os selects com os dados
+        // Para Observation
+        const observationOptions = observations.map(obs => ({
+            value: obs.Id,
+            label: obs.ObservationText
+        }));
+        populateSelect('observationSelect', observationOptions);
+
+        // Para Airplane
+        const airplaneOptions = airplanes.map(airplane => ({
+            value: airplane.Id,
+            label: airplane.ModelObj.ModelName
+        }));
+        populateSelect('modelSelect', airplaneOptions);
+
+        // Para Airport
+        const airportOptions = airports.map(airport => ({
+            value: airport.Id,
+            label: airport.AirportName
+        }));
+        populateSelect('airportSelect', airportOptions);
+
+        // Mostrar o modal
+        modal.style.display = "block";
+    })
+
+
+
+    // Evento de clique no botão "Save"
+    saveButton.addEventListener('click', () => {
+
+        // Criação do primeiro JSON 'flight'
+        const flight = {
+            IdObservation: document.getElementById("observationSelect").value,
+            IdAirplane: document.getElementById("modelSelect").value,
+            FlightCode: document.getElementById("flightCode").value,
+            Passengers: document.getElementById("passengers").value
+        };
+
+        // Criação do segundo JSON 'airportFlight'
+        const airportFlight = {
+            IdAirport: document.getElementById("airportSelect").value,
+            IdFlight: "", // The Id comes when the flights is inserted then he returns the ID
+            TimeMarker: {
+                TimeStart: document.getElementById("timeMarkerStart").value,
+                TimeEnd: document.getElementById("timeMarkerEnd").value
+            }
+        };
+
+        // Mostrar os dados no console (você pode enviar para o backend aqui)
+        console.log('Flight Data:', JSON.stringify(flight, null, 2));
+        console.log('Airport Flight Data:', JSON.stringify(airportFlight, null, 2));
+
+        // Fechar o modal após salvar
+        modal.style.display = "none";
+    });
+
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none"; // Oculta o modal
+    });
+
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
 }
 
 async function loadFlightsAirports() {
@@ -23,6 +105,54 @@ async function loadFlightsAirports() {
     } catch (error) {
         // Trata erros ao buscar os voos
         console.error("Erro ao buscar voos:", error.message || error);
+    }
+}
+
+async function loadObservations() {
+    try {
+        const observations = await taskApi.findObservations();
+        // Verifica se os dados foram retornados
+        if (!observations) {
+            console.log("Nenhuma observation encontrada.");
+            return;
+        }
+
+        return observations
+    } catch (error) {
+        // Trata erros ao buscar os observations
+        console.error("Erro ao buscar obseravations:", error.message || error);
+    }
+}
+
+async function loadAirplanes() {
+    try {
+        const airplanes = await taskApi.findAirplanes();
+        // Verifica se os dados foram retornados
+        if (!airplanes) {
+            console.log("Nenhum avião encontrado.");
+            return;
+        }
+
+        return airplanes
+    } catch (error) {
+        // Trata erros ao buscar os aviões
+        console.error("Erro ao buscar aviões:", error.message || error);
+    }
+}
+
+async function loadAiports() {
+    try {
+        const airports = await taskApi.findAirports();
+        // Verifica se os dados foram retornados
+        if (!airports) {
+            console.log("Nenhum airoporto encontrado.");
+            return;
+        }
+
+        return airports
+    } catch (error) {
+        // Trata erros ao buscar os airportos
+        console.error("Erro ao buscar airportos:", error.message || error);
     }
 }
 
@@ -80,4 +210,17 @@ function createModalContent(flightData) {
     `;
     return container;
 }
+
+// Função para preencher os selects
+const populateSelect = (selectId, options) => {
+    const selectElement = document.getElementById(selectId);
+    selectElement.innerHTML = ''; // Limpar as opções existentes
+    options.forEach(option => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option.value;
+        optionElement.textContent = option.label;
+        selectElement.appendChild(optionElement);
+    });
+};
+
 main()

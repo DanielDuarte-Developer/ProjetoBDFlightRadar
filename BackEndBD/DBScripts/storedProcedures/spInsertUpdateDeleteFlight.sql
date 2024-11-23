@@ -23,6 +23,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE flight
             SET 
+				IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -60,6 +61,7 @@ BEGIN
             IdAirplane,
             FlightCode,
             Passengers,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -73,6 +75,7 @@ BEGIN
             p_IdAirplane,
             p_FlightCode,
             p_Passengers,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,
@@ -93,7 +96,6 @@ BEGIN
     IF ROW_COUNT() > 0 THEN
         SELECT p_Id;
     ELSE
-        SET p_Id = NULL;
         SELECT p_Id;
     END IF;
 END $$

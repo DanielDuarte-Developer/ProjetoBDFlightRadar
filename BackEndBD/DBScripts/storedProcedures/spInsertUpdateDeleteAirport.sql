@@ -25,6 +25,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE airport
             SET 
+				IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -66,6 +67,7 @@ BEGIN
             LocationName,
             LocationLatitude,
             LocationLongitude,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -81,6 +83,7 @@ BEGIN
             p_LocationName,
             p_LocationLatitude,
             p_LocationLongitude,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,

@@ -1,12 +1,112 @@
  /* Estilo para garantir que o mapa preencha a tela toda */
  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
 }
 
 #map {
     height: 100%;
     width: 100%;
+    position: relative;
+}
+
+/* Estilos do botão */
+.btn-add {
+    position: absolute; /* Posiciona o botão sobre o mapa */
+    top: 20px; /* Distância do topo do mapa */
+    right: 20px; /* Distância da direita */
+    background-color: #007bff; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    font-size: 16px;
+    padding: 12px 24px; /* Tamanho do botão */
+    border: none;
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: all 0.3s ease; /* Transição suave para efeitos */
+    cursor: pointer; /* Cursor de clique */
+    z-index: 9999; /* Garantir que o botão fique em cima do mapa */
+}
+
+/* Efeito de hover (passar o mouse sobre o botão) */
+.btn-add:hover {
+    background-color: #0056b3; /* Cor de fundo mais escura ao passar o mouse */
+    transform: translateY(-3px); /* Efeito de levantar o botão */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Aumentar a sombra */
+}
+
+/* Efeito de foco */
+.btn-add:focus {
+    outline: none; /* Remover o contorno padrão */
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Foco azul */
+}
+
+/* Modal */
+.modal-add-flight {
+    position: fixed;
+    top: 50px;  /* Afastamento do topo */
+    left: 40%;  /* Afastamento do lado esquerdo */
+    bottom: 195px;  /* Afastamento do fundo */
+    width: 550px;  /* Largura da modal */
+    background-color: #fff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    z-index: 1000;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    display: none;  /* Ocultar inicialmente */
+}
+
+/* Conteúdo do modal */
+.modal-content {
+    background-color: white;
+    margin: -3% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+}
+.modal-title{
+    font-size: 25px;
+}
+/* Header do modal */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header .close {
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Corpo do modal */
+.modal-body input,
+.modal-body select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Footer do modal */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-footer button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-footer button:hover {
+    background-color: #0056b3;
 }

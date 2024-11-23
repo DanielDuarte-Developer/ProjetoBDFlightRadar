@@ -61,12 +61,13 @@ export class FlightController {
             const object: Flight = req.body
             try {
                 // Adds a new flight
-                await this.flightService.AddAsync(object, 'daniel')
+                const response = await this.flightService.AddAsync(object, 'daniel')
 
                 // If there is no error, returns a success response
                 res.status(201).json({
                     success: true,
-                    message: 'Flight added successfully.'
+                    message: 'Flight added successfully.',
+                    value: response
                 });
             } catch (error) {
                 res.status(400).json({

@@ -17,6 +17,7 @@ BEGIN
         IF p_SysStatus = 'X' THEN
             UPDATE brand
             SET 
+                IsDelete = 1,
                 SysStatus = p_SysStatus,
                 SysModifyDate = UTC_TIMESTAMP(),
                 SysModifyUserId = p_UserId
@@ -49,6 +50,7 @@ BEGIN
         (
             IdCountry,
             BrandName,
+            IsDelete,
             SysStatus,
             SysCreateDate,
             SysCreateUserId,
@@ -60,6 +62,7 @@ BEGIN
             p_Id,
             p_IdCountry,
             p_BrandName,
+            0,
             p_SysStatus,
             UTC_TIMESTAMP(),
             p_UserId,
