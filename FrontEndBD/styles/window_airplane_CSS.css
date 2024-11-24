@@ -2,7 +2,7 @@
  .modal {
     position: fixed;
     top: 70px;  /* Afastamento do topo */
-    left: 73%;  /* Afastamento do lado esquerdo */
+    left: 66%;  /* Afastamento do lado esquerdo */
     bottom: 30px;  /* Afastamento do fundo */
     width: 500px;  /* Largura da modal */
     background-color: #fff;
@@ -10,6 +10,7 @@
     border-radius: 15px;
     z-index: 1000;
     overflow: hidden;
+    overflow-y: auto;
     font-family: 'Arial', sans-serif;
     display: none;  /* Ocultar inicialmente */
 }

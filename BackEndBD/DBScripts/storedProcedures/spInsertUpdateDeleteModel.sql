@@ -5,6 +5,8 @@ CREATE PROCEDURE spInsertUpdateDeleteModel(
     -- DB atributes
     INOUT p_Id CHAR(36),
     IN p_IdBrand CHAR(36),
+    IN p_ModalName VARCHAR(100),
+    IN p_ModalImage VARCHAR(100),
     IN p_SitsNumber INT,
     IN p_Tare INT,
     IN p_GrossWeight INT,
@@ -44,6 +46,8 @@ BEGIN
             UPDATE model
             SET 
                 IdBrand = p_IdBrand,
+                ModalName = p_ModalName,
+                ModalImage = p_ModalImage,
                 SitsNumber = p_SitsNumber,
                 Tare = p_Tare,
                 GrossWeight = p_GrossWeight,
@@ -68,6 +72,8 @@ BEGIN
         (
 			Id,
             IdBrand,
+            ModalName,
+            ModalImage,
             SitsNumber,
             Tare,
             GrossWeight ,
@@ -86,6 +92,8 @@ BEGIN
         (
             p_Id,
             p_IdBrand,
+            p_ModalName,
+            p_ModalImage,
             p_SitsNumber,
             p_Tare,
             p_GrossWeight,

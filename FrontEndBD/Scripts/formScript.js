@@ -124,10 +124,8 @@ async function AddOrUpdateObject(item, tableId, type) {
     switch (tableId) {
         case 'airlineTable':
             if (type == "Add") {
-                //Add logic
                 try{
                     await taskApi.createAirline(item)
-                    console.log("Inserted airline with sucesses")
                 }catch(error){
                     console.log(error)
                 }
@@ -135,17 +133,20 @@ async function AddOrUpdateObject(item, tableId, type) {
             } else if (type == "Edit") {
                 //Edit Logic
                 await taskApi.updateAirline(item)
-                cleanSession()
             } else {
                 //After the submiting clean the session
                 console.log("Error")
-                cleanSession()
             }
+            cleanSession()
             break;
         case 'airplaneTable':
             if (type == "Add") {
-                //Add logic
-                await taskApi.createAirplane(item)
+                try{
+                    //Add logic
+                    await taskApi.createAirplane(item)
+                }catch(error){
+                    console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic
@@ -160,22 +161,29 @@ async function AddOrUpdateObject(item, tableId, type) {
         case 'airportTable':
             if (type == "Add") {
                 //Add logic
-                await taskApi.createAirport(item)
+                try{
+                    await taskApi.createAirport(item)
+                }catch(error){
+                    console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic
                 await taskApi.updateAirport(item)
-                cleanSession()
             } else {
                 //After the submiting clean the session
                 console.log("Error")
-                cleanSession()
             }
+            cleanSession()
             break;
         case 'brandTable':
             if (type == "Add") {
                 //Add logic
-                await taskApi.createBrand(item)
+                try{
+                    await taskApi.createBrand(item)
+                }catch(error){
+                    console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic
@@ -190,7 +198,11 @@ async function AddOrUpdateObject(item, tableId, type) {
         case 'countryTable':
             if (type == "Add") {
                 //Add logic
-                await taskApi.createCountry(item)
+                try{
+                    await taskApi.createCountry(item)
+                }catch(error){
+                    console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic
@@ -205,7 +217,11 @@ async function AddOrUpdateObject(item, tableId, type) {
         case 'flightTable':
             if (type == "Add") {
                 //Add logic
-                await taskApi.createFlight(item)
+                try{
+                    await taskApi.createFlight(item)
+                }catch(error){
+                    console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic
@@ -220,7 +236,11 @@ async function AddOrUpdateObject(item, tableId, type) {
         case 'modelTable':
             if (type == "Add") {
                 //Add logic
-                await taskApi.createModel(item)
+                try{
+                    await taskApi.createModel(item)
+                }catch(error){
+                    console.Console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic
@@ -235,7 +255,11 @@ async function AddOrUpdateObject(item, tableId, type) {
         case 'observationTable':
             if (type == "Add") {
                 //Add logic
-                await taskApi.createObservation(item)
+                try{    
+                    await taskApi.createObservation(item)
+                }catch(error){
+                    console.log(error)
+                }
                 cleanSession()
             } else if (type == "Edit") {
                 //Edit Logic

@@ -18,19 +18,23 @@ export class AirlineRepository extends BaseSqlRepository<Airline> implements IAr
         airlineCode: string = '',
         sortField: string = 'id_airline',
         sortAscending: boolean = false): Promise<Airline[]> {
+            try{
+                const procedureParams = await this.dbService.getProcedureParams('spGetAirlines');
+                
+                const filters = this.dbService.constructParams(procedureParams, { 
+                    p_Id :idAirline || null,
+                    p_IdCountry : idCountry || null,
+                    p_arlineName : airlineName || null,
+                    p_arlineCode : airlineCode || null,
+                    p_sortField : sortField || null,
+                    p_sortAscending: sortAscending ? 'ASC': 'DESC',
+                });
+                
+                //Give the procedure name and the parameters
+                return this.dbService.callProcedure<Airline[]>('spGetAirlines', filters);
+            }catch(error){
+                throw new Error("Error trying to list Arlines",error)
+            }
         
-        const procedureParams = await this.dbService.getProcedureParams('spGetAirlines');
-        
-        const filters = this.dbService.constructParams(procedureParams, { 
-            p_Id :idAirline || null,
-            p_IdCountry : idCountry || null,
-            p_arlineName : airlineName || null,
-            p_arlineCode : airlineCode || null,
-            p_sortField : sortField || null,
-            p_sortAscending: sortAscending ? 'ASC': 'DESC',
-        });
-        
-        //Give the procedure name and the parameters
-        return this.dbService.callProcedure<Airline[]>('spGetAirlines', filters);
     }
 }

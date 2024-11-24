@@ -12,11 +12,15 @@ class TaskApi {
     * @returns {Promise<Airline[]>}
     */
     async findAirlines(filters = {}) {
-        // Monta a query string a partir dos filtros
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/airline?${queryParams}`, {
-            method: 'GET',
-        })).json();
+        try{
+            // Monta a query string a partir dos filtros
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/airline?${queryParams}`, {
+                method: 'GET',
+            })).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -25,32 +29,44 @@ class TaskApi {
      * @returns {Promise<Airline>}
      */
     async getAirline(airlineId) {
-        return (await fetch(`http://localhost:3000/airline/${airlineId}`)).json()
+        try{
+            return (await fetch(`http://localhost:3000/airline/${airlineId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createAirline(value) {
-        const req = fetch(`http://localhost:3000/airline`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{     
+            const req = fetch(`http://localhost:3000/airline`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateAirline(value) {
-        const req = fetch(`http://localhost:3000/airline`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{
+            const req = fetch(`http://localhost:3000/airline`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteAirline(airlineId) {
@@ -64,7 +80,7 @@ class TaskApi {
 
             return response
         } catch (error) {
-            console.log(error)
+            throw new Error("Error: ", error)
         }
 
     }
@@ -76,8 +92,12 @@ class TaskApi {
     * @returns {Promise<Airplane[]>}
     */
     async findAirplanes(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/airplane?${queryParams}`)).json();
+        try{
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/airplane?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -86,32 +106,44 @@ class TaskApi {
      * @returns {Promise<Airplane>}
      */
     async getAirplane(airplaneId) {
-        return (await fetch(`http://localhost:3000/airplane/${airplaneId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/airplane/${airplaneId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createAirplane(value) {
-        const req = fetch(`http://localhost:3000/airplane`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/airplane`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateAirplane(value) {
-        const req = fetch(`http://localhost:3000/airplane`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/airplane`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteAirplane(airplaneId) {
@@ -125,7 +157,7 @@ class TaskApi {
             return response
         }
         catch (error) {
-            console.log(error)
+            throw new Error("Error: ", error)
         }
     }
 
@@ -136,8 +168,12 @@ class TaskApi {
     * @returns {Promise<Airport[]>}
     */
     async findAirports(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/airport?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/airport?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -146,32 +182,44 @@ class TaskApi {
      * @returns {Promise<Airport>}
      */
     async getAirport(airportId) {
-        return (await fetch(`http://localhost:3000/airport/${airportId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/airport/${airportId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createAirport(value) {
-        const req = fetch(`http://localhost:3000/airport`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/airport`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateAirport(value) {
-        const req = fetch(`http://localhost:3000/airport`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/airport`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteAirport(airportId) {
@@ -184,7 +232,7 @@ class TaskApi {
             });
             return response
         }catch(error){
-            console.log(error)
+            throw new Error("Error: ", error)
         }
         
     }
@@ -196,8 +244,12 @@ class TaskApi {
     * @returns {Promise<Brand[]>}
     */
     async findBrands(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/brand?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/brand?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -206,45 +258,61 @@ class TaskApi {
      * @returns {Promise<Brand>}
      */
     async getBrand(brandId) {
-        return (await fetch(`http://localhost:3000/brand/${brandId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/brand/${brandId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createBrand(value) {
-        const req = fetch(`http://localhost:3000/brand`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/brand`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateBrand(value) {
-        const req = fetch(`http://localhost:3000/brand`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/brand`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteBrand(brandId) {
-        try{
-            const response = fetch(`http://localhost:3000/brand/${brandId}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
-            return response;
+        try{ 
+            try{
+                const response = fetch(`http://localhost:3000/brand/${brandId}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+                return response;
+            }catch(error){
+                console.log(error)
+            }
         }catch(error){
-            console.log(error)
+            throw new Error("Error: ",error)
         }
         
     }
@@ -256,8 +324,12 @@ class TaskApi {
     * @returns {Promise<Country[]>}
     */
     async findCountries(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/country?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/country?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -266,32 +338,44 @@ class TaskApi {
      * @returns {Promise<Country>}
      */
     async getCountry(countryId) {
-        return (await fetch(`http://localhost:3000/country/${countryId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/country/${countryId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createCountry(value) {
-        const req = fetch(`http://localhost:3000/country`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/country`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateCountry(value) {
-        const req = fetch(`http://localhost:3000/country`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/country`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteCountry(countryId) {
@@ -304,7 +388,7 @@ class TaskApi {
             });
             return response
         }catch(error){
-            console.log(error)
+            throw new Error("Error: ", error)
         }
         
     }
@@ -316,8 +400,12 @@ class TaskApi {
     * @returns {Promise<Flight[]>}
     */
     async findFlights(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/flight?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/flight?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -326,32 +414,44 @@ class TaskApi {
      * @returns {Promise<Flight>}
      */
     async getFlight(flightId) {
-        return (await fetch(`http://localhost:3000/flight/${flightId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/flight/${flightId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createFlight(value) {
-        const req = fetch(`http://localhost:3000/flight`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/flight`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateFlight(value) {
-        const req = fetch(`http://localhost:3000/flight`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/flight`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteFlight(flightId) {
@@ -364,14 +464,8 @@ class TaskApi {
             });
             return response
         }catch(error){
-            console.error(error)
+            throw new Error("Error: ", error)
         }
-        fetch(`http://localhost:3000/flight/${flightId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
     }
 
     // ########################### Model Methods ############################
@@ -381,8 +475,12 @@ class TaskApi {
     * @returns {Promise<Model[]>}
     */
     async findModels(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/model?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/model?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -391,32 +489,44 @@ class TaskApi {
      * @returns {Promise<Model>}
      */
     async getModel(modelId) {
-        return (await fetch(`http://localhost:3000/model/${modelId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/model/${modelId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createModel(value) {
-        const req = fetch(`http://localhost:3000/model`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/model`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateModel(value) {
-        const req = fetch(`http://localhost:3000/model`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/model`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteModel(modelId) {
@@ -429,7 +539,7 @@ class TaskApi {
             });
             return response
         }catch(error){
-            console.log(error)
+            throw new Error("Error: ",error)
         }
         
     }
@@ -441,8 +551,12 @@ class TaskApi {
     * @returns {Promise<AirportFlight[]>}
     */
     async findAirportFlights(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/airportFlight?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/airportFlight?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -451,32 +565,44 @@ class TaskApi {
      * @returns {Promise<AirportFlight>}
      */
     async getAirportFlight(airportFlightId) {
-        return (await fetch(`http://localhost:3000/airportFlight/${airportFlightId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/airportFlight/${airportFlightId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createAirportFlight(value) {
-        const req = fetch(`http://localhost:3000/airportFlight`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/airportFlight`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateAirportFlight(value) {
-        const req = fetch(`http://localhost:3000/airportFlight`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/airportFlight`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     // ########################### Observation Methods ############################
@@ -486,8 +612,12 @@ class TaskApi {
     * @returns {Promise<Observation[]>}
     */
     async findObservations(filters = {}) {
-        const queryParams = new URLSearchParams(filters).toString();
-        return (await fetch(`http://localhost:3000/observation?${queryParams}`)).json();
+        try{ 
+            const queryParams = new URLSearchParams(filters).toString();
+            return (await fetch(`http://localhost:3000/observation?${queryParams}`)).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     /**
@@ -496,32 +626,44 @@ class TaskApi {
      * @returns {Promise<Observation>}
      */
     async getObservation(observationId) {
-        return (await fetch(`http://localhost:3000/observation/${observationId}`)).json()
+        try{ 
+            return (await fetch(`http://localhost:3000/observation/${observationId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
 
     async createObservation(value) {
-        const req = fetch(`http://localhost:3000/observation`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/observation`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async updateObservation(value) {
-        const req = fetch(`http://localhost:3000/observation`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(value),
-        });
-
-        return (await req).json();
+        try{ 
+            const req = fetch(`http://localhost:3000/observation`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(value),
+            });
+    
+            return (await req).json();
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
     }
 
     async deleteObservation(observationId) {
@@ -534,7 +676,7 @@ class TaskApi {
             });
             return response
         }catch(error){
-            console.log(error)
+            throw new Error("Error: ", error)
         }
         
     }

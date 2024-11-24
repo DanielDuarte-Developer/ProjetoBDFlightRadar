@@ -16,17 +16,21 @@ export class CountryRepository extends BaseSqlRepository<Country> implements ICo
         countryName: string = '',
         sortField: string = '',
         sortAscending: boolean = false): Promise<Country[]> {
-        const procedureParams = await this.dbService.getProcedureParams('spGetCountries');
-        
-        const filters = this.dbService.constructParams(procedureParams,{
-            p_Id: idCountry || null,
-            p_CountryName: countryName || null,
-            p_sortField : sortField || null,
-            p_sortAscending: sortAscending ? 'ASC': 'DESC',
-        })
-        
-        //Give the procedure name and the parameters
-        return this.dbService.callProcedure<Country[]>('spGetCountries', filters);
+            try{
+                const procedureParams = await this.dbService.getProcedureParams('spGetCountries');
+                
+                const filters = this.dbService.constructParams(procedureParams,{
+                    p_Id: idCountry || null,
+                    p_CountryName: countryName || null,
+                    p_sortField : sortField || null,
+                    p_sortAscending: sortAscending ? 'ASC': 'DESC',
+                })
+                
+                //Give the procedure name and the parameters
+                return this.dbService.callProcedure<Country[]>('spGetCountries', filters);
+            }catch(error){
+                throw new Error("Error trying to list Countrys",error)
+            }
     }
 
 }
