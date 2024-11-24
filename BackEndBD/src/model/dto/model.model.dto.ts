@@ -4,6 +4,7 @@ export interface ModelDTO {
     Id?: string
     BrandObj : BrandDTO
     ModelName: string
+    ModelImage: string
     SitsNumber: string
     Tare: string
     GrossWeight: string

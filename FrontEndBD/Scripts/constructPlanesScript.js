@@ -11,10 +11,7 @@ async function main() {
     await populateModal()
 }
 
-
-
 async function populateModal() {
-    const observations = await loadObservations()
     const airports = await loadAiports()
     const airplanes = await loadAirplanes()
 
@@ -25,17 +22,10 @@ async function populateModal() {
 
     button.addEventListener('click', () => {
         // Preencher os selects com os dados
-        // Para Observation
-        const observationOptions = observations.map(obs => ({
-            value: obs.Id,
-            label: obs.ObservationText
-        }));
-        populateSelect('observationSelect', observationOptions);
-
         // Para Airplane
         const airplaneOptions = airplanes.map(airplane => ({
             value: airplane.Id,
-            label: airplane.ModelObj.ModelName
+            label: airplane.AirlineObj.AirlineName +" - "+ airplane.ModelObj.ModelName
         }));
         populateSelect('modelSelect', airplaneOptions);
 
@@ -58,7 +48,7 @@ async function populateModal() {
 
         // Criação do primeiro JSON 'flight'
         const flight = {
-            IdObservation: document.getElementById("observationSelect").value,
+            IdObservation: null,
             IdAirplane: document.getElementById("modelSelect").value,
             FlightCode: document.getElementById("flightCode").value,
             Passengers: document.getElementById("passengers").value

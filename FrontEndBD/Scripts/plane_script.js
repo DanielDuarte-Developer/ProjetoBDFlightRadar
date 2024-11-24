@@ -15,9 +15,9 @@ function moveAndCreatePlane(departureLat, departureLng, destinyLat, destinyLng, 
     const curvedPoints = getCurvedPoints(departureCoordinations, destinyCoordinations, 100);
     // Draw an line to departaur to destiny
     const polyline = L.polyline(curvedPoints, { color: 'blue' });
-    
+
     // Make the "plane" (marker) move it
-    movePlane(departureCoordinations,destinyCoordinations,planeMarker)
+    movePlane(departureCoordinations, destinyCoordinations, planeMarker)
 
     // When clicked on the "plane" will show the modal with all information
     planeMarker.on('click', function () {
@@ -29,7 +29,7 @@ function moveAndCreatePlane(departureLat, departureLng, destinyLat, destinyLng, 
     // Close modal window
     document.getElementById('closeBtn-' + id).onclick = function () {
         document.getElementById('modal-' + id).style.display = 'none';
-        document.getElementById('overlay-' + id ).style.display = 'none';
+        document.getElementById('overlay-' + id).style.display = 'none';
         map.removeLayer(polyline);
     };
 
@@ -46,7 +46,7 @@ function moveAndCreatePlane(departureLat, departureLng, destinyLat, destinyLng, 
 //**********  Auxiliar functions **************/
 
 // Function to move the plane
-function movePlane(departure, destiny, airplane) {
+function movePlane(departure, destiny, airplane, time) {
     let currentLat = departure.lat;
     let currentLng = departure.lng;
 
@@ -56,18 +56,21 @@ function movePlane(departure, destiny, airplane) {
 
     let count = 0;
 
+    const randomDelay = Math.random() * 1000;
+    setTimeout(() => {
+        const randomSpeedFactor = 1 + Math.random() * 0.5;
+        const moveInterval = setInterval(() => {
+            if (count < totalSteps) {
+                currentLat += stepLat * randomSpeedFactor;
+                currentLng += stepLng * randomSpeedFactor;
+                airplane.setLatLng([currentLat, currentLng]); // Atualiza a posição do marcador
 
-    const moveInterval = setInterval(() => {
-        if (count < totalSteps) {
-            currentLat += stepLat;
-            currentLng += stepLng;
-            airplane.setLatLng([currentLat, currentLng]); // Atualiza a posição do marcador
-
-            count++;
-        } else {
-            clearInterval(moveInterval); // Para o movimento
-        }
-    }, 1500); // Move a cada 1500 milissegundos (1 segundo e meio)
+                count++;
+            } else {
+                clearInterval(moveInterval); // Para o movimento
+            }
+        }, 1500); // Move a cada 1500 milissegundos (1 segundo e meio)
+    }, randomDelay);
 }
 // Function which calculates through 2 points latitude and longitude based on the curvature of the earth
 function haversine(lat1, lon1, lat2, lon2) {

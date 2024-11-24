@@ -112,12 +112,12 @@ body {
 }
 
 .delete-btn {
-    background-color: gray;
+    background-color: red;
     color: #fff;
 }
 
 .delete-btn:hover {
-    background-color: gray;
+    background-color: darkred;
     transform: scale(1.05);
 }
 
