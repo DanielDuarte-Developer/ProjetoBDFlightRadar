@@ -33,4 +33,21 @@ export class AirportFlightRepository extends BaseSqlRepository<AirportFlight> im
                 throw new Error("Error trying to list AirportFlights",error)
             }
     }
+
+    async GetValuesConstructPlane(flightId){
+        try{
+            return await this.dbService.getValuesConstructPlane(flightId);
+        }catch(error){
+            console.log(error)
+            throw new Error("Error trying to get values to construct airplane",error)
+        }
+    }
+    async GetFlightCardInfo(flightId){
+        try{
+            return await this.dbService.getFlightCardInfo(flightId);
+        }catch(error){
+            console.log(error)
+            throw new Error("Error trying to get flight card information",error)
+        }
+    }
 }

@@ -6,8 +6,8 @@ import { AirportFlightService } from "../services/airport.flight.service";
 export class AirportFlightController {
     private airportFlightService: AirportFlightService;
 
-    constructor(airportFlightRepository: AirportFlightService) {
-        this.airportFlightService = airportFlightRepository;
+    constructor(airportFlightService: AirportFlightService) {
+        this.airportFlightService = airportFlightService;
     }
 
     getAirportFlights(): Handler {
@@ -91,6 +91,43 @@ export class AirportFlightController {
                 res.status(400).json({
                     success: false,
                     message: error.message || 'Failed to update the airportFlights.'
+                });
+            }
+        }
+    }
+
+
+    getValuesConstructPlane(): Handler {
+        return async (req: Request, res: Response) => {
+            const flighId = req.params.flightId as string
+            
+            try {
+                // Get the airportFlights by the filters given
+                const airportFlights = await this.airportFlightService.GetValuesConstructPlane(flighId)
+                // If there is no error, returns a success response
+                res.status(200).json(airportFlights)
+            } catch (error) {
+                res.status(400).json({
+                    success: false,
+                    message: error.message || 'Failed to retrieve airport data.'
+                });
+            }
+        }
+    }
+
+    getFlightCardInfo(): Handler {
+        return async (req: Request, res: Response) => {
+            const id_flight = req.params.flightId as string
+            try {
+                // Get airportFlight by id
+                const airportFlight = await this.airportFlightService.GetFlightCardInfo(id_flight)
+
+                // If there is no error, returns a success response
+                res.status(200).json(airportFlight)
+            } catch (error) {
+                res.status(400).json({
+                    success: false,
+                    message: error.message || 'Failed to retrieve airportFlights data.'
                 });
             }
         }

@@ -24,6 +24,53 @@ export class DatabaseService {
         return result;
     }
 
+    async getValuesConstructPlane(flightIdInput){
+        try{
+            const sql = `CALL getMapPlaneValues(?,?,?,?,?)`;
+            const [rows, fields] = await this.db.execute<any>(sql,
+                [
+                flightIdInput,
+                null,
+                null,
+                null,
+                null]
+            )
+            return rows[0];
+        }catch(error){
+            //console.log(error)
+            throw new Error("Error trying to get values to construct airplane",error)
+        }
+    }
+    async getFlightCardInfo(flightId){
+        try{
+            const sql = `CALL getFlightCardInfo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+            const result = await this.db.execute<any>(sql, [
+                flightId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            ])
+            return result[0][0]
+        }catch(error){
+            console.log(error)
+            throw new Error("Error trying to get flight card information",error)
+        }
+    }
+    // Auxiliar Fuctions
     async getProcedureParams(procedureName: string): Promise<any[]> {
         const sql = `
             SELECT PARAMETER_NAME, DATA_TYPE

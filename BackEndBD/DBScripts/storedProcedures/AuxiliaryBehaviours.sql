@@ -33,54 +33,86 @@ BEGIN
 END $$
 
 DELIMITER $$
-create procedure getArrival(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
+create procedure getArrival(flightId varchar(100), out airportId varchar(100), out timeM timestamp)
 begin
-    select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId order by TimeMarker desc limit 1;
+    select IdAirport, TimeMarker into airportId, timeM from airport_flight where IdFlight = flightId order by TimeMarker desc limit 1;
 end $$
 
 DELIMITER $$
-create procedure getStopOvers(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
+create procedure getStopOvers(flightId varchar(100), out airportId varchar(100), out timeM timestamp)
 begin
-    select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId and TimeMarker > (select TimeMarker from airport_flight order by TimeMarker asc limit 1) and TimeMarker < (select TimeMarker from airport_flight order by TimeMarker desc limit 1);
+    select IdAirport, TimeMarker into airportId, timeM from airport_flight where IdFlight = flightId and TimeMarker > (select TimeMarker from airport_flight order by TimeMarker asc limit 1) and TimeMarker < (select TimeMarker from airport_flight order by TimeMarker desc limit 1);
 end $$
 
 DELIMITER $$
-create procedure getMapPlaneValues(out flightId varchar(100), out startLat int, out startLong int, out endLat int, out endLong int)
-begin
-    declare done int default false;
-	declare airportId varchar(100);
-    declare timeMarker timestamp;
-    declare cursorFlightIds cursor for select Id from flight;
-	declare continue handler for not found set done = true;
-    
-	set flightId = '';
-    set startLat = 0; 
-    set startLong = 0; 
-    set endLat = 0; 
-    set endLong = 0;
-    open cursorFlightIds;
-    
-    read_loop : loop
-        fetch cursorFlightIds into flightId;
-        if done then leave read_loop;
-        end if;
-        
-        call getDeparture(flightId, airportId, timeMarker);
-        select LocationLatitude, LocationLongitude into startLat, startLong from airport where Id = airportId;
-       
-		call getArrival(flightId, airportId, timeMarker);
-        select LocationLatitude, LocationLongitude into endLat, endLong from airport where Id = airportId;
-    end loop;
-    close cursorFlightIds;
-end $$
+CREATE PROCEDURE getMapPlaneValues(
+    INOUT flightIdin VARCHAR(100), 
+    OUT startLat INT, 
+    OUT startLong INT, 
+    OUT endLat INT, 
+    OUT endLong INT
+)
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE airportId VARCHAR(100);
+    DECLARE timeMarker TIMESTAMP;
+    DECLARE cursorFlightIds CURSOR FOR SELECT Id FROM flight;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Inicializando os valores de saída
+    SET startLat = 0; 
+    SET startLong = 0; 
+    SET endLat = 0; 
+    SET endLong = 0;
+
+    -- Criando a tabela temporária para armazenar os resultados
+    CREATE TEMPORARY TABLE IF NOT EXISTS temp_results (
+        FlightId VARCHAR(100),
+        StartLat INT,
+        StartLong INT,
+        EndLat INT,
+        EndLong INT
+    );
+
+    -- Limpando a tabela temporária antes de inserir novos dados
+    TRUNCATE TABLE temp_results;
+
+	-- Obtendo a partida (departure)
+	CALL getDeparture(flightIdin, airportId, timeMarker);
+	SELECT LocationLatitude, LocationLongitude INTO startLat, startLong
+	FROM airport
+	WHERE Id = airportId;
+
+	-- Obtendo a chegada (arrival)
+	CALL getArrival(flightIdin, airportId, timeMarker);
+	SELECT LocationLatitude, LocationLongitude INTO endLat, endLong
+	FROM airport
+	WHERE Id = airportId;
+
+	-- Inserindo os dados na tabela temporária
+	INSERT INTO temp_results (FlightId, StartLat, StartLong, EndLat, EndLong)
+	VALUES (flightIdin, startLat, startLong, endLat, endLong);
+
+
+    -- Selecionando os dados para o flightId fornecido
+    SELECT StartLat, StartLong, EndLat, EndLong
+    FROM temp_results
+    WHERE FlightId = flightIdin
+    LIMIT 1;
+
+    -- Remover a tabela temporária após o uso (opcional, já que é temporária)
+    DROP TEMPORARY TABLE IF EXISTS temp_results;
+
+END $$
+
 
 DELIMITER $$
-create procedure getFlightCardInfo(inout flightId varchar(100), out flightCode char(7), out passengers int,
-out startTime timestamp, out endTime timestamp,
+create procedure getFlightCardInfo(inout flightId varchar(100), out flightCD char(7), out passeng int,
+out startTime timestamp, out endT timestamp,
 out startAirportName nvarchar(100), out startAirportCode char(3), out startLocation nvarchar(50), out startCountry nvarchar(100),
 out endAirportName nvarchar(100), out endAirportCode char(3), out endLocation nvarchar(50), out endCountry nvarchar(100),
 out airplaneBrandName nvarchar(100), out airplaneModelName nvarchar(100), out airPlaneModelImage varchar(1000),
-out airlineName nvarchar(100), out flightDuration time)
+out airlineN nvarchar(100), out flightDuration time)
 
 begin
 declare airplaneId varchar(100);
@@ -92,26 +124,29 @@ declare endCountryId varchar(100);
 declare startAirportId varchar(100);
 declare endAirportId varchar(100);
 
-select Id, IdAirplane, FlightCode, Passengers into flightId, airplaneId, flightCode, passengers from flight;
+select Id, IdAirplane, FlightCode, Passengers into flightId, airplaneId, flightCD, passeng from flight Where Id = flightId;
 
 select IdModel, IdAirline into airplaneModelId, airlineId from airplane where Id = airplaneId;
 
-select IdBrand, ModelName, ModelImage into airplaneBrandId, airplaneModelName, airPlaneModelImage from model where Id = modelId;
+select IdBrand, ModelName, ModelImage into airplaneBrandId, airplaneModelName, airPlaneModelImage from model where Id = airplaneModelId;
 
-select BrandName into airplaneBrandName from brand where Id = brandId;
+select BrandName into airplaneBrandName from brand where Id = airplaneBrandId;
 
-select AirlineName into airlineName from airline where Id = airlineId;
+select AirlineName into airlineN from airline where Id = airlineId;
 
 call getDeparture(flightId, startAirportId, startTime);
-call getArrival(flightId, endAirportId, endTime);
+call getArrival(flightId, endAirportId, endT);
 
 select IdCountry, AirportName, AirportCode, LocationName into startCountryId, startAirportName, startAirportCode, startLocation from airport where Id = startAirportId;
 select IdCountry, AirportName, AirportCode, LocationName into endCountryId, endAirportName, endAirportCode, endLocation from airport where Id = endAirportId;
 
 select CountryName into startCountry from country where Id = startCountryId; 
-select CountryName into endCountry from country where Id = endAirportId; 
+select CountryName into endCountry from country where Id = endCountryId; 
 
-set flightDuration = timediff(endTime,startTime);
+set flightDuration = timediff(endT,startTime);
+
+Select flightCD, passeng, startTime, endT, startAirportName,startAirportCode, startLocation, startCountry, endAirportName, endAirportCode, endLocation, 
+endCountry, airplaneBrandName, airplaneModelName, airPlaneModelImage, airlineN, flightDuration;
 
 end $$
 

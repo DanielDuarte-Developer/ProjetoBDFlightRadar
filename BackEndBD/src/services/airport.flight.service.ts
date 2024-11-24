@@ -199,4 +199,19 @@ export class AirportFlightService implements IAirportFlightService{
             }
     }
 
+    async GetValuesConstructPlane(flighId){
+        try{
+            return await this.airportFlightRepository.GetValuesConstructPlane(flighId)
+        }catch(error){
+            throw new Error(error)
+        }
+    }
+    async GetFlightCardInfo(flighId){
+        try{
+            return await this.airportFlightRepository.GetFlightCardInfo(flighId)
+        }catch(error){
+            throw new Error(error)
+        }
+    }
+
 }

@@ -572,6 +572,22 @@ class TaskApi {
         }
     }
 
+    async getMapPlaneValues(flightId) {
+        try{ 
+            return (await fetch(`http://localhost:3000/airportFlight/map/${flightId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
+    }
+
+    async getFlightCardInfo(flightId) {
+        try{ 
+            return (await fetch(`http://localhost:3000/airportFlight/card/${flightId}`)).json()
+        }catch(error){
+            throw new Error("Error: ",error)
+        }
+    }
+
 
     async createAirportFlight(value) {
         try{ 

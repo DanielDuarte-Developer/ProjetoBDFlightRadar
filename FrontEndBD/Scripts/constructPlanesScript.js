@@ -3,10 +3,15 @@ async function main() {
     const mainContent = document.querySelector('.content');
     const flightsAirports = await loadFlightsAirports()
     console.log("FlightsAirports: ", flightsAirports)
-    flightsAirports.forEach(flightAiport => {
-        const modalContent = createModalContent(flightAiport)
+    flightsAirports.forEach(async flightAiport => {
+        const mapValues = await taskApi.getMapPlaneValues(flightAiport.FlightObj.Id);
+        //console.log(CardInfo)
+        const modalContent = await createModalContent(flightAiport)
         mainContent.appendChild(modalContent)
-        moveAndCreatePlane(flightAiport.AirportObj.LocationLatitude, flightAiport.AirportObj.LocationLongitude, 38.736946, -9.142685, map, flightAiport.FlightObj.Id)
+        if(flightAiport.FlightObj.Id == "e0615c56-a9fb-11ef-9493-0800277a15ae")
+        {
+            moveAndCreatePlane(mapValues[0].StartLat, mapValues[0].StartLong, mapValues[0].EndLat, mapValues[0].EndLong, map, flightAiport.FlightObj.Id)
+        }
     })
     await populateModal()
 }
@@ -133,52 +138,58 @@ async function loadAiports() {
     }
 }
 
-function createModalContent(flightData) {
+async function createModalContent(flightData) {
+    const CardInfo = await taskApi.getFlightCardInfo(flightData.FlightObj.Id);
+    console.log(CardInfo)
     const container = document.createElement('div');
     container.innerHTML = `
         <div class="modal" id="modal-${flightData.FlightObj.Id}">
             <button class="close-btn" id="closeBtn-${flightData.FlightObj.Id}">&times;</button>
             <div class="info">
                 <div class="header">
-                    <h2>${flightData.FlightObj.AirplaneObj.AirlineObj.AirlineName || "Airline Unknown"}</h2>
-                    <span class="flight-code">${flightData.FlightObj.FlightCode || "Code Unknown"}</span>
+                    <h2>${CardInfo[0].airlineN || "Airline Unknown"}</h2>
+                    <span class="flight-code">${CardInfo[0].flightCD || "Code Unknown"}</span>
                 </div>
                 <div class="image-container">
-                    <img src="../images/boing.jpg" alt="Avião" class="plane-image" />
+                    <img src="${CardInfo[0].airPlaneModelImage || '../images/boing.jpg'}" alt="Plane" class="plane-image" />
                 </div>
                 <div class="flight-info">
                     <div class="row">
                         <div class="column">
                             <h3>Partida</h3>
-                            <p class="airport-code">${flightData.AirportObj.AirportCode || "N/A"}</p>
-                            <p class="time">${new Date(flightData.TimeMarker).toLocaleTimeString() || "N/A"}</p>
+                            <p class="airport-code">${CardInfo[0].startAirportCode || "N/A"}</p>
+                            <p class="time">${new Date(CardInfo[0].startTime).toLocaleString() || "N/A"}</p>
                         </div>
                         <div class="column">
                             <img src="../images/right-arrow.png" alt="Arrow" class="arrow" />
                         </div>
                         <div class="column">
                             <h3>Chegada</h3>
-                            <p class="airport-code">--</p> <!-- Replace with actual arrival code if available -->
-                            <p class="time">--</p> <!-- Replace with actual arrival time if available -->
+                            <p class="airport-code">${CardInfo[0].endAirportCode || "N/A"}</p>
+                            <p class="time">${new Date(CardInfo[0].endT).toLocaleString() || "N/A"}</p>
                         </div>
                     </div>
                 </div>
                 <div class="details">
                     <div class="row">
-                        <p><strong>Aeroporto:</strong> ${flightData.AirportObj.AirportName || "N/A"}</p>
-                        <p><strong>Localização:</strong> ${flightData.AirportObj.LocationName || "N/A"}</p>
+                        <p><strong>Aeroporto de Partida:</strong> ${CardInfo[0].startAirportName || "N/A"}</p>
+                        <p><strong>Localização de Partida:</strong> ${CardInfo[0].startLocation || "N/A"}</p>
                     </div>
                     <div class="row">
-                        <p><strong>Km de Distância:</strong> -- km</p>
-                        <p><strong>Tempo de Voo:</strong> --</p> <!-- Add these details if available -->
+                        <p><strong>Aeroporto de Chegada:</strong> ${CardInfo[0].endAirportName || "N/A"}</p>
+                        <p><strong>Localização de Chegada:</strong> ${CardInfo[0].endLocation || "N/A"}</p>
                     </div>
                     <div class="row">
-                        <p><strong>Aeronave:</strong> ${flightData.FlightObj.AirplaneObj.ModelObj.BrandObj.BrandName || "N/A"} ${flightData.FlightObj.AirplaneObj.ModelObj.ModelYear || "N/A"}</p>
-                        <p><strong>Capacidade:</strong> ${flightData.FlightObj.AirplaneObj.ModelObj.SitsNumber || "N/A"} passageiros</p>
+                        <p><strong>País de Partida:</strong> ${CardInfo[0].startCountry || "N/A"}</p>
+                        <p><strong>País de Chegada:</strong> ${CardInfo[0].endCountry || "N/A"}</p>
                     </div>
                     <div class="row">
-                        <p><strong>País de Registro:</strong> ${flightData.FlightObj.AirplaneObj.ModelObj.BrandObj.CountryObj.CountryName || "N/A"}</p>
-                        <p><strong>Companhia:</strong> ${flightData.FlightObj.AirplaneObj.AirlineObj.AirlineName || "N/A"}</p>
+                        <p><strong>Aeronave:</strong> ${CardInfo[0].airplaneBrandName || "N/A"} ${CardInfo[0].airplaneModelName || "N/A"}</p>
+                        <p><strong>Capacidade:</strong> ${CardInfo[0].passeng || "N/A"} passageiros</p>
+                    </div>
+                    <div class="row">
+                        <p><strong>Companhia Aérea:</strong> ${CardInfo[0].airlineN || "N/A"}</p>
+                        <p><strong>Tempo de Voo:</strong> ${CardInfo[0].flightDuration || "N/A"}</p>
                     </div>
                 </div>
             </div>

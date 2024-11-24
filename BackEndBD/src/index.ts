@@ -142,6 +142,8 @@ console.log("💾 Connecting to database");
         // Airport Flight routes
         api.get("/airportFlight", airportFlightController.getAirportFlights())
         api.get("/airportFlight/:airportFlightId", airportFlightController.getAirportFlight())
+        api.get("/airportFlight/map/:flightId", airportFlightController.getValuesConstructPlane())
+        api.get("/airportFlight/card/:flightId", airportFlightController.getFlightCardInfo())
         api.post("/airportFlight", airportFlightController.addAirportFlight())
         api.put("/airportFlight", airportFlightController.updateAirportFlight())
 
