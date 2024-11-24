@@ -16,10 +16,21 @@ return observationId;
 end $$
 
 DELIMITER $$
-create procedure getDeparture(inout flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
-begin
-    select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId order by TimeMarker asc limit 1;
-end $$
+
+CREATE PROCEDURE getDeparture(
+    INOUT flightId VARCHAR(100), 
+    OUT airportId VARCHAR(100), 
+    OUT timeM TIMESTAMP
+)
+BEGIN
+    -- Realizando o SELECT INTO para atribuição dos valores
+    SELECT IdAirport, TimeMarker
+    INTO airportId, timeM
+    FROM airport_flight
+    WHERE IdFlight = flightId
+    ORDER BY TimeMarker ASC
+    LIMIT 1;
+END $$
 
 DELIMITER $$
 create procedure getArrival(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
@@ -39,7 +50,7 @@ begin
     declare done int default false;
 	declare airportId varchar(100);
     declare timeMarker timestamp;
-    declare cursorFlightIds cursor for select IdFlight from flight;
+    declare cursorFlightIds cursor for select Id from flight;
 	declare continue handler for not found set done = true;
     
 	set flightId = '';
@@ -55,10 +66,10 @@ begin
         end if;
         
         call getDeparture(flightId, airportId, timeMarker);
-        select LocationLatitude, LocationLongitude into startLat, startLong from airport where IdAirport = airportId;
+        select LocationLatitude, LocationLongitude into startLat, startLong from airport where Id = airportId;
        
 		call getArrival(flightId, airportId, timeMarker);
-        select LocationLatitude, LocationLongitude into endLat, endLong from airport where IdAirport = airportId;
+        select LocationLatitude, LocationLongitude into endLat, endLong from airport where Id = airportId;
     end loop;
     close cursorFlightIds;
 end $$
