@@ -1,107 +1,197 @@
+-- Flight Control Data Base Initializer
+
+drop database if exists flight_radar;
+
+create database if not exists flight_radar;
 use flight_radar;
 
-DELIMITER $$
-create function randomFlightObservation()
-returns varchar(100)
-No Sql
-READS SQL DATA 
-begin
+create table country (
+Id VARCHAR(100) primary key,
+CountryName nvarchar(100),
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-declare observationsNumber int; 
-declare observationId varchar(100);
+create table airport (
+Id VARCHAR(100) primary key,
+IdCountry VARCHAR(100),
+foreign key (IdCountry) references country(Id),
+AirportName nvarchar(100) unique,
+AirportCode char(3) unique,
+LocationName nvarchar(50),
+LocationLatitude int,
+LocationLongitude int,
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-select IdObservation into observationId from observation order by rand() limit 1;
+create table airline (
+Id VARCHAR(100) primary key,
+IdCountry VARCHAR(100),
+foreign key (IdCountry) references country(Id),
+AirlineName nvarchar(100) unique,
+AirlineCode char(10) unique,
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-return observationId;
-end $$
+create table observation (
+Id VARCHAR(100) primary key,
+ObservationText nvarchar(255),
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-DELIMITER $$
-create procedure getDeparture(inout flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
-begin
-    select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId order by TimeMarker asc limit 1;
-end $$
+create table brand (
+Id VARCHAR(100) primary key,
+IdCountry VARCHAR(100),
+foreign key (IdCountry) references country(Id),
+BrandName nvarchar(100) unique,
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-DELIMITER $$
-create procedure getArrival(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
-begin
-    select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId order by TimeMarker desc limit 1;
-end $$
+create table model (
+Id VARCHAR(100) primary key,
+IdBrand VARCHAR(100),
+foreign key (IdBrand) references brand(Id),
+ModelName nvarchar(100),
+ModelImage nvarchar(1000),
+SitsNumber int,
+Tare int,
+GrossWeight int,
+Payload int,
+FlightCrewNumber int,
+FuelQuantity int,
+ModelYear int,
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-DELIMITER $$
-create procedure getStopOvers(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
-begin
-    select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId and TimeMarker > (select TimeMarker from airport_flight order by TimeMarker asc limit 1) and TimeMarker < (select TimeMarker from airport_flight order by TimeMarker desc limit 1);
-end $$
+create table airplane (
+Id VARCHAR(100) primary key,
+IdModel VARCHAR(100),
+IdAirline VARCHAR(100),
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100),
+foreign key (IdAirline) references airline(Id),
+foreign key (IdModel) references model(Id)
+);
 
-DELIMITER $$
-create procedure getMapPlaneValues(out flightId varchar(100), out startLat int, out startLong int, out endLat int, out endLong int)
-begin
-    declare done int default false;
-	declare airportId varchar(100);
-    declare timeMarker timestamp;
-    declare cursorFlightIds cursor for select IdFlight from flight;
-	declare continue handler for not found set done = true;
-    
-	set flightId = '';
-    set startLat = 0; 
-    set startLong = 0; 
-    set endLat = 0; 
-    set endLong = 0;
-    open cursorFlightIds;
-    
-    read_loop : loop
-        fetch cursorFlightIds into flightId;
-        if done then leave read_loop;
-        end if;
-        
-        call getDeparture(flightId, airportId, timeMarker);
-        select LocationLatitude, LocationLongitude into startLat, startLong from airport where IdAirport = airportId;
-       
-		call getArrival(flightId, airportId, timeMarker);
-        select LocationLatitude, LocationLongitude into endLat, endLong from airport where IdAirport = airportId;
-    end loop;
-    close cursorFlightIds;
-end $$
+create table flight (
+Id VARCHAR(100) primary key,
+IdObservation VARCHAR(100),
+IdAirplane VARCHAR(100),
+foreign key (IdAirplane) references airplane(Id),
+foreign key (IdObservation) references observation(Id),
+FlightCode char(7) unique,
+Passengers int,
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100)
+);
 
-DELIMITER $$
-create procedure getFlightCardInfo(inout flightId varchar(100), out flightCode char(7), out passengers int,
-out startTime timestamp, out endTime timestamp,
-out startAirportName nvarchar(100), out startAirportCode char(3), out startLocation nvarchar(50), out startCountry nvarchar(100),
-out endAirportName nvarchar(100), out endAirportCode char(3), out endLocation nvarchar(50), out endCountry nvarchar(100),
-out airplaneBrandName nvarchar(100), out airplaneModelName nvarchar(100), out airPlaneModelImage varchar(1000),
-out airlineName nvarchar(100), out flightDuration time)
+create table airport_flight (
+Id VARCHAR(100) primary key ,
+IdAirport VARCHAR(100),
+IdFlight VARCHAR(100),
+TimeMarker timestamp,
+IsDelete int,
+SysStatus nvarchar(255),
+SysCreateDate datetime,   
+SysCreateUserId VARCHAR(100),
+SysModifyDate datetime,
+SysModifyUserId VARCHAR(100),
+foreign key (IdAirport) references airport(Id),
+foreign key (IdFlight) references flight(Id)
+);
 
-begin
-declare airplaneId varchar(100);
-declare airplaneModelId varchar(100);
-declare airplaneBrandId varchar(100);
-declare airlineId varchar(100);
-declare startCountryId varchar(100);
-declare endCountryId varchar(100);
-declare startAirportId varchar(100);
-declare endAirportId varchar(100);
+-- Teste Records
+-- Inserting data into the `country` table
+INSERT INTO country (Id, CountryName, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('C1', 'United States', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('C2', 'Canada', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('C3', 'Germany', 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select Id, IdAirplane, FlightCode, Passengers into flightId, airplaneId, flightCode, passengers from flight;
+-- Inserting data into the `airport` table
+INSERT INTO airport (Id, IdCountry, AirportName, AirportCode, LocationName, LocationLatitude, LocationLongitude, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('A1', 'C1', 'John F. Kennedy International Airport', 'JFK', 'New York', 40, -73, 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('A2', 'C1', 'Los Angeles International Airport', 'LAX', 'Los Angeles', 34, -118, 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('A3', 'C2', 'Toronto Pearson International Airport', 'YYZ', 'Toronto', 43, -79, 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select IdModel, IdAirline into airplaneModelId, airlineId from airplane where Id = airplaneId;
+-- Inserting data into the `airline` table
+INSERT INTO airline (Id, IdCountry, AirlineName, AirlineCode, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('AL1', 'C1', 'American Airlines', 'AA', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('AL2', 'C2', 'Air Canada', 'AC', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('AL3', 'C3', 'Lufthansa', 'LH', 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select IdBrand, ModelName, ModelImage into airplaneBrandId, airplaneModelName, airPlaneModelImage from model where Id = modelId;
+-- Inserting data into the `observation` table
+INSERT INTO observation (Id, ObservationText, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('O1', 'Routine check', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('O2', 'Emergency landing', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('O3', 'Flight delay', 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select BrandName into airplaneBrandName from brand where Id = brandId;
+-- Inserting data into the `brand` table
+INSERT INTO brand (Id, IdCountry, BrandName, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('B1', 'C1', 'Boeing', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('B2', 'C2', 'Airbus', 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select AirlineName into airlineName from airline where Id = airlineId;
+-- Inserting data into the `model` table
+INSERT INTO model (Id, IdBrand, ModelName, SitsNumber, Tare, GrossWeight, Payload, FlightCrewNumber, FuelQuantity, ModelYear, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('M1', 'B1', 'Model A',180, 15000, 80000, 15000, 5, 50000, 2020, 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('M2', 'B2', 'Model B',200, 16000, 85000, 16000, 6, 55000, 2021, 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-call getDeparture(flightId, startAirportId, startTime);
-call getArrival(flightId, endAirportId, endTime);
+-- Inserting data into the `airplane` table
+INSERT INTO airplane (Id, IdModel, IdAirline, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('P1', 'M1', 'AL1', 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('P2', 'M2', 'AL2', 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select IdCountry, AirportName, AirportCode, LocationName into startCountryId, startAirportName, startAirportCode, startLocation from airport where Id = startAirportId;
-select IdCountry, AirportName, AirportCode, LocationName into endCountryId, endAirportName, endAirportCode, endLocation from airport where Id = endAirportId;
+-- Inserting data into the `flight` table
+INSERT INTO flight (Id, IdObservation, IdAirplane, FlightCode, Passengers, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('F1', 'O1', 'P1', 'AA100', 150, 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('F2', 'O2', 'P2', 'AC200', 180, 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
-select CountryName into startCountry from country where Id = startCountryId; 
-select CountryName into endCountry from country where Id = endAirportId; 
-
-set flightDuration = timediff(endTime,startTime);
-
-end $$
-
-DELIMITER ;
+-- Inserting data into the `airport_flight` table
+INSERT INTO airport_flight (Id, IdAirport, IdFlight, TimeMarker, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES
+    ('AF1', 'A1', 'F1', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('AF2', 'A2', 'F2', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin');
