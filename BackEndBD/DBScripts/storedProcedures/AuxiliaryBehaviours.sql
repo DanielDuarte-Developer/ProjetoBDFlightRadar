@@ -16,21 +16,21 @@ end $$
 create function getDepartureAirport(flightId varchar(100))
 returns varchar(100)
 begin
-    SET @airportId :=(select IdAirport from airport_flight where IdAirport = flightId order by TimeMarker asc limit 1);
+    SET @airportId :=(select IdAirport from airport_flight where IdFlight = flightId order by TimeMarker asc limit 1);
 return @airportId;    
 end $$
 
 create function getArrivalAirport(flightId varchar(100))
 returns varchar(100)
 begin
-    SET @airportId :=(select IdAirport from airport_flight where IdAirport = flightId order by TimeMarker desc limit 1);
+    SET @airportId :=(select IdAirport from airport_flight where IdFlight = flightId order by TimeMarker desc limit 1);
 return @airportId;    
 end $$
 
 create function getStopOversAirport(flightId varchar(100))
 returns varchar(100)
 begin
-    SET @airportId :=(select IdAirport from airport_flight where IdAirport = flightId and TimeMarker > (select TimeMarker from airport_flight order by TimeMarker asc limit 1) and TimeMarker < (select TimeMarker from airport_flight order by TimeMarker desc limit 1));
+    SET @airportId :=(select IdAirport from airport_flight where IdFlight = flightId and TimeMarker > (select TimeMarker from airport_flight order by TimeMarker asc limit 1) and TimeMarker < (select TimeMarker from airport_flight order by TimeMarker desc limit 1));
 return @airportId;    
 end $$
 
