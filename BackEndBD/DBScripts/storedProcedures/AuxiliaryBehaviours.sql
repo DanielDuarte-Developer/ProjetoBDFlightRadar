@@ -52,7 +52,7 @@ begin
         call getDeparture(flightId, airportId, timeMarker);
         select LocationLatitude, LocationLongitude into startLat, startLong from airport where IdAirport = airportId;
        
-       call getArrival(flightId, airportId, timeMarker);
+		call getArrival(flightId, airportId, timeMarker);
         select LocationLatitude, LocationLongitude into endLat, endLong from airport where IdAirport = airportId;
     end loop;
     close cursorFlightIds;
