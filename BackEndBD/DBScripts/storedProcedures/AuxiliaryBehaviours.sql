@@ -1,9 +1,10 @@
 use flight_radar;
 
-SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER $$
 create function randomFlightObservation()
 returns varchar(100)
+No Sql
+READS SQL DATA 
 begin
 
 declare observationsNumber int; 
@@ -14,21 +15,25 @@ select IdObservation into observationId from observation order by rand() limit 1
 return observationId;
 end $$
 
+DELIMITER $$
 create procedure getDeparture(inout flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
 begin
     select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId order by TimeMarker asc limit 1;
 end $$
 
+DELIMITER $$
 create procedure getArrival(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
 begin
     select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId order by TimeMarker desc limit 1;
 end $$
 
+DELIMITER $$
 create procedure getStopOvers(flightId varchar(100), out airportId varchar(100), out timeMarker timestamp)
 begin
     select IdAirport, TimeMarker into airportId, timeMarker from airport_flight where IdFlight = flightId and TimeMarker > (select TimeMarker from airport_flight order by TimeMarker asc limit 1) and TimeMarker < (select TimeMarker from airport_flight order by TimeMarker desc limit 1);
 end $$
 
+DELIMITER $$
 create procedure getMapPlaneValues(out flightId varchar(100), out startLat int, out startLong int, out endLat int, out endLong int)
 begin
     declare done int default false;
@@ -58,6 +63,7 @@ begin
     close cursorFlightIds;
 end $$
 
+DELIMITER $$
 create procedure getFlightCardInfo(inout flightId varchar(100), out flightCode char(7), out passengers int,
 out startTime timestamp, out endTime timestamp,
 out startAirportName nvarchar(100), out startAirportCode char(3), out startLocation nvarchar(50), out startCountry nvarchar(100),
@@ -84,8 +90,6 @@ select IdBrand, ModelName, ModelImage into airplaneBrandId, airplaneModelName, a
 select BrandName into airplaneBrandName from brand where Id = brandId;
 
 select AirlineName into airlineName from airline where Id = airlineId;
-
-select CountryName into countryId from country where Id = countryId;
 
 call getDeparture(flightId, startAirportId, startTime);
 call getArrival(flightId, endAirportId, endTime);
