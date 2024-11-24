@@ -95,7 +95,7 @@ BEGIN
 
 
     -- Selecionando os dados para o flightId fornecido
-    SELECT StartLat, StartLong, EndLat, EndLong
+    SELECT FlightId ,StartLat, StartLong, EndLat, EndLong
     FROM temp_results
     WHERE FlightId = flightIdin
     LIMIT 1;

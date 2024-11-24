@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get("type")
     const columns = JSON.parse(sessionStorage.getItem('columns'));
-    console.log(columns)
+
     //Only on Edit
     const rowData = JSON.parse(sessionStorage.getItem('rowData'));
     const submitButton = document.getElementById("submit-button")
@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
             if (field.type === 'text' || field.tagName.toLowerCase() === 'select') {
                 let fieldName = field.name // Adiciona o valor ao objeto
                 if (isObject(fieldName.split('.')[0])) {
-                    console.log(fieldName)
+
                     // Cria o nome do campo no formato Id(Nome de tabela), etc.
                     const objectName = fieldName.split('.')[0];
                     const newFieldName = `Id${objectName.replace('Obj', '')}`; // Remove 'Obj' e adiciona 'Id'
@@ -120,7 +120,6 @@ function constructForm(rowData, columns, type) {
 }
 
 async function AddOrUpdateObject(item, tableId, type) {
-    console.log(item)
     switch (tableId) {
         case 'airlineTable':
             if (type == "Add") {

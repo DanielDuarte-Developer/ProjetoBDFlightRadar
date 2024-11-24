@@ -2,16 +2,13 @@ const taskApi = new TaskApi()
 async function main() {
     const mainContent = document.querySelector('.content');
     const flightsAirports = await loadFlightsAirports()
-    console.log("FlightsAirports: ", flightsAirports)
     flightsAirports.forEach(async flightAiport => {
         const mapValues = await taskApi.getMapPlaneValues(flightAiport.FlightObj.Id);
-        //console.log(CardInfo)
         const modalContent = await createModalContent(flightAiport)
         mainContent.appendChild(modalContent)
-        if(flightAiport.FlightObj.Id == "e0615c56-a9fb-11ef-9493-0800277a15ae")
-        {
-            moveAndCreatePlane(mapValues[0].StartLat, mapValues[0].StartLong, mapValues[0].EndLat, mapValues[0].EndLong, map, flightAiport.FlightObj.Id)
-        }
+
+        moveAndCreatePlane(mapValues[0].StartLat, mapValues[0].StartLong, mapValues[0].EndLat, mapValues[0].EndLong, map, mapValues[0].FlightId)
+        
     })
     await populateModal()
 }
@@ -140,7 +137,7 @@ async function loadAiports() {
 
 async function createModalContent(flightData) {
     const CardInfo = await taskApi.getFlightCardInfo(flightData.FlightObj.Id);
-    console.log(CardInfo)
+
     const container = document.createElement('div');
     container.innerHTML = `
         <div class="modal" id="modal-${flightData.FlightObj.Id}">
