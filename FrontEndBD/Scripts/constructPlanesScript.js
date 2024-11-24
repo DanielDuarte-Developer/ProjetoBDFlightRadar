@@ -11,13 +11,9 @@ async function main() {
     await populateModal()
 }
 
-
-
 async function populateModal() {
-    const observations = await loadObservations()
     const airports = await loadAiports()
     const airplanes = await loadAirplanes()
-    console.log(airplanes)
 
     const button = document.getElementById("btn-add")
     const modal = document.getElementById("myModal");

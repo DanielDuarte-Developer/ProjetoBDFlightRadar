@@ -5,6 +5,7 @@ export interface Model extends RowDataPacket, BaseSqlModel{
     Id?: string
     IdBrand : string
     ModelName: string
+    ModelImage: string
     SitsNumber: string
     Tare: string
     GrossWeight: string
