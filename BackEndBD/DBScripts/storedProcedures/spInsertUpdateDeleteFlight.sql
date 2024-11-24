@@ -7,14 +7,14 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteFlight(
     -- DB atributes
-    INOUT p_Id CHAR(32), 
-    IN p_IdObservation CHAR(32),
-    IN p_IdAirplane CHAR(32),
+    INOUT p_Id CHAR(36), 
+    IN p_IdObservation CHAR(36),
+    IN p_IdAirplane CHAR(36),
     IN p_FlightCode VARCHAR(10),
     IN p_Passengers INT,
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     START TRANSACTION;
@@ -56,7 +56,7 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO flight
         (
-            IdFlight,
+            Id,
             IdObservation,
             IdAirplane,
             FlightCode,

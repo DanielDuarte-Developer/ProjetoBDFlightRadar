@@ -3,11 +3,11 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteObservation(
     -- DB atributes
-    INOUT p_Id CHAR(32),
+    INOUT p_Id CHAR(36),
     IN p_ObservationText NVARCHAR(255),
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     START TRANSACTION;
@@ -46,6 +46,7 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO observation
         (
+			Id,
             ObservationText,
             IsDelete,
             SysStatus,

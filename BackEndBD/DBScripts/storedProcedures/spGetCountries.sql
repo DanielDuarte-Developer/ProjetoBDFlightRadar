@@ -6,7 +6,7 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetCountries(
     -- DB atributes
-    IN p_Id CHAR(32),
+    IN p_Id CHAR(36),
     IN p_CountryName NVARCHAR(36),
     -- Control atributes
     IN p_UserId VARCHAR(255),

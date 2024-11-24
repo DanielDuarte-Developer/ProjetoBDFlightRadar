@@ -16,7 +16,6 @@ export class DatabaseService {
             const sql = `CALL ${procedureName}(${placeholders})`;
            
             [result] = await this.db.execute<T>(sql, paramValues);
-            console.log(result)
         }
         catch(error){
             console.log(error)

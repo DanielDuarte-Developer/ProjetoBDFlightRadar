@@ -2,7 +2,7 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetObservations(
     -- DB atributes
-    IN p_Id CHAR(32),
+    IN p_Id CHAR(36),
     IN p_ObservationText VARCHAR(255),
     -- Control atributes
     IN p_UserId VARCHAR(255),

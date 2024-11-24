@@ -8,7 +8,7 @@ CREATE PROCEDURE spInsertUpdateDeleteBrand(
     IN p_BrandName NVARCHAR(100),
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     START TRANSACTION;
@@ -48,6 +48,7 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO brand
         (
+			Id,
             IdCountry,
             BrandName,
             IsDelete,

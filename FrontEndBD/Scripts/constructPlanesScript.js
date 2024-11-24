@@ -44,7 +44,8 @@ async function populateModal() {
             value: airport.Id,
             label: airport.AirportName
         }));
-        populateSelect('airportSelect', airportOptions);
+        populateSelect('airportSelect-departure', airportOptions);
+        populateSelect('airportSelect-arrival', airportOptions);
 
         // Mostrar o modal
         modal.style.display = "block";
@@ -53,7 +54,7 @@ async function populateModal() {
 
 
     // Evento de clique no botão "Save"
-    saveButton.addEventListener('click', () => {
+    saveButton.addEventListener('click', async () => {
 
         // Criação do primeiro JSON 'flight'
         const flight = {
@@ -62,21 +63,7 @@ async function populateModal() {
             FlightCode: document.getElementById("flightCode").value,
             Passengers: document.getElementById("passengers").value
         };
-
-        // Criação do segundo JSON 'airportFlight'
-        const airportFlight = {
-            IdAirport: document.getElementById("airportSelect").value,
-            IdFlight: "", // The Id comes when the flights is inserted then he returns the ID
-            TimeMarker: {
-                TimeStart: document.getElementById("timeMarkerStart").value,
-                TimeEnd: document.getElementById("timeMarkerEnd").value
-            }
-        };
-
-        // Mostrar os dados no console (você pode enviar para o backend aqui)
-        console.log('Flight Data:', JSON.stringify(flight, null, 2));
-        console.log('Airport Flight Data:', JSON.stringify(airportFlight, null, 2));
-
+        await CreateFlight(flight);
         // Fechar o modal após salvar
         modal.style.display = "none";
     });
@@ -222,5 +209,28 @@ const populateSelect = (selectId, options) => {
         selectElement.appendChild(optionElement);
     });
 };
+
+async function CreateFlight(flightData){
+    try{
+        const response = await taskApi.createFlight(flightData)
+        const id = response.value[0][0].p_Id
+        
+        await taskApi.createAirportFlight({
+            IdAirport: document.getElementById("airportSelect-departure").value,
+            IdFlight: id, // The Id comes when the flights is inserted then he returns the ID
+            TimeMarker: document.getElementById("timeMarkerStart").value
+            
+        });
+
+        await taskApi.createAirportFlight({
+            IdAirport: document.getElementById("airportSelect-arrival").value,
+            IdFlight: id, // The Id comes when the flights is inserted then he returns the ID
+            TimeMarker: document.getElementById("timeMarkerEnd").value
+        })
+    }catch(error){
+        console.log("Error trying to insert new flight, and the associatate table ", error)
+    }
+    
+}
 
 main()

@@ -7,8 +7,8 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteAirport(
     -- DB atributes
-    INOUT p_Id CHAR(32),
-    IN p_IdCountry CHAR(32),
+    INOUT p_Id CHAR(36),
+    IN p_IdCountry CHAR(36),
     IN p_AirportName NVARCHAR(100),
     IN p_AirportCode CHAR(10),
     IN p_LocationName NVARCHAR(100),
@@ -16,7 +16,7 @@ CREATE PROCEDURE spInsertUpdateDeleteAirport(
     IN p_LocationLongitude INT,
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     START TRANSACTION;
@@ -60,7 +60,7 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO airport
         (
-            IdPlane,
+            Id,
             IdCountry,
             AirportName,
             AirportCode,

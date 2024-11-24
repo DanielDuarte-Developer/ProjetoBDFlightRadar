@@ -3,8 +3,8 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteModel(
     -- DB atributes
-    INOUT p_Id CHAR(32),
-    IN p_IdBrand CHAR(32),
+    INOUT p_Id CHAR(36),
+    IN p_IdBrand CHAR(36),
     IN p_SitsNumber INT,
     IN p_Tare INT,
     IN p_GrossWeight INT,
@@ -14,7 +14,7 @@ CREATE PROCEDURE spInsertUpdateDeleteModel(
     IN p_ModelYear INT,
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION	
@@ -66,6 +66,7 @@ BEGIN
         SET p_Id = UUID();
         INSERT INTO model
         (
+			Id,
             IdBrand,
             SitsNumber,
             Tare,

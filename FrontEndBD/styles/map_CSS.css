@@ -46,7 +46,7 @@
     position: fixed;
     top: 50px;  /* Afastamento do topo */
     left: 40%;  /* Afastamento do lado esquerdo */
-    bottom: 195px;  /* Afastamento do fundo */
+    bottom: 130px;  /* Afastamento do fundo */
     width: 550px;  /* Largura da modal */
     background-color: #fff;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);

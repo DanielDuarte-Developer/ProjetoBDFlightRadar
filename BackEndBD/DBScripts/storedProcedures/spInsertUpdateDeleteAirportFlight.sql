@@ -7,20 +7,20 @@ DELIMITER $$
 
 CREATE PROCEDURE spInsertUpdateDeleteAirportFlight(
     -- DB atributes
-	INOUT p_Id CHAR(32), 
-    IN p_IdAirport CHAR(32),
-    IN p_IdFlight CHAR(32),
+	INOUT p_Id CHAR(36), 
+    IN p_IdAirport CHAR(36),
+    IN p_IdFlight CHAR(36),
     IN p_TimeMarker timestamp,
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     START TRANSACTION;
     
     IF p_Id IS NOT NULL THEN
         IF p_SysStatus = 'X' THEN
-            UPDATE airport_airplane_flight
+            UPDATE airport_flight
             SET 
                 IsDelete = 1,
                 SysStatus = p_SysStatus,
@@ -34,7 +34,7 @@ BEGIN
                 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error deleting airportairplaneflight: No lines were modified or were already inactive.';
             END IF;
         ELSE
-            UPDATE airport_airplane_flight
+            UPDATE airport_flight
             SET 
                 IdAirport = p_IdAirport,
                 IdFlight = p_IdFlight,
@@ -51,8 +51,10 @@ BEGIN
             END IF;
         END IF;
     ELSE
-        INSERT INTO airport_airplane_flight
+		SET p_Id = UUID();
+        INSERT INTO airport_flight
         (
+			Id,
             IdAirport,
             IdFlight,
             TimeMarker,
@@ -65,6 +67,7 @@ BEGIN
         )
         VALUES
         (
+			p_Id,
             p_IdAirport,
             p_IdFlight,
             p_TimeMarker,

@@ -6,7 +6,7 @@ DELIMITER $$
 
 CREATE PROCEDURE spGetAirlines(
     -- DB atributes
-    IN p_Id CHAR(32),
+    IN p_Id CHAR(36),
     IN p_IdCountry CHAR(32),
     IN p_AirlineName NVARCHAR(100),
     IN p_AirlineCode CHAR(10),

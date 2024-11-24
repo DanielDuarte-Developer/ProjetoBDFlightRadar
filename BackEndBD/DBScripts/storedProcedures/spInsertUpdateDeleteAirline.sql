@@ -13,7 +13,7 @@ CREATE PROCEDURE spInsertUpdateDeleteAirline(
     IN p_AirlineCode CHAR(10),
     -- Control atributes
     IN p_SysStatus NVARCHAR(255), 
-    IN p_UserId CHAR(32)
+    IN p_UserId CHAR(36)
 )
 BEGIN
     START TRANSACTION;
