@@ -2,7 +2,7 @@ use flight_radar;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER $$
-create  function randomFlightObservation()
+create function randomFlightObservation()
 returns varchar(100)
 begin
 
