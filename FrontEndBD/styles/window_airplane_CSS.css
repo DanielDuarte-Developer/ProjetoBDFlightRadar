@@ -2,7 +2,7 @@
 .modal {
     position: fixed;
     top: 70px;
-    left: 50%;
+    left: 86%;
     transform: translateX(-50%);
     width: 500px;
     max-width: 90%;
