@@ -2,14 +2,19 @@ const taskApi = new TaskApi()
 async function main() {
     const mainContent = document.querySelector('.content');
     const flightsAirports = await loadFlightsAirports()
-    flightsAirports.forEach(async flightAiport => {
-        const mapValues = await taskApi.getMapPlaneValues(flightAiport.FlightObj.Id);
-        const modalContent = await createModalContent(flightAiport)
-        mainContent.appendChild(modalContent)
+    const processedFlightIds = new Set();
+    for (const flightAiport of flightsAirports) {
 
-        moveAndCreatePlane(mapValues[0].StartLat, mapValues[0].StartLong, mapValues[0].EndLat, mapValues[0].EndLong, map, mapValues[0].FlightId)
-        
-    })
+        const flightId = flightAiport.FlightObj.Id;
+        if (!processedFlightIds.has(flightId)) {
+            const mapValues = await taskApi.getMapPlaneValues(flightId);
+            console.log(mapValues)
+            const modalContent = await createModalContent(flightAiport)
+            mainContent.appendChild(modalContent)
+            moveAndCreatePlane(mapValues[0].StartLat, mapValues[0].StartLong, mapValues[0].EndLat, mapValues[0].EndLong, map, mapValues[0].FlightId)
+            processedFlightIds.add(flightId);
+        }
+    }
     await populateModal()
 }
 
@@ -27,7 +32,7 @@ async function populateModal() {
         // Para Airplane
         const airplaneOptions = airplanes.map(airplane => ({
             value: airplane.Id,
-            label: airplane.AirlineObj.AirlineName +" - "+ airplane.ModelObj.ModelName
+            label: airplane.AirlineObj.AirlineName + " - " + airplane.ModelObj.ModelName
         }));
         populateSelect('modelSelect', airplaneOptions);
 
@@ -208,16 +213,16 @@ const populateSelect = (selectId, options) => {
     });
 };
 
-async function CreateFlight(flightData){
-    try{
+async function CreateFlight(flightData) {
+    try {
         const response = await taskApi.createFlight(flightData)
         const id = response.value[0][0].p_Id
-        
+
         await taskApi.createAirportFlight({
             IdAirport: document.getElementById("airportSelect-departure").value,
             IdFlight: id, // The Id comes when the flights is inserted then he returns the ID
             TimeMarker: document.getElementById("timeMarkerStart").value
-            
+
         });
 
         await taskApi.createAirportFlight({
@@ -225,10 +230,10 @@ async function CreateFlight(flightData){
             IdFlight: id, // The Id comes when the flights is inserted then he returns the ID
             TimeMarker: document.getElementById("timeMarkerEnd").value
         })
-    }catch(error){
+    } catch (error) {
         console.log("Error trying to insert new flight, and the associatate table ", error)
     }
-    
+
 }
 
 main()
