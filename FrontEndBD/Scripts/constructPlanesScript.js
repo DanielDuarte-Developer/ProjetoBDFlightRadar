@@ -73,7 +73,7 @@ async function populateModal() {
         };
 
         await CreateFlight(flight);
-        
+
         populateMapAndModal();
 
         // Fechar o modal após salvar
@@ -168,7 +168,7 @@ async function createModalContent(flightData) {
                     <span class="flight-code">${CardInfo[0].flightCD || "Code Unknown"}</span>
                 </div>
                 <div class="image-container">
-                    <img src="${CardInfo[0].airPlaneModelImage || '../images/boing.jpg'}" alt="Plane" class="plane-image" />
+                    <img src="${CardInfo[0].airPlaneModelImage || '../images/Noddy.png'}" alt="Plane" class="plane-image" />
                 </div>
                 <div class="flight-info">
                     <div class="row">

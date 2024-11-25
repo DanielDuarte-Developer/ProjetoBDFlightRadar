@@ -194,4 +194,6 @@ VALUES
 INSERT INTO airport_flight (Id, IdAirport, IdFlight, TimeMarker, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
 VALUES
     ('AF1', 'A1', 'F1', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin'),
-    ('AF2', 'A2', 'F2', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin');
+    ('AF2', 'A2', 'F1', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('AF3', 'A2', 'F2', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin'),
+    ('AF4', 'A3', 'F2', NOW(), 0,'Active', NOW(), 'admin', NOW(), 'admin');
