@@ -1,8 +1,19 @@
 const taskApi = new TaskApi()
 async function main() {
+    populateMapAndModal();
+}
+async function populateMapAndModal() {
     const mainContent = document.querySelector('.content');
     const flightsAirports = await loadFlightsAirports()
     const processedFlightIds = new Set();
+
+    // Remover todos os marcadores e outras camadas no mapa
+    map.eachLayer((layer) => {
+        if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+            map.removeLayer(layer);
+        }
+    });
+
     for (const flightAiport of flightsAirports) {
 
         const flightId = flightAiport.FlightObj.Id;
@@ -60,7 +71,11 @@ async function populateModal() {
             FlightCode: document.getElementById("flightCode").value,
             Passengers: document.getElementById("passengers").value
         };
+
         await CreateFlight(flight);
+        
+        populateMapAndModal();
+
         // Fechar o modal após salvar
         modal.style.display = "none";
     });
