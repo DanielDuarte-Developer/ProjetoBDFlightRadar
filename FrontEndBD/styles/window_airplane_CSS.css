@@ -13,19 +13,19 @@
     overflow: hidden;
     font-family: 'Arial', sans-serif;
     display: none;  /* Hidden initially */
-    padding: 20px;
 }
 
 /* Close Button */
 .close-btn {
     position: absolute;
-    top: 15px;
+    top: 8px;
     right: 15px;
     background-color: transparent;
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #333;
+    color: #fefefe;
+    z-index: 1000;
 }
 
 /* Header */

@@ -173,10 +173,10 @@ VALUES
     ('B2', 'C2', 'Airbus', 0,'Active', NOW(), 'admin', NOW(), 'admin');
 
 -- Inserting data into the `model` table
-INSERT INTO model (Id, IdBrand, ModelName, SitsNumber, Tare, GrossWeight, Payload, FlightCrewNumber, FuelQuantity, ModelYear, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
-VALUES
-    ('M1', 'B1', 'Model A',180, 15000, 80000, 15000, 5, 50000, 2020, 0,'Active', NOW(), 'admin', NOW(), 'admin'),
-    ('M2', 'B2', 'Model B',200, 16000, 85000, 16000, 6, 55000, 2021, 0,'Active', NOW(), 'admin', NOW(), 'admin');
+INSERT INTO model (Id, IdBrand, ModelName, ModelImage, SitsNumber, Tare, GrossWeight, Payload, FlightCrewNumber, FuelQuantity, ModelYear, IsDelete, SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)
+VALUES 
+	('M1', 'B1', 'Boeing 737', 'boeing737.jpg', 160, 41000, 79000, 20000, 2, 2000, 2019, 0, 'Active', GETDATE(), 'admin', GETDATE(), 'admin'),
+	('M2', 'B2', 'Airbus A320', 'airbusa320.jpg', 150, 37000, 75000, 18000, 2, 1800, 2020, 0, 'Active', GETDATE(), 'admin', GETDATE(), 'admin');
 
 -- Inserting data into the `airplane` table
 INSERT INTO airplane (Id, IdModel, IdAirline, IsDelete,SysStatus, SysCreateDate, SysCreateUserId, SysModifyDate, SysModifyUserId)

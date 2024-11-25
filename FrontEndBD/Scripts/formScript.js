@@ -279,7 +279,7 @@ function isObject(field) {
     // List of fields that should be rendered as select inputs
     const selectFields = [
         'CountryObj', 'ModelObj', 'AirlineObj', 'AirportObj',
-        'FlightObj', 'ObservationObj', 'AirplaineObj', 'BrandObj'
+        'FlightObj', 'ObservationObj', 'AirplaneObj', 'BrandObj'
     ];
 
     return selectFields.includes(field);
@@ -347,7 +347,7 @@ async function getDataforOptions(field, tableId, data) {
             if (field === 'AirplaneObj') {
                 return data.map(item => ({
                     Id: item.Id,
-                    label: item.AirplaneName // ou a propriedade que você precisar
+                    label: item.ModelObj.ModelName // ou a propriedade que você precisar
                 }));
             }
             if (field === 'ObservationObj') {
